@@ -1,0 +1,30 @@
+<section class="page-hero"><div class="sh-container"><div class="sh-eyebrow">Account</div><h1 class="sh-h1">Hi {{ customer.first_name | default: customer.email }}</h1><p class="sh-body"><a href="/account/logout">Log out</a> &nbsp;·&nbsp; <a href="/account/addresses">Manage addresses</a></p></div></section>
+<section class="sh-section"><div class="sh-container">
+  <h2 class="sh-h2">Order history</h2>
+  {% if customer.orders.size > 0 %}
+    <table class="cart-table">
+      <thead><tr><th>Order</th><th>Date</th><th>Payment</th><th>Fulfillment</th><th>Total</th></tr></thead>
+      <tbody>
+        {% for order in customer.orders %}
+          <tr>
+            <td><a href="{{ order.customer_url }}">{{ order.name }}</a></td>
+            <td>{{ order.created_at | date: '%b %d, %Y' }}</td>
+            <td>{{ order.financial_status_label }}</td>
+            <td>{{ order.fulfillment_status_label }}</td>
+            <td>{{ order.total_price | money }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {{ paginate | default_pagination }}
+  {% else %}
+    <p class="sh-body">You have not placed any orders yet.</p>
+  {% endif %}
+
+  <h2 class="sh-h2" style="margin-top:40px;">Default address</h2>
+  {% if customer.default_address %}
+    <div class="sh-card">{{ customer.default_address | format_address }}</div>
+  {% else %}
+    <p class="sh-body"><a class="sh-button sh-button--secondary" href="/account/addresses">Add address</a></p>
+  {% endif %}
+</div></section>

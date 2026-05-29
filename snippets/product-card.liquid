@@ -1,0 +1,16 @@
+<article class="product-card">
+  <a href="{{ product.url }}" class="product-card__image" aria-label="{{ product.title | escape }}">
+    {% if product.featured_image %}
+      {{ product.featured_image | image_url: width: 700 | image_tag: loading: 'lazy', alt: product.title }}
+    {% else %}
+      <img src="{{ 'shadeless-front.png' | asset_url }}" alt="{{ product.title | escape }}">
+    {% endif %}
+  </a>
+  <div class="product-card__body">
+    <div class="sh-eyebrow">{{ product.type | default: 'Shadeless' }}</div>
+    <h3 class="sh-h3"><a href="{{ product.url }}">{{ product.title }}</a></h3>
+    <p class="sh-small">{{ product.description | strip_html | truncate: 110 }}</p>
+    <div class="price">{{ product.price | money }}</div>
+    <a class="sh-button sh-button--secondary" href="{{ product.url }}">View Product</a>
+  </div>
+</article>

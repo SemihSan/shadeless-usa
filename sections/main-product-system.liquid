@@ -1,0 +1,29 @@
+<section class="product-hero">
+  <div class="sh-container product-layout">
+    <div class="product-media">
+      {% if product.featured_image %}{{ product.featured_image | image_url: width: 1000 | image_tag: loading: 'eager', alt: product.title }}{% else %}<img src="{{ 'shadeless-front.png' | asset_url }}" alt="{{ product.title | escape }}">{% endif %}
+    </div>
+    <div class="product-info">
+      <div class="sh-eyebrow">Shadeless 3-Step Serum System</div>
+      <h1 class="sh-h1">{{ product.title }}</h1>
+      <p class="sh-body">A biotech serum system for more even-looking tone, smoother-looking texture, and cleaner skin clarity.</p>
+      <div class="badge-row"><span class="sh-pill">Prepare</span><span class="sh-pill">Optimize</span><span class="sh-pill">Enhance</span><span class="sh-pill">Peptisinergix&trade;</span></div>
+      <div class="product-price">{{ product.price | money }}</div>
+      {% form 'product', product, class: 'product-form' %}
+        {% if product.variants.size > 1 %}<select name="id" class="variant-select">{% for variant in product.variants %}<option value="{{ variant.id }}" {% if variant == product.selected_or_first_available_variant %}selected{% endif %}>{{ variant.title }} - {{ variant.price | money }}</option>{% endfor %}</select>{% else %}<input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">{% endif %}
+        <input class="quantity-input" name="quantity" type="number" value="1" min="1" aria-label="Quantity">
+        <button class="sh-button sh-button--red" type="submit" {% unless product.available %}disabled{% endunless %}>{% if product.available %}Add to Cart{% else %}Sold Out{% endif %}</button>
+      {% endform %}
+      <p class="sh-small">Full ingredients should be listed on this page and the outer box. Cosmetic skincare, not a drug product.</p>
+      <div class="accordion" style="margin-top:26px;">
+        <details open><summary>What it helps improve the appearance of</summary><div class="content"><ul class="sh-list"><li>Uneven-looking tone</li><li>Rough-looking texture</li><li>Dullness</li><li>Visible pores</li><li>Post-blemish mark appearance</li><li>Lack of clarity</li><li>Tired-looking complexion</li></ul></div></details>
+        <details><summary>What's included</summary><div class="content"><ul class="sh-list"><li>Step 1 Prepare Serum</li><li>Step 2 Optimize Serum</li><li>Step 3 Enhance Serum</li><li>Routine Guide</li></ul></div></details>
+        <details><summary>How to use</summary><div class="content">Use morning and night. Cleanse. Apply Step 1, then Step 2, then Step 3. Follow with moisturizer if needed. In the morning, finish with sunscreen.</div></details>
+        <details><summary>Ingredients</summary><div class="content">[Insert final U.S. INCI lists for Step 1, Step 2, and Step 3 before launch.]</div></details>
+      </div>
+    </div>
+  </div>
+</section>
+{% schema %}
+{"name":"Main product - system","settings":[]}
+{% endschema %}

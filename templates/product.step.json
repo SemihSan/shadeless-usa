@@ -1,0 +1,21 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product-step",
+      "settings": {}
+    },
+    "steps": {
+      "type": "system-steps",
+      "settings": {}
+    },
+    "faq": {
+      "type": "faq-preview",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main",
+    "steps",
+    "faq"
+  ]
+}

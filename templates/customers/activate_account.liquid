@@ -1,0 +1,10 @@
+<section class="page-hero"><div class="sh-container"><div class="sh-eyebrow">Account</div><h1 class="sh-h1">Activate account</h1><p class="sh-body">Create your password to activate your account.</p></div></section>
+<section class="sh-section"><div class="sh-container" style="max-width:520px;">
+  {% form 'activate_customer_password', class: 'contact-form' %}
+    <input type="password" name="customer[password]" placeholder="Password" required>
+    <input type="password" name="customer[password_confirmation]" placeholder="Confirm password" required>
+    <button class="sh-button sh-button--red" type="submit">Activate Account</button>
+    <button class="sh-button sh-button--secondary" type="submit" name="decline">Decline Invitation</button>
+    {% if form.errors %}<div class="sh-small">{{ form.errors | default_errors }}</div>{% endif %}
+  {% endform %}
+</div></section>

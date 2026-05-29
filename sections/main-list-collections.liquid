@@ -1,0 +1,35 @@
+<section class="page-hero">
+  <div class="sh-container">
+    <div class="sh-eyebrow">Shop</div>
+    <h1 class="sh-h1">Collections</h1>
+    <p class="sh-body">Browse all Shadeless collections.</p>
+  </div>
+</section>
+<section class="sh-section">
+  <div class="sh-container">
+    <div class="collection-grid">
+      {% for collection in collections %}
+        <a class="product-card" href="{{ collection.url }}">
+          <div class="product-card__image">
+            {% if collection.image %}
+              {{ collection.image | image_url: width: 700 | image_tag: loading: 'lazy', alt: collection.title }}
+            {% elsif collection.products.first.featured_image %}
+              {{ collection.products.first.featured_image | image_url: width: 700 | image_tag: loading: 'lazy', alt: collection.title }}
+            {% else %}
+              <img src="{{ 'shadeless-front.png' | asset_url }}" alt="{{ collection.title | escape }}">
+            {% endif %}
+          </div>
+          <div class="product-card__body">
+            <h3 class="sh-h3">{{ collection.title }}</h3>
+            <p class="sh-small">{{ collection.products_count }} products</p>
+          </div>
+        </a>
+      {% else %}
+        <div class="placeholder-img">No collections yet.</div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% schema %}
+{"name":"Main list collections","settings":[]}
+{% endschema %}

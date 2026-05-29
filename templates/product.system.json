@@ -1,0 +1,31 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product-system",
+      "settings": {}
+    },
+    "steps": {
+      "type": "system-steps",
+      "settings": {}
+    },
+    "science": {
+      "type": "peptisinergix-intro",
+      "settings": {}
+    },
+    "proof": {
+      "type": "proof-placeholder",
+      "settings": {}
+    },
+    "faq": {
+      "type": "faq-preview",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main",
+    "steps",
+    "science",
+    "proof",
+    "faq"
+  ]
+}

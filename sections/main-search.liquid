@@ -1,0 +1,5 @@
+<section class="page-hero"><div class="sh-container"><h1 class="sh-h1">Search</h1><form action="{{ routes.search_url }}" method="get" class="search-form"><input type="search" name="q" value="{{ search.terms | escape }}" placeholder="Search products, ingredients, FAQs"><button class="sh-button" type="submit">Search</button></form></div></section>
+<section class="sh-section"><div class="sh-container">{% if search.performed %}<h2 class="sh-h2">Results for "{{ search.terms }}"</h2><div class="collection-grid">{% for item in search.results %}{% if item.object_type == 'product' %}{% render 'product-card', product: item %}{% else %}<div class="sh-card"><h3 class="sh-h3"><a href="{{ item.url }}">{{ item.title }}</a></h3><p>{{ item.content | strip_html | truncate: 120 }}</p></div>{% endif %}{% else %}<p>No results found.</p>{% endfor %}</div>{% endif %}</div></section>
+{% schema %}
+{"name":"Main search","settings":[]}
+{% endschema %}

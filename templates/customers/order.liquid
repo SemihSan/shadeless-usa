@@ -1,0 +1,27 @@
+<section class="page-hero"><div class="sh-container"><div class="sh-eyebrow">Order</div><h1 class="sh-h1">{{ order.name }}</h1><p class="sh-small">Placed {{ order.created_at | date: '%b %d, %Y at %I:%M %p' }}</p></div></section>
+<section class="sh-section"><div class="sh-container">
+  <table class="cart-table">
+    <thead><tr><th>Product</th><th>Qty</th><th>Total</th></tr></thead>
+    <tbody>
+      {% for line_item in order.line_items %}
+        <tr>
+          <td><a href="{{ line_item.product.url }}">{{ line_item.title }}</a></td>
+          <td>{{ line_item.quantity }}</td>
+          <td>{{ line_item.final_line_price | money }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <div class="cart-actions"><strong>Subtotal: {{ order.subtotal_price | money }}</strong></div>
+  <div class="cart-actions"><strong>Shipping: {{ order.shipping_price | money }}</strong></div>
+  <div class="cart-actions"><strong>Tax: {{ order.tax_price | money }}</strong></div>
+  <div class="cart-actions"><strong>Total: {{ order.total_price | money }}</strong></div>
+
+  <h2 class="sh-h2" style="margin-top:40px;">Shipping address</h2>
+  <div class="sh-card">{{ order.shipping_address | format_address }}</div>
+
+  <h2 class="sh-h2" style="margin-top:40px;">Billing address</h2>
+  <div class="sh-card">{{ order.billing_address | format_address }}</div>
+
+  <p style="margin-top:30px;"><a class="sh-button sh-button--secondary" href="/account">Back to account</a></p>
+</div></section>

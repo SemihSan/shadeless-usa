@@ -1,0 +1,24 @@
+<section class="hero">
+  <div class="sh-container hero-grid">
+    <div class="hero-copy">
+      <div class="sh-eyebrow">{{ section.settings.eyebrow }}</div>
+      <h1 class="sh-h1">{{ section.settings.heading }}</h1>
+      <p class="sh-body">{{ section.settings.text }}</p>
+      <div class="sh-button-row">
+        <a class="sh-button sh-button--red" href="{{ section.settings.primary_link }}">{{ section.settings.primary_label }}</a>
+        <a class="sh-button sh-button--secondary" href="{{ section.settings.secondary_link }}">{{ section.settings.secondary_label }}</a>
+      </div>
+      <div class="hero-trust">{{ section.settings.trust_line }}</div>
+    </div>
+    <div class="hero-image-wrap">
+      {% if section.settings.image != blank %}
+        {{ section.settings.image | image_url: width: 1100 | image_tag: loading: 'eager', alt: 'Shadeless 3-Step Serum System' }}
+      {% else %}
+        <img src="{{ 'shadeless-front.png' | asset_url }}" alt="Shadeless Step 3 Enhance Serum">
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% schema %}
+{"name":"Hero - biotech promise","settings":[{"type":"text","id":"eyebrow","label":"Eyebrow","default":"Shadeless Biotech Skincare"},{"type":"textarea","id":"heading","label":"Heading","default":"Biotech skincare for more even-looking tone, smoother texture, and cleaner skin clarity."},{"type":"textarea","id":"text","label":"Text","default":"The Shadeless 3-Step Serum System is designed to prepare, optimize, and enhance the look of skin through intelligent sequencing and peptide-led formulation logic."},{"type":"text","id":"primary_label","label":"Primary CTA label","default":"Shop the 3-Step System"},{"type":"url","id":"primary_link","label":"Primary CTA link","default":"/collections/all"},{"type":"text","id":"secondary_label","label":"Secondary CTA label","default":"See How It Works"},{"type":"url","id":"secondary_link","label":"Secondary CTA link","default":"/pages/the-3-step-system"},{"type":"text","id":"trust_line","label":"Trust line","default":"Prepare. Optimize. Enhance. One coordinated routine."},{"type":"image_picker","id":"image","label":"Hero image"}],"presets":[{"name":"Hero - biotech promise"}]}
+{% endschema %}

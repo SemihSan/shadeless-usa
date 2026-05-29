@@ -1,0 +1,21 @@
+{
+  "sections": {
+    "main": {
+      "type": "page-results",
+      "settings": {}
+    },
+    "proof": {
+      "type": "proof-placeholder",
+      "settings": {}
+    },
+    "final": {
+      "type": "final-cta",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main",
+    "proof",
+    "final"
+  ]
+}

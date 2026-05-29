@@ -1,0 +1,21 @@
+{
+  "sections": {
+    "main": {
+      "type": "page-story",
+      "settings": {}
+    },
+    "founder": {
+      "type": "founder-science",
+      "settings": {}
+    },
+    "final": {
+      "type": "final-cta",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main",
+    "founder",
+    "final"
+  ]
+}

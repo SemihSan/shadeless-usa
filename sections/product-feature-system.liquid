@@ -1,0 +1,25 @@
+<section class="sh-section sh-bleed">
+  <div class="sh-container product-feature">
+    <div class="product-feature-image">
+      {% assign featured_product = all_products[section.settings.product] %}
+      {% if featured_product and featured_product.featured_image %}
+        {{ featured_product.featured_image | image_url: width: 900 | image_tag: loading: 'lazy', alt: featured_product.title }}
+      {% else %}
+        <img src="{{ 'shadeless-front.png' | asset_url }}" alt="Shadeless 3-Step Serum System">
+      {% endif %}
+    </div>
+    <div>
+      <div class="sh-eyebrow">Best place to start</div>
+      <h2 class="sh-h2">Start with the full 3-Step Serum System.</h2>
+      <p class="sh-body">A biotech serum system for more even-looking tone, smoother-looking texture, and cleaner skin clarity.</p>
+      <ul class="sh-list"><li>Step 1 Prepare Serum</li><li>Step 2 Optimize Serum</li><li>Step 3 Enhance Serum</li><li>Routine Guide</li></ul>
+      <div class="sh-button-row" style="margin-top:24px;">
+        <a class="sh-button sh-button--red" href="{% if featured_product %}{{ featured_product.url }}{% else %}/products/shadeless-3-step-serum-system{% endif %}">Shop the System</a>
+        <a class="sh-button sh-button--secondary" href="/pages/the-3-step-system">Compare the Steps</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% schema %}
+{"name":"Featured 3-Step System","settings":[{"type":"product","id":"product","label":"Featured product"}],"presets":[{"name":"Featured 3-Step System"}]}
+{% endschema %}

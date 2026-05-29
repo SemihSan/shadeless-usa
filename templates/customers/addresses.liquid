@@ -1,0 +1,35 @@
+<section class="page-hero"><div class="sh-container"><div class="sh-eyebrow">Account</div><h1 class="sh-h1">Addresses</h1><p class="sh-body"><a href="/account">Back to account</a></p></div></section>
+<section class="sh-section"><div class="sh-container">
+  <h2 class="sh-h2">Add a new address</h2>
+  {% form 'customer_address', customer.new_address, class: 'contact-form' %}
+    <input type="text" name="address[first_name]" placeholder="First name">
+    <input type="text" name="address[last_name]" placeholder="Last name">
+    <input type="text" name="address[company]" placeholder="Company">
+    <input type="text" name="address[address1]" placeholder="Address 1" required>
+    <input type="text" name="address[address2]" placeholder="Address 2">
+    <input type="text" name="address[city]" placeholder="City" required>
+    <input type="text" name="address[province]" placeholder="State / Province">
+    <input type="text" name="address[zip]" placeholder="ZIP / Postal" required>
+    <input type="text" name="address[country]" placeholder="Country" required>
+    <input type="tel" name="address[phone]" placeholder="Phone">
+    <label class="sh-small"><input type="checkbox" name="address[default]" value="1"> Set as default address</label>
+    <button class="sh-button sh-button--red" type="submit">Add Address</button>
+    {% if form.errors %}<div class="sh-small">{{ form.errors | default_errors }}</div>{% endif %}
+  {% endform %}
+
+  <h2 class="sh-h2" style="margin-top:40px;">Saved addresses</h2>
+  {% paginate customer.addresses by 6 %}
+    {% for address in customer.addresses %}
+      <div class="sh-card" style="margin-bottom:16px;">
+        {{ address | format_address }}
+        <div class="sh-button-row" style="margin-top:14px;">
+          {% form 'customer_address', address %}
+            <input type="hidden" name="_method" value="delete">
+            <button class="sh-button sh-button--secondary" type="submit" onclick="return confirm('Delete this address?');">Delete</button>
+          {% endform %}
+        </div>
+      </div>
+    {% endfor %}
+    {{ paginate | default_pagination }}
+  {% endpaginate %}
+</div></section>

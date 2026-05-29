@@ -1,0 +1,21 @@
+<section class="page-hero"><div class="sh-container"><div class="sh-eyebrow">Account</div><h1 class="sh-h1">Login</h1></div></section>
+<section class="sh-section"><div class="sh-container" style="max-width:520px;">
+  {% form 'customer_login', class: 'contact-form' %}
+    <input type="email" name="customer[email]" placeholder="Email" required>
+    <input type="password" name="customer[password]" placeholder="Password" required>
+    <button class="sh-button sh-button--red" type="submit">Sign In</button>
+    {% if form.errors %}<div class="sh-small">{{ form.errors | default_errors }}</div>{% endif %}
+  {% endform %}
+  <p class="sh-small" style="margin-top:18px;">
+    <a href="/account/register">Create account</a> &nbsp;·&nbsp;
+    <a href="#recover" onclick="document.getElementById('recover').style.display='block';return false;">Forgot password?</a>
+  </p>
+  <div id="recover" style="display:none;margin-top:24px;">
+    <h2 class="sh-h3">Reset password</h2>
+    {% form 'recover_customer_password', class: 'contact-form' %}
+      <input type="email" name="email" placeholder="Email" required>
+      <button class="sh-button" type="submit">Send Reset Link</button>
+      {% if form.posted_successfully? %}<div class="newsletter-success">If the account exists, a reset email has been sent.</div>{% endif %}
+    {% endform %}
+  </div>
+</div></section>

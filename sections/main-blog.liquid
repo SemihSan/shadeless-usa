@@ -1,0 +1,34 @@
+<section class="page-hero">
+  <div class="sh-container">
+    <div class="sh-eyebrow">Journal</div>
+    <h1 class="sh-h1">{{ blog.title }}</h1>
+  </div>
+</section>
+<section class="sh-section">
+  <div class="sh-container">
+    <div class="collection-grid">
+      {% for article in blog.articles %}
+        <article class="product-card">
+          <a class="product-card__image" href="{{ article.url }}" aria-label="{{ article.title | escape }}">
+            {% if article.image %}
+              {{ article.image | image_url: width: 700 | image_tag: loading: 'lazy', alt: article.title }}
+            {% else %}
+              <img src="{{ 'shadeless-front.png' | asset_url }}" alt="{{ article.title | escape }}">
+            {% endif %}
+          </a>
+          <div class="product-card__body">
+            <div class="sh-eyebrow">{{ article.published_at | date: '%b %d, %Y' }}</div>
+            <h3 class="sh-h3"><a href="{{ article.url }}">{{ article.title }}</a></h3>
+            <p class="sh-small">{{ article.excerpt_or_content | strip_html | truncate: 140 }}</p>
+            <a class="sh-button sh-button--secondary" href="{{ article.url }}">Read</a>
+          </div>
+        </article>
+      {% else %}
+        <div class="placeholder-img">No articles yet.</div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% schema %}
+{"name":"Main blog","settings":[]}
+{% endschema %}

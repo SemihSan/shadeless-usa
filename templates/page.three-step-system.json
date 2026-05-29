@@ -1,0 +1,26 @@
+{
+  "sections": {
+    "main": {
+      "type": "page-three-step-system",
+      "settings": {}
+    },
+    "comparison": {
+      "type": "routine-comparison",
+      "settings": {}
+    },
+    "steps": {
+      "type": "system-steps",
+      "settings": {}
+    },
+    "final": {
+      "type": "final-cta",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main",
+    "comparison",
+    "steps",
+    "final"
+  ]
+}

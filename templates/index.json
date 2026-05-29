@@ -1,0 +1,61 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero-biotech",
+      "settings": {}
+    },
+    "problem": {
+      "type": "problem-recognition",
+      "settings": {}
+    },
+    "comparison": {
+      "type": "routine-comparison",
+      "settings": {}
+    },
+    "steps": {
+      "type": "system-steps",
+      "settings": {}
+    },
+    "feature": {
+      "type": "product-feature-system",
+      "settings": {}
+    },
+    "science": {
+      "type": "peptisinergix-intro",
+      "settings": {}
+    },
+    "founder": {
+      "type": "founder-science",
+      "settings": {}
+    },
+    "proof": {
+      "type": "proof-placeholder",
+      "settings": {}
+    },
+    "faq": {
+      "type": "faq-preview",
+      "settings": {}
+    },
+    "email": {
+      "type": "email-capture",
+      "settings": {}
+    },
+    "final": {
+      "type": "final-cta",
+      "settings": {}
+    }
+  },
+  "order": [
+    "hero",
+    "problem",
+    "comparison",
+    "steps",
+    "feature",
+    "science",
+    "founder",
+    "proof",
+    "faq",
+    "email",
+    "final"
+  ]
+}

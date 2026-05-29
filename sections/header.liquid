@@ -1,0 +1,31 @@
+<header class="site-header">
+  <div class="sh-container header-inner">
+    <button class="menu-toggle" data-mobile-toggle aria-label="Open menu">☰</button>
+    <a class="brand-logo" href="{{ routes.root_url }}" aria-label="Shadeless home">SHADELESS</a>
+    <nav class="nav" aria-label="Main navigation">
+      <a href="/collections/all">Shop</a>
+      <a href="/pages/the-3-step-system">The 3-Step System</a>
+      <a href="/pages/science">Science</a>
+      <a href="/pages/results">Results</a>
+      <a href="/pages/our-story">Our Story</a>
+      <a href="/pages/faq">FAQ</a>
+    </nav>
+    <div class="header-actions">
+      <a href="{{ routes.search_url }}">Search</a>
+      <a href="{{ routes.cart_url }}">Cart ({{ cart.item_count }})</a>
+    </div>
+  </div>
+  <nav class="mobile-menu" data-mobile-menu aria-label="Mobile navigation">
+    <a href="/collections/all">Shop</a>
+    <a href="/pages/the-3-step-system">The 3-Step System</a>
+    <a href="/pages/science">Science</a>
+    <a href="/pages/results">Results</a>
+    <a href="/pages/our-story">Our Story</a>
+    <a href="/pages/faq">FAQ</a>
+    <a href="{{ routes.search_url }}">Search</a>
+    <a href="{{ routes.cart_url }}">Cart ({{ cart.item_count }})</a>
+  </nav>
+</header>
+{% schema %}
+{"name":"Header","settings":[]}
+{% endschema %}

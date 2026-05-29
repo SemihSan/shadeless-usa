@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Gift Card | {{ shop.name }}</title>
+    {{ content_for_header }}
+    {{ 'theme.css' | asset_url | stylesheet_tag }}
+  </head>
+  <body class="template-gift_card">
+    <main class="page-hero">
+      <div class="sh-container sh-center">
+        <a class="brand-logo" href="{{ routes.root_url }}">SHADELESS</a>
+        <div class="sh-eyebrow" style="margin-top:24px;">Gift Card</div>
+        <h1 class="sh-h1">{{ gift_card.balance | money }}</h1>
+        <p class="sh-body">{% if gift_card.enabled %}Use the code below at checkout.{% else %}This gift card is disabled.{% endif %}</p>
+
+        <div class="sh-card" style="max-width:520px;margin:24px auto;">
+          <div class="sh-eyebrow">Code</div>
+          <p class="sh-h3" style="word-break:break-all;">{{ gift_card.code | format_code }}</p>
+          {% if gift_card.expired %}
+            <p class="sh-small" style="color:var(--red);">Expired</p>
+          {% elsif gift_card.expires_on %}
+            <p class="sh-small">Expires {{ gift_card.expires_on | date: '%b %d, %Y' }}</p>
+          {% endif %}
+        </div>
+
+        <div class="sh-button-row" style="justify-content:center;">
+          <a class="sh-button sh-button--red" href="{{ shop.url }}">Shop Shadeless</a>
+          <a class="sh-button sh-button--secondary" href="{{ gift_card.pass_url }}">Add to Apple Wallet</a>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

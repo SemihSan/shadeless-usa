@@ -1,0 +1,29 @@
+<section class="product-hero">
+  <div class="sh-container product-layout">
+    <div class="product-media">
+      {% if product.featured_image %}{{ product.featured_image | image_url: width: 1000 | image_tag: loading: 'eager', alt: product.title }}{% else %}<img src="{{ 'shadeless-front.png' | asset_url }}" alt="{{ product.title | escape }}">{% endif %}
+    </div>
+    <div class="product-info">
+      <div class="sh-eyebrow">{{ product.metafields.custom.step_number | default: 'Shadeless Serum' }}</div>
+      <h1 class="sh-h1">{{ product.title }}</h1>
+      <p class="sh-body">{{ product.metafields.custom.short_benefit | default: product.description | strip_html | default: 'A step in the Shadeless Prepare, Optimize, Enhance routine for visible tone, texture, and clarity goals.' }}</p>
+      <div class="badge-row"><span class="sh-pill">Biotech Skincare</span><span class="sh-pill">Peptisinergix&trade;</span><span class="sh-pill">Tone + Texture</span></div>
+      <div class="product-price">{{ product.price | money }}</div>
+      {% form 'product', product, class: 'product-form' %}
+        {% if product.variants.size > 1 %}<select name="id" class="variant-select">{% for variant in product.variants %}<option value="{{ variant.id }}" {% if variant == product.selected_or_first_available_variant %}selected{% endif %}>{{ variant.title }} - {{ variant.price | money }}</option>{% endfor %}</select>{% else %}<input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">{% endif %}
+        <input class="quantity-input" name="quantity" type="number" value="1" min="1" aria-label="Quantity">
+        <button class="sh-button sh-button--red" type="submit" {% unless product.available %}disabled{% endunless %}>{% if product.available %}Add to Cart{% else %}Sold Out{% endif %}</button>
+      {% endform %}
+      <a class="sh-button sh-button--secondary" href="/products/shadeless-3-step-serum-system">Shop the Full System</a>
+      <div class="accordion" style="margin-top:26px;">
+        <details open><summary>Role in the system</summary><div class="content">{{ product.metafields.custom.step_role | default: 'This serum is designed to work inside the full Prepare → Optimize → Enhance routine.' }}</div></details>
+        <details><summary>Best for</summary><div class="content">{{ product.metafields.custom.best_for | default: 'Tone, texture, dullness, and visible clarity concerns.' }}</div></details>
+        <details><summary>How to use</summary><div class="content">{{ product.metafields.custom.how_to_use | default: 'Use as directed on packaging. During the day, finish with sunscreen.' }}</div></details>
+        <details><summary>Ingredients</summary><div class="content">{{ product.metafields.custom.full_inci | default: '[Insert final INCI list before launch.]' }}</div></details>
+      </div>
+    </div>
+  </div>
+</section>
+{% schema %}
+{"name":"Main product - step serum","settings":[]}
+{% endschema %}

@@ -1,0 +1,21 @@
+{
+  "sections": {
+    "main": {
+      "type": "page-science",
+      "settings": {}
+    },
+    "science_intro": {
+      "type": "peptisinergix-intro",
+      "settings": {}
+    },
+    "final": {
+      "type": "final-cta",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main",
+    "science_intro",
+    "final"
+  ]
+}
