@@ -1,62 +1,13 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
-  "_comment": "touch",
-  "sections": {
-    "hero": {
-      "type": "hero-biotech",
-      "settings": {}
-    },
-    "problem": {
-      "type": "problem-recognition",
-      "settings": {}
-    },
-    "comparison": {
-      "type": "routine-comparison",
-      "settings": {}
-    },
-    "steps": {
-      "type": "system-steps",
-      "settings": {}
-    },
-    "feature": {
-      "type": "product-feature-system",
-      "settings": {}
-    },
-    "science": {
-      "type": "peptisinergix-intro",
-      "settings": {}
-    },
-    "founder": {
-      "type": "founder-science",
-      "settings": {}
-    },
-    "proof": {
-      "type": "proof-placeholder",
-      "settings": {}
-    },
-    "faq": {
-      "type": "faq-preview",
-      "settings": {}
-    },
-    "email": {
-      "type": "email-capture",
-      "settings": {}
-    },
-    "final": {
-      "type": "final-cta",
-      "settings": {}
-    }
-  },
-  "order": [
-    "hero",
-    "problem",
-    "comparison",
-    "steps",
-    "feature",
-    "science",
-    "founder",
-    "proof",
-    "faq",
-    "email",
-    "final"
-  ]
+  "sections": {},
+  "order": []
 }
