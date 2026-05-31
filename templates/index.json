@@ -11,7 +11,16 @@
   "sections": {
     "hero": {
       "type": "hero-biotech",
-      "settings": {}
+      "settings": {
+        "eyebrow": "Shadeless Biotech Skincare",
+        "heading": "Biotech skincare for more even-looking tone, smoother texture, and cleaner skin clarity.",
+        "text": "The Shadeless 3-Step Serum System is designed to prepare, optimize, and enhance the look of skin through intelligent sequencing and peptide-led formulation logic.",
+        "primary_label": "Shop the 3-Step System",
+        "primary_link": "/products/shadeless-3-step-serum-system",
+        "secondary_label": "See How It Works",
+        "secondary_link": "/pages/the-3-step-system",
+        "trust_line": "Prepare. Optimize. Enhance. One coordinated routine."
+      }
     },
     "problem": {
       "type": "problem-recognition",
@@ -27,7 +36,9 @@
     },
     "feature": {
       "type": "product-feature-system",
-      "settings": {}
+      "settings": {
+        "product": ""
+      }
     },
     "science": {
       "type": "peptisinergix-intro",
