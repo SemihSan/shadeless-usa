@@ -11,6 +11,7 @@
   "sections": {
     "hero": {
       "type": "hero-biotech",
+      "custom_css": [],
       "settings": {
         "eyebrow": "Shadeless Biotech Skincare",
         "heading": "Biotech skincare for more even-looking tone, smoother texture, and cleaner skin clarity.",
