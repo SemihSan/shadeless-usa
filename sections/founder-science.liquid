@@ -1,11 +1,21 @@
 <section class="sh-section sh-bleed">
   <div class="sh-container sh-center">
-    <div class="sh-eyebrow">Brand foundation</div>
-    <h2 class="sh-h2">Built from a biotechnology mindset. Designed as a daily routine.</h2>
-    <p class="sh-body" style="max-width:850px;margin:0 auto;">Shadeless was developed to translate sophisticated formulation thinking into a routine that is simple enough to use every day. The brand's focus is not on chasing one trend ingredient. It is on organizing active skincare into a clearer system: prepare, optimize, enhance.</p>
-    <div style="margin-top:26px;"><a class="sh-button" href="/pages/our-story">Read Our Story</a></div>
+    <div class="sh-eyebrow">{{ section.settings.eyebrow }}</div>
+    <h2 class="sh-h2">{{ section.settings.heading }}</h2>
+    <p class="sh-body" style="max-width:850px;margin:0 auto;">{{ section.settings.body }}</p>
+    <div style="margin-top:26px;"><a class="sh-button" href="{{ section.settings.cta_link | default: '/pages/our-story' }}">{{ section.settings.cta_label }}</a></div>
   </div>
 </section>
 {% schema %}
-{"name":"Founder science module","settings":[],"presets":[{"name":"Founder science module"}]}
+{
+  "name": "Founder science module",
+  "settings": [
+    {"type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Brand foundation"},
+    {"type": "textarea", "id": "heading", "label": "Heading", "default": "Built from a biotechnology mindset. Designed as a daily routine."},
+    {"type": "textarea", "id": "body", "label": "Body text", "default": "Shadeless was developed to translate sophisticated formulation thinking into a routine that is simple enough to use every day. The brand's focus is not on chasing one trend ingredient. It is on organizing active skincare into a clearer system: prepare, optimize, enhance."},
+    {"type": "text", "id": "cta_label", "label": "Button label", "default": "Read Our Story"},
+    {"type": "url", "id": "cta_link", "label": "Button link"}
+  ],
+  "presets": [{"name": "Founder science module"}]
+}
 {% endschema %}

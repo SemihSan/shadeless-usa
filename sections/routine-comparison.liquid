@@ -1,13 +1,26 @@
 <section class="sh-section sh-bleed">
   <div class="sh-container">
-    <div class="sh-center"><div class="sh-eyebrow">System logic</div><h2 class="sh-h2">When the concern is complex, the routine should be coordinated.</h2><p class="sh-body" style="max-width:820px;margin:0 auto;">Many skincare routines are built by stacking products. But stacking is not the same as sequencing.</p></div>
+    <div class="sh-center"><div class="sh-eyebrow">{{ section.settings.eyebrow }}</div><h2 class="sh-h2">{{ section.settings.heading }}</h2><p class="sh-body" style="max-width:820px;margin:0 auto;">{{ section.settings.body }}</p></div>
     <div class="comparison" style="margin-top:34px;">
-      <div class="comparison-card bad"><h3 class="sh-h3">Random stacking</h3><ul class="sh-list"><li>One serum for glow</li><li>One serum for pores</li><li>One serum for texture</li><li>One serum for comfort</li><li>No clear sequence</li></ul></div>
-      <div class="comparison-card good"><h3 class="sh-h3">Shadeless sequence</h3><ul class="sh-list"><li>Step 1 prepares</li><li>Step 2 optimizes</li><li>Step 3 enhances</li><li>One clear system</li><li>Routine logic built in</li></ul></div>
+      <div class="comparison-card bad"><h3 class="sh-h3">{{ section.settings.bad_title }}</h3><ul class="sh-list">{% assign bad_items = section.settings.bad_items | newline_to_br | split: '<br />' %}{% for item in bad_items %}{% assign item_clean = item | strip %}{% if item_clean != '' %}<li>{{ item_clean }}</li>{% endif %}{% endfor %}</ul></div>
+      <div class="comparison-card good"><h3 class="sh-h3">{{ section.settings.good_title }}</h3><ul class="sh-list">{% assign good_items = section.settings.good_items | newline_to_br | split: '<br />' %}{% for item in good_items %}{% assign item_clean = item | strip %}{% if item_clean != '' %}<li>{{ item_clean }}</li>{% endif %}{% endfor %}</ul></div>
     </div>
-    <div class="quote-band">Most routines stack. Shadeless sequences.</div>
+    <div class="quote-band">{{ section.settings.quote }}</div>
   </div>
 </section>
 {% schema %}
-{"name":"Routine comparison","settings":[],"presets":[{"name":"Routine comparison"}]}
+{
+  "name": "Routine comparison",
+  "settings": [
+    {"type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "System logic"},
+    {"type": "textarea", "id": "heading", "label": "Heading", "default": "When the concern is complex, the routine should be coordinated."},
+    {"type": "textarea", "id": "body", "label": "Body text", "default": "Many skincare routines are built by stacking products. But stacking is not the same as sequencing."},
+    {"type": "text", "id": "bad_title", "label": "Left column title", "default": "Random stacking"},
+    {"type": "textarea", "id": "bad_items", "label": "Left column items (one per line)", "default": "One serum for glow\nOne serum for pores\nOne serum for texture\nOne serum for comfort\nNo clear sequence"},
+    {"type": "text", "id": "good_title", "label": "Right column title", "default": "Shadeless sequence"},
+    {"type": "textarea", "id": "good_items", "label": "Right column items (one per line)", "default": "Step 1 prepares\nStep 2 optimizes\nStep 3 enhances\nOne clear system\nRoutine logic built in"},
+    {"type": "text", "id": "quote", "label": "Quote band text", "default": "Most routines stack. Shadeless sequences."}
+  ],
+  "presets": [{"name": "Routine comparison"}]
+}
 {% endschema %}

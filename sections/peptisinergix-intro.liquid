@@ -1,19 +1,39 @@
 <section class="sh-section">
   <div class="sh-container sh-grid sh-grid-2" style="align-items:center;">
     <div>
-      <div class="sh-eyebrow">Peptisinergix&trade; System</div>
-      <h2 class="sh-h2">Science with sequence.</h2>
-      <p class="sh-body">Peptisinergix&trade; is Shadeless' formulation philosophy: a way of organizing peptides and active ingredients by role, compatibility, and sequence.</p>
-      <p class="sh-body">It is not random ingredient stacking. It is a system designed around how each step contributes to the visible look of tone, texture, and clarity.</p>
-      <a class="sh-button" href="/pages/science">Learn the Science</a>
+      <div class="sh-eyebrow">{{ section.settings.eyebrow }}</div>
+      <h2 class="sh-h2">{{ section.settings.heading }}</h2>
+      <p class="sh-body">{{ section.settings.body_1 }}</p>
+      <p class="sh-body">{{ section.settings.body_2 }}</p>
+      <a class="sh-button" href="{{ section.settings.cta_link | default: '/pages/science' }}">{{ section.settings.cta_label }}</a>
     </div>
     <div class="sh-grid">
-      <div class="sh-card"><h3 class="sh-h3">Role-based</h3><p>Each step has a specific purpose.</p></div>
-      <div class="sh-card"><h3 class="sh-h3">Sequence-led</h3><p>The routine is organized in the order skin experiences it.</p></div>
-      <div class="sh-card"><h3 class="sh-h3">Visible-finish focused</h3><p>The goal is skin that looks clearer, smoother, more even, and more refined.</p></div>
+      <div class="sh-card"><h3 class="sh-h3">{{ section.settings.card1_title }}</h3><p>{{ section.settings.card1_body }}</p></div>
+      <div class="sh-card"><h3 class="sh-h3">{{ section.settings.card2_title }}</h3><p>{{ section.settings.card2_body }}</p></div>
+      <div class="sh-card"><h3 class="sh-h3">{{ section.settings.card3_title }}</h3><p>{{ section.settings.card3_body }}</p></div>
     </div>
   </div>
 </section>
 {% schema %}
-{"name":"Peptisinergix intro","settings":[],"presets":[{"name":"Peptisinergix intro"}]}
+{
+  "name": "Peptisinergix intro",
+  "settings": [
+    {"type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Peptisinergix™ System"},
+    {"type": "textarea", "id": "heading", "label": "Heading", "default": "Science with sequence."},
+    {"type": "textarea", "id": "body_1", "label": "Body text 1", "default": "Peptisinergix™ is Shadeless' formulation philosophy: a way of organizing peptides and active ingredients by role, compatibility, and sequence."},
+    {"type": "textarea", "id": "body_2", "label": "Body text 2", "default": "It is not random ingredient stacking. It is a system designed around how each step contributes to the visible look of tone, texture, and clarity."},
+    {"type": "text", "id": "cta_label", "label": "Button label", "default": "Learn the Science"},
+    {"type": "url", "id": "cta_link", "label": "Button link"},
+    {"type": "header", "content": "Card 1"},
+    {"type": "text", "id": "card1_title", "label": "Title", "default": "Role-based"},
+    {"type": "textarea", "id": "card1_body", "label": "Body", "default": "Each step has a specific purpose."},
+    {"type": "header", "content": "Card 2"},
+    {"type": "text", "id": "card2_title", "label": "Title", "default": "Sequence-led"},
+    {"type": "textarea", "id": "card2_body", "label": "Body", "default": "The routine is organized in the order skin experiences it."},
+    {"type": "header", "content": "Card 3"},
+    {"type": "text", "id": "card3_title", "label": "Title", "default": "Visible-finish focused"},
+    {"type": "textarea", "id": "card3_body", "label": "Body", "default": "The goal is skin that looks clearer, smoother, more even, and more refined."}
+  ],
+  "presets": [{"name": "Peptisinergix intro"}]
+}
 {% endschema %}

@@ -1,16 +1,36 @@
 <section class="sh-section sh-bleed">
   <div class="sh-container">
-    <div class="sh-center"><div class="sh-eyebrow">FAQ</div><h2 class="sh-h2">Before you start the system</h2></div>
+    <div class="sh-center"><div class="sh-eyebrow">{{ section.settings.eyebrow }}</div><h2 class="sh-h2">{{ section.settings.heading }}</h2></div>
     <div class="accordion" style="max-width:880px;margin:30px auto 0;">
-      <details><summary>Is Shadeless a whitening product?</summary><div class="content">No. Shadeless is not about changing your natural skin tone. It is designed to help skin look clearer, smoother, more even, and more refined across every skin tone.</div></details>
-      <details><summary>Do I need all three steps?</summary><div class="content">The full system is recommended because each step has a distinct role: prepare, optimize, and enhance.</div></details>
-      <details><summary>Can I use this morning and night?</summary><div class="content">Yes, follow the product directions for each step. During the day, always finish with sunscreen.</div></details>
-      <details><summary>Can sensitive skin use it?</summary><div class="content">If your skin is sensitive, patch test first and introduce the system gradually. Discontinue use if irritation occurs.</div></details>
-      <details><summary>Do I need sunscreen?</summary><div class="content">Yes. Use sunscreen every morning as the final step of your daytime routine.</div></details>
+      {% for block in section.blocks %}
+        <details {{ block.shopify_attributes }}>
+          <summary>{{ block.settings.question }}</summary>
+          <div class="content">{{ block.settings.answer }}</div>
+        </details>
+      {% endfor %}
     </div>
-    <div class="sh-center" style="margin-top:30px;"><a class="sh-button sh-button--secondary" href="/pages/faq">Read the FAQ</a></div>
+    <div class="sh-center" style="margin-top:30px;"><a class="sh-button sh-button--secondary" href="{{ section.settings.cta_link | default: '/pages/faq' }}">{{ section.settings.cta_label }}</a></div>
   </div>
 </section>
 {% schema %}
-{"name":"FAQ preview","settings":[],"presets":[{"name":"FAQ preview"}]}
+{
+  "name": "FAQ preview",
+  "settings": [
+    {"type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "FAQ"},
+    {"type": "textarea", "id": "heading", "label": "Heading", "default": "Before you start the system"},
+    {"type": "text", "id": "cta_label", "label": "Button label", "default": "Read the FAQ"},
+    {"type": "url", "id": "cta_link", "label": "Button link"}
+  ],
+  "blocks": [
+    {
+      "type": "faq_item",
+      "name": "FAQ item",
+      "settings": [
+        {"type": "text", "id": "question", "label": "Question"},
+        {"type": "textarea", "id": "answer", "label": "Answer"}
+      ]
+    }
+  ],
+  "presets": [{"name": "FAQ preview"}]
+}
 {% endschema %}

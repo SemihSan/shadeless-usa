@@ -1,19 +1,34 @@
 <section class="sh-section">
   <div class="sh-container sh-grid sh-grid-2" style="align-items:center;">
     <div>
-      <div class="sh-eyebrow">Tone + Texture + Clarity</div>
-      <h2 class="sh-h2">Your skin concerns are rarely one-dimensional.</h2>
-      <p class="sh-body">Dullness, rough-looking texture, visible pores, post-blemish mark appearance, uneven-looking tone, and lack of clarity often show up together.</p>
-      <p class="sh-body">That is why one random serum rarely feels complete.</p>
+      <div class="sh-eyebrow">{{ section.settings.eyebrow }}</div>
+      <h2 class="sh-h2">{{ section.settings.heading }}</h2>
+      <p class="sh-body">{{ section.settings.body_1 }}</p>
+      <p class="sh-body">{{ section.settings.body_2 }}</p>
       <span class="sh-red-line"></span>
-      <p class="sh-body"><strong>Not more products. A better sequence.</strong></p>
+      <p class="sh-body"><strong>{{ section.settings.highlight }}</strong></p>
     </div>
     <div class="sh-card sh-card-soft">
-      <h3 class="sh-h3">Designed for visible complexity</h3>
-      <ul class="sh-list"><li>Dull-looking complexion</li><li>Rough-looking texture</li><li>Uneven-looking tone</li><li>Visible pores</li><li>Post-blemish mark appearance</li><li>Lack of skin clarity</li></ul>
+      <h3 class="sh-h3">{{ section.settings.card_title }}</h3>
+      <ul class="sh-list">
+        {% assign list_items = section.settings.list_items | newline_to_br | split: '<br />' %}
+        {% for item in list_items %}{% assign item_clean = item | strip %}{% if item_clean != '' %}<li>{{ item_clean }}</li>{% endif %}{% endfor %}
+      </ul>
     </div>
   </div>
 </section>
 {% schema %}
-{"name":"Problem recognition","settings":[],"presets":[{"name":"Problem recognition"}]}
+{
+  "name": "Problem recognition",
+  "settings": [
+    {"type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Tone + Texture + Clarity"},
+    {"type": "textarea", "id": "heading", "label": "Heading", "default": "Your skin concerns are rarely one-dimensional."},
+    {"type": "textarea", "id": "body_1", "label": "Body text 1", "default": "Dullness, rough-looking texture, visible pores, post-blemish mark appearance, uneven-looking tone, and lack of clarity often show up together."},
+    {"type": "textarea", "id": "body_2", "label": "Body text 2", "default": "That is why one random serum rarely feels complete."},
+    {"type": "text", "id": "highlight", "label": "Highlight text", "default": "Not more products. A better sequence."},
+    {"type": "text", "id": "card_title", "label": "Card title", "default": "Designed for visible complexity"},
+    {"type": "textarea", "id": "list_items", "label": "List items (one per line)", "default": "Dull-looking complexion\nRough-looking texture\nUneven-looking tone\nVisible pores\nPost-blemish mark appearance\nLack of skin clarity"}
+  ],
+  "presets": [{"name": "Problem recognition"}]
+}
 {% endschema %}
