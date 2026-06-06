@@ -1,5 +1,22 @@
-<section class="page-hero"><div class="sh-container"><div class="sh-eyebrow">QR + Batch</div><h1 class="sh-h1">Product Information & Batch Lookup</h1><p class="sh-body">Scan your Shadeless QR code or enter your batch number to access product information, usage guidance, and batch details.</p></div></section>
-<section class="sh-section"><div class="sh-container sh-grid sh-grid-2"><div class="sh-card"><h2 class="sh-h2">Look up product</h2><form class="batch-form"><input type="text" placeholder="Enter batch number"><button class="sh-button sh-button--red" type="button">Look Up Product</button></form><p class="sh-small">Connect this form to a Shopify app, metaobject, or custom batch database before launch.</p></div><div><h2 class="sh-h2">What your QR code shows</h2><ul class="sh-list"><li>Product name</li><li>Usage directions</li><li>Full ingredients</li><li>Batch information</li><li>Customer support link</li></ul></div></div></section>
+<section class="page-hero"><div class="sh-container"><div class="sh-eyebrow">{{ section.settings.eyebrow }}</div><h1 class="sh-h1">{{ section.settings.heading }}</h1><p class="sh-body">{{ section.settings.body }}</p></div></section>
+<section class="sh-section"><div class="sh-container sh-grid sh-grid-2"><div class="sh-card"><h2 class="sh-h2">{{ section.settings.form_heading }}</h2><form class="batch-form"><input type="text" placeholder="{{ section.settings.form_placeholder }}"><button class="sh-button sh-button--red" type="button">{{ section.settings.form_button }}</button></form><p class="sh-small">{{ section.settings.form_note }}</p></div><div><h2 class="sh-h2">{{ section.settings.list_heading }}</h2><ul class="sh-list">{% assign li = section.settings.list_items | newline_to_br | split: '<br />' %}{% for item in li %}{% assign ic = item | strip %}{% if ic != '' %}<li>{{ ic }}</li>{% endif %}{% endfor %}</ul></div></div></section>
 {% schema %}
-{"name":"Page - Batch QR","settings":[]}
+{
+  "name": "Page - Batch QR",
+  "settings": [
+    {"type": "header", "content": "Hero"},
+    {"type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "QR + Batch"},
+    {"type": "textarea", "id": "heading", "label": "Heading", "default": "Product Information & Batch Lookup"},
+    {"type": "textarea", "id": "body", "label": "Body text", "default": "Scan your Shadeless QR code or enter your batch number to access product information, usage guidance, and batch details."},
+    {"type": "header", "content": "Lookup form"},
+    {"type": "text", "id": "form_heading", "label": "Heading", "default": "Look up product"},
+    {"type": "text", "id": "form_placeholder", "label": "Input placeholder", "default": "Enter batch number"},
+    {"type": "text", "id": "form_button", "label": "Button label", "default": "Look Up Product"},
+    {"type": "textarea", "id": "form_note", "label": "Note text", "default": "Connect this form to a Shopify app, metaobject, or custom batch database before launch."},
+    {"type": "header", "content": "Info list"},
+    {"type": "text", "id": "list_heading", "label": "Heading", "default": "What your QR code shows"},
+    {"type": "textarea", "id": "list_items", "label": "Items (one per line)", "default": "Product name\nUsage directions\nFull ingredients\nBatch information\nCustomer support link"}
+  ],
+  "presets": [{"name": "Page - Batch QR"}]
+}
 {% endschema %}

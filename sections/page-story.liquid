@@ -1,5 +1,20 @@
-<section class="page-hero"><div class="sh-container"><div class="sh-eyebrow">Our Story</div><h1 class="sh-h1">Shadeless is not about changing your skin tone.</h1><p class="sh-body">It is about helping skin look clearer, smoother, more even, and more refined — in every skin tone.</p></div></section>
-<section class="sh-section"><div class="sh-container sh-grid sh-grid-2"><div><h2 class="sh-h2">Less visual shadow. More visible clarity.</h2><p class="sh-body">The name Shadeless is built around the idea of reducing the look of visual unevenness: dullness, rough texture, visible marks, and lack of clarity that can make skin appear tired or inconsistent.</p><p class="sh-body"><strong>It is not about whitening. It is not about bleaching. It is not about making skin lighter.</strong></p></div><div class="sh-card sh-card-soft"><h3 class="sh-h3">Why we exist</h3><p>Many people own multiple serums but still feel their routine is incomplete. Shadeless was created to organize advanced skincare into three clear steps: Prepare, Optimize, Enhance.</p></div></div></section>
+<section class="page-hero"><div class="sh-container"><div class="sh-eyebrow">{{ section.settings.eyebrow }}</div><h1 class="sh-h1">{{ section.settings.heading }}</h1><p class="sh-body">{{ section.settings.body }}</p></div></section>
+<section class="sh-section"><div class="sh-container sh-grid sh-grid-2"><div><h2 class="sh-h2">{{ section.settings.s2_heading }}</h2><p class="sh-body">{{ section.settings.s2_body_1 }}</p><p class="sh-body"><strong>{{ section.settings.s2_body_2 }}</strong></p></div><div class="sh-card sh-card-soft"><h3 class="sh-h3">{{ section.settings.card_title }}</h3><p>{{ section.settings.card_body }}</p></div></div></section>
 {% schema %}
-{"name":"Page - Our Story","settings":[]}
+{
+  "name": "Page - Our Story",
+  "settings": [
+    {"type": "header", "content": "Hero"},
+    {"type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Our Story"},
+    {"type": "textarea", "id": "heading", "label": "Heading", "default": "Shadeless is not about changing your skin tone."},
+    {"type": "textarea", "id": "body", "label": "Body text", "default": "It is about helping skin look clearer, smoother, more even, and more refined \u2014 in every skin tone."},
+    {"type": "header", "content": "Story section"},
+    {"type": "textarea", "id": "s2_heading", "label": "Heading", "default": "Less visual shadow. More visible clarity."},
+    {"type": "textarea", "id": "s2_body_1", "label": "Body text", "default": "The name Shadeless is built around the idea of reducing the look of visual unevenness: dullness, rough texture, visible marks, and lack of clarity that can make skin appear tired or inconsistent."},
+    {"type": "textarea", "id": "s2_body_2", "label": "Bold statement", "default": "It is not about whitening. It is not about bleaching. It is not about making skin lighter."},
+    {"type": "text", "id": "card_title", "label": "Card title", "default": "Why we exist"},
+    {"type": "textarea", "id": "card_body", "label": "Card body", "default": "Many people own multiple serums but still feel their routine is incomplete. Shadeless was created to organize advanced skincare into three clear steps: Prepare, Optimize, Enhance."}
+  ],
+  "presets": [{"name": "Page - Our Story"}]
+}
 {% endschema %}

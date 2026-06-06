@@ -1,5 +1,23 @@
-<section class="page-hero"><div class="sh-container"><div class="sh-eyebrow">Press + Partnerships</div><h1 class="sh-h1">Partner with Shadeless</h1><p class="sh-body">A biotech skincare system built around tone, texture, clarity, and intelligent sequence.</p></div></section>
-<section class="sh-section"><div class="sh-container sh-grid sh-grid-4"><div class="sh-card"><h3 class="sh-h3">For press</h3><p>Media kit, founder interviews, product information, and assets.</p></div><div class="sh-card"><h3 class="sh-h3">For creators</h3><p>Creator education, sampling, and campaign inquiries.</p></div><div class="sh-card"><h3 class="sh-h3">For professionals</h3><p>Esthetician, spa, and professional education inquiries.</p></div><div class="sh-card"><h3 class="sh-h3">For retail</h3><p>Retail buyer, wholesale, and distribution inquiries.</p></div></div></section>
+<section class="page-hero"><div class="sh-container"><div class="sh-eyebrow">{{ section.settings.eyebrow }}</div><h1 class="sh-h1">{{ section.settings.heading }}</h1><p class="sh-body">{{ section.settings.body }}</p></div></section>
+<section class="sh-section"><div class="sh-container sh-grid sh-grid-4"><div class="sh-card"><h3 class="sh-h3">{{ section.settings.card1_title }}</h3><p>{{ section.settings.card1_body }}</p></div><div class="sh-card"><h3 class="sh-h3">{{ section.settings.card2_title }}</h3><p>{{ section.settings.card2_body }}</p></div><div class="sh-card"><h3 class="sh-h3">{{ section.settings.card3_title }}</h3><p>{{ section.settings.card3_body }}</p></div><div class="sh-card"><h3 class="sh-h3">{{ section.settings.card4_title }}</h3><p>{{ section.settings.card4_body }}</p></div></div></section>
 {% schema %}
-{"name":"Page - Press Partnerships","settings":[]}
+{
+  "name": "Page - Press Partnerships",
+  "settings": [
+    {"type": "header", "content": "Hero"},
+    {"type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Press + Partnerships"},
+    {"type": "textarea", "id": "heading", "label": "Heading", "default": "Partner with Shadeless"},
+    {"type": "textarea", "id": "body", "label": "Body text", "default": "A biotech skincare system built around tone, texture, clarity, and intelligent sequence."},
+    {"type": "header", "content": "Cards"},
+    {"type": "text", "id": "card1_title", "label": "Card 1 title", "default": "For press"},
+    {"type": "textarea", "id": "card1_body", "label": "Card 1 body", "default": "Media kit, founder interviews, product information, and assets."},
+    {"type": "text", "id": "card2_title", "label": "Card 2 title", "default": "For creators"},
+    {"type": "textarea", "id": "card2_body", "label": "Card 2 body", "default": "Creator education, sampling, and campaign inquiries."},
+    {"type": "text", "id": "card3_title", "label": "Card 3 title", "default": "For professionals"},
+    {"type": "textarea", "id": "card3_body", "label": "Card 3 body", "default": "Esthetician, spa, and professional education inquiries."},
+    {"type": "text", "id": "card4_title", "label": "Card 4 title", "default": "For retail"},
+    {"type": "textarea", "id": "card4_body", "label": "Card 4 body", "default": "Retail buyer, wholesale, and distribution inquiries."}
+  ],
+  "presets": [{"name": "Page - Press Partnerships"}]
+}
 {% endschema %}

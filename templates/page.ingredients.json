@@ -2,10 +2,14 @@
   "sections": {
     "main": {
       "type": "page-ingredients",
-      "settings": {}
+      "settings": {},
+      "blocks": {
+        "step1": {"type": "ingredient_list", "settings": {"step_title": "Step 1 Prepare Serum", "ingredients": "[Insert final INCI list before launch.]"}},
+        "step2": {"type": "ingredient_list", "settings": {"step_title": "Step 2 Optimize Serum", "ingredients": "[Insert final INCI list before launch.]"}},
+        "step3": {"type": "ingredient_list", "settings": {"step_title": "Step 3 Enhance Serum", "ingredients": "[Insert final INCI list before launch.]"}}
+      },
+      "block_order": ["step1", "step2", "step3"]
     }
   },
-  "order": [
-    "main"
-  ]
+  "order": ["main"]
 }

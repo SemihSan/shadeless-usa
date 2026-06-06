@@ -1,5 +1,22 @@
-<section class="page-hero"><div class="sh-container"><div class="sh-eyebrow">Contact</div><h1 class="sh-h1">Contact Shadeless</h1><p class="sh-body">Questions about your order, routine, product information, or partnership opportunities? Send us a note.</p></div></section>
-<section class="sh-section"><div class="sh-container">{% form 'contact', class: 'contact-form' %}<input type="text" name="contact[name]" placeholder="Name"><input type="email" name="contact[email]" placeholder="Email" required><select name="contact[inquiry_type]"><option>Order support</option><option>Product question</option><option>Routine guidance</option><option>Press</option><option>Retail partnership</option><option>Professional / esthetician inquiry</option><option>Other</option></select><textarea name="contact[body]" rows="6" placeholder="Message"></textarea><button class="sh-button sh-button--red" type="submit">Send Message</button>{% if form.posted_successfully? %}<div class="newsletter-success">Thank you. We received your message.</div>{% endif %}{% if form.errors %}{{ form.errors | default_errors }}{% endif %}{% endform %}<div class="sh-center" style="margin-top:40px;"><p class="sh-body">Shadeless Biotechnology Inc.<br>265 Franklin Street Ste 1702<br>Boston, MA 02110</p></div></div></section>
+<section class="page-hero"><div class="sh-container"><div class="sh-eyebrow">{{ section.settings.eyebrow }}</div><h1 class="sh-h1">{{ section.settings.heading }}</h1><p class="sh-body">{{ section.settings.body }}</p></div></section>
+<section class="sh-section"><div class="sh-container">{% form 'contact', class: 'contact-form' %}<input type="text" name="contact[name]" placeholder="{{ section.settings.placeholder_name }}"><input type="email" name="contact[email]" placeholder="{{ section.settings.placeholder_email }}" required><select name="contact[inquiry_type]"><option>Order support</option><option>Product question</option><option>Routine guidance</option><option>Press</option><option>Retail partnership</option><option>Professional / esthetician inquiry</option><option>Other</option></select><textarea name="contact[body]" rows="6" placeholder="{{ section.settings.placeholder_message }}"></textarea><button class="sh-button sh-button--red" type="submit">{{ section.settings.button_label }}</button>{% if form.posted_successfully? %}<div class="newsletter-success">{{ section.settings.success_message }}</div>{% endif %}{% if form.errors %}{{ form.errors | default_errors }}{% endif %}{% endform %}<div class="sh-center" style="margin-top:40px;"><p class="sh-body">{{ section.settings.address | newline_to_br }}</p></div></div></section>
 {% schema %}
-{"name":"Page - Contact","settings":[]}
+{
+  "name": "Page - Contact",
+  "settings": [
+    {"type": "header", "content": "Hero"},
+    {"type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Contact"},
+    {"type": "textarea", "id": "heading", "label": "Heading", "default": "Contact Shadeless"},
+    {"type": "textarea", "id": "body", "label": "Body text", "default": "Questions about your order, routine, product information, or partnership opportunities? Send us a note."},
+    {"type": "header", "content": "Form"},
+    {"type": "text", "id": "placeholder_name", "label": "Name placeholder", "default": "Name"},
+    {"type": "text", "id": "placeholder_email", "label": "Email placeholder", "default": "Email"},
+    {"type": "text", "id": "placeholder_message", "label": "Message placeholder", "default": "Message"},
+    {"type": "text", "id": "button_label", "label": "Button label", "default": "Send Message"},
+    {"type": "text", "id": "success_message", "label": "Success message", "default": "Thank you. We received your message."},
+    {"type": "header", "content": "Address"},
+    {"type": "textarea", "id": "address", "label": "Address (use new lines)", "default": "Shadeless Biotechnology Inc.\n265 Franklin Street Ste 1702\nBoston, MA 02110"}
+  ],
+  "presets": [{"name": "Page - Contact"}]
+}
 {% endschema %}

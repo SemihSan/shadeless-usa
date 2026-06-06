@@ -1,5 +1,24 @@
-<section class="page-hero"><div class="sh-container"><div class="sh-eyebrow">Ingredients</div><h1 class="sh-h1">Ingredients, explained clearly.</h1><p class="sh-body">Learn how Shadeless organizes ingredients by role, sequence, and visible cosmetic benefit.</p></div></section>
-<section class="sh-section"><div class="sh-container accordion"><h2 class="sh-h2">Full ingredient lists</h2><details open><summary>Step 1 Prepare Serum</summary><div class="content">[Insert final INCI list before launch.]</div></details><details><summary>Step 2 Optimize Serum</summary><div class="content">[Insert final INCI list before launch.]</div></details><details><summary>Step 3 Enhance Serum</summary><div class="content">[Insert final INCI list before launch.]</div></details></div></section>
+<section class="page-hero"><div class="sh-container"><div class="sh-eyebrow">{{ section.settings.eyebrow }}</div><h1 class="sh-h1">{{ section.settings.heading }}</h1><p class="sh-body">{{ section.settings.body }}</p></div></section>
+<section class="sh-section"><div class="sh-container accordion"><h2 class="sh-h2">{{ section.settings.list_heading }}</h2>{% for block in section.blocks %}<details {% if forloop.first %}open{% endif %} {{ block.shopify_attributes }}><summary>{{ block.settings.step_title }}</summary><div class="content">{{ block.settings.ingredients }}</div></details>{% endfor %}</div></section>
 {% schema %}
-{"name":"Page - Ingredients","settings":[]}
+{
+  "name": "Page - Ingredients",
+  "settings": [
+    {"type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Ingredients"},
+    {"type": "textarea", "id": "heading", "label": "Heading", "default": "Ingredients, explained clearly."},
+    {"type": "textarea", "id": "body", "label": "Body text", "default": "Learn how Shadeless organizes ingredients by role, sequence, and visible cosmetic benefit."},
+    {"type": "text", "id": "list_heading", "label": "Section heading", "default": "Full ingredient lists"}
+  ],
+  "blocks": [
+    {
+      "type": "ingredient_list",
+      "name": "Ingredient list",
+      "settings": [
+        {"type": "text", "id": "step_title", "label": "Step title"},
+        {"type": "textarea", "id": "ingredients", "label": "Ingredients"}
+      ]
+    }
+  ],
+  "presets": [{"name": "Page - Ingredients"}]
+}
 {% endschema %}

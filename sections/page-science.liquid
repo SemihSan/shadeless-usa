@@ -1,6 +1,24 @@
-<section class="page-hero"><div class="sh-container"><div class="sh-eyebrow">Science</div><h1 class="sh-h1">The Science of Sequence</h1><p class="sh-body">Peptisinergix&trade; is Shadeless' formulation philosophy: organizing peptides and active ingredients by role, compatibility, and sequence.</p></div></section>
-<section class="sh-section sh-bleed"><div class="sh-container"><h2 class="sh-h2 sh-center">What Shadeless claims</h2><div class="sh-grid sh-grid-2"><div class="sh-card"><h3 class="sh-h3">What we mean by results</h3><ul class="sh-list"><li>More even-looking tone</li><li>Smoother-looking texture</li><li>Cleaner-looking clarity</li><li>More refined-looking finish</li><li>Less dull-looking complexion</li></ul></div><div class="sh-card"><h3 class="sh-h3">What we do not claim</h3><ul class="sh-list"><li>Whitening or bleaching</li><li>Melasma treatment</li><li>Acne treatment</li><li>Scar treatment</li><li>Drug or medical procedure replacement</li></ul></div></div></div></section>
-<section class="sh-section"><div class="sh-container sh-center"><h2 class="sh-h2">Research library</h2><p class="sh-body">Ingredient research, finished-product testing, consumer perception studies, and safety/tolerance testing will be added only when verified and approved.</p></div></section>
+<section class="page-hero"><div class="sh-container"><div class="sh-eyebrow">{{ section.settings.eyebrow }}</div><h1 class="sh-h1">{{ section.settings.heading }}</h1><p class="sh-body">{{ section.settings.body }}</p></div></section>
+<section class="sh-section sh-bleed"><div class="sh-container"><h2 class="sh-h2 sh-center">{{ section.settings.claims_heading }}</h2><div class="sh-grid sh-grid-2"><div class="sh-card"><h3 class="sh-h3">{{ section.settings.card1_title }}</h3><ul class="sh-list">{% assign c1 = section.settings.card1_items | newline_to_br | split: '<br />' %}{% for item in c1 %}{% assign ic = item | strip %}{% if ic != '' %}<li>{{ ic }}</li>{% endif %}{% endfor %}</ul></div><div class="sh-card"><h3 class="sh-h3">{{ section.settings.card2_title }}</h3><ul class="sh-list">{% assign c2 = section.settings.card2_items | newline_to_br | split: '<br />' %}{% for item in c2 %}{% assign ic = item | strip %}{% if ic != '' %}<li>{{ ic }}</li>{% endif %}{% endfor %}</ul></div></div></div></section>
+<section class="sh-section"><div class="sh-container sh-center"><h2 class="sh-h2">{{ section.settings.research_heading }}</h2><p class="sh-body">{{ section.settings.research_body }}</p></div></section>
 {% schema %}
-{"name":"Page - Science","settings":[]}
+{
+  "name": "Page - Science",
+  "settings": [
+    {"type": "header", "content": "Hero"},
+    {"type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Science"},
+    {"type": "textarea", "id": "heading", "label": "Heading", "default": "The Science of Sequence"},
+    {"type": "textarea", "id": "body", "label": "Body text", "default": "Peptisinergix™ is Shadeless' formulation philosophy: organizing peptides and active ingredients by role, compatibility, and sequence."},
+    {"type": "header", "content": "Claims section"},
+    {"type": "text", "id": "claims_heading", "label": "Heading", "default": "What Shadeless claims"},
+    {"type": "text", "id": "card1_title", "label": "Card 1 title", "default": "What we mean by results"},
+    {"type": "textarea", "id": "card1_items", "label": "Card 1 items (one per line)", "default": "More even-looking tone\nSmoother-looking texture\nCleaner-looking clarity\nMore refined-looking finish\nLess dull-looking complexion"},
+    {"type": "text", "id": "card2_title", "label": "Card 2 title", "default": "What we do not claim"},
+    {"type": "textarea", "id": "card2_items", "label": "Card 2 items (one per line)", "default": "Whitening or bleaching\nMelasma treatment\nAcne treatment\nScar treatment\nDrug or medical procedure replacement"},
+    {"type": "header", "content": "Research section"},
+    {"type": "text", "id": "research_heading", "label": "Heading", "default": "Research library"},
+    {"type": "textarea", "id": "research_body", "label": "Body text", "default": "Ingredient research, finished-product testing, consumer perception studies, and safety/tolerance testing will be added only when verified and approved."}
+  ],
+  "presets": [{"name": "Page - Science"}]
+}
 {% endschema %}

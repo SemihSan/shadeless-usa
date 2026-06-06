@@ -1,18 +1,38 @@
-<section class="page-hero"><div class="sh-container"><div class="sh-eyebrow">FAQ</div><h1 class="sh-h1">How to use the Shadeless 3-Step Serum System</h1><p class="sh-body">Answers about routine order, skin types, Peptisinergix&trade;, ingredients, and orders.</p></div></section>
+<section class="page-hero"><div class="sh-container"><div class="sh-eyebrow">{{ section.settings.eyebrow }}</div><h1 class="sh-h1">{{ section.settings.heading }}</h1><p class="sh-body">{{ section.settings.body }}</p></div></section>
 <section class="sh-section"><div class="sh-container accordion">
-  <h2 class="sh-h2">Product Use</h2>
-  <details open><summary>What is Shadeless?</summary><div class="content">Shadeless is a biotech skincare brand built around a 3-step serum system for more even-looking tone, smoother-looking texture, and cleaner skin clarity.</div></details>
-  <details><summary>What is the 3-Step Serum System?</summary><div class="content">A coordinated routine: Step 1 Prepare, Step 2 Optimize, Step 3 Enhance.</div></details>
-  <details><summary>Do I need all three steps?</summary><div class="content">The full system is recommended because each serum has a different role.</div></details>
-  <details><summary>How do I use the system?</summary><div class="content">Cleanse, apply Step 1, apply Step 2, apply Step 3, moisturize if needed, and use sunscreen during the day.</div></details>
-  <h2 class="sh-h2" style="margin-top:50px;">Skin Type</h2>
-  <details><summary>Is Shadeless for all skin tones?</summary><div class="content">Yes. Shadeless is designed for every skin tone. It is not a whitening or bleaching brand.</div></details>
-  <details><summary>Can sensitive skin use it?</summary><div class="content">Patch test first and introduce gradually. Discontinue use if irritation occurs.</div></details>
-  <details><summary>Should I use sunscreen?</summary><div class="content">Yes. Use sunscreen every morning as the final step of your daytime routine.</div></details>
-  <h2 class="sh-h2" style="margin-top:50px;">Science</h2>
-  <details><summary>What is Peptisinergix&trade;?</summary><div class="content">Peptisinergix&trade; is Shadeless' formulation philosophy: organizing peptides and active ingredients by role, compatibility, and sequence.</div></details>
-  <details><summary>Is Shadeless medical-grade?</summary><div class="content">Shadeless is cosmetic skincare. It is not positioned as a drug, medical treatment, or replacement for dermatological care.</div></details>
+  {% for block in section.blocks %}
+    {% if block.type == 'faq_group' %}
+      <h2 class="sh-h2" style="{% unless forloop.first %}margin-top:50px;{% endunless %}" {{ block.shopify_attributes }}>{{ block.settings.title }}</h2>
+    {% elsif block.type == 'faq_item' %}
+      <details {{ block.shopify_attributes }}><summary>{{ block.settings.question }}</summary><div class="content">{{ block.settings.answer }}</div></details>
+    {% endif %}
+  {% endfor %}
 </div></section>
 {% schema %}
-{"name":"Page - FAQ","settings":[]}
+{
+  "name": "Page - FAQ",
+  "settings": [
+    {"type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "FAQ"},
+    {"type": "textarea", "id": "heading", "label": "Heading", "default": "How to use the Shadeless 3-Step Serum System"},
+    {"type": "textarea", "id": "body", "label": "Body text", "default": "Answers about routine order, skin types, Peptisinergix™, ingredients, and orders."}
+  ],
+  "blocks": [
+    {
+      "type": "faq_group",
+      "name": "Group heading",
+      "settings": [
+        {"type": "text", "id": "title", "label": "Group title"}
+      ]
+    },
+    {
+      "type": "faq_item",
+      "name": "FAQ item",
+      "settings": [
+        {"type": "text", "id": "question", "label": "Question"},
+        {"type": "textarea", "id": "answer", "label": "Answer"}
+      ]
+    }
+  ],
+  "presets": [{"name": "Page - FAQ"}]
+}
 {% endschema %}

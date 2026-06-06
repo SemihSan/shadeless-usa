@@ -4,26 +4,48 @@
       {% if product.featured_image %}{{ product.featured_image | image_url: width: 1000 | image_tag: loading: 'eager', alt: product.title }}{% else %}<img src="{{ 'shadeless-front.png' | asset_url }}" alt="{{ product.title | escape }}">{% endif %}
     </div>
     <div class="product-info">
-      <div class="sh-eyebrow">{{ product.metafields.custom.step_number | default: 'Shadeless Serum' }}</div>
+      <div class="sh-eyebrow">{{ product.metafields.custom.step_number | default: section.settings.eyebrow_default }}</div>
       <h1 class="sh-h1">{{ product.title }}</h1>
-      <p class="sh-body">{{ product.metafields.custom.short_benefit | default: product.description | strip_html | default: 'A step in the Shadeless Prepare, Optimize, Enhance routine for visible tone, texture, and clarity goals.' }}</p>
-      <div class="badge-row"><span class="sh-pill">Biotech Skincare</span><span class="sh-pill">Peptisinergix&trade;</span><span class="sh-pill">Tone + Texture</span></div>
+      <p class="sh-body">{{ product.metafields.custom.short_benefit | default: product.description | strip_html | default: section.settings.body_default }}</p>
+      <div class="badge-row"><span class="sh-pill">{{ section.settings.badge1 }}</span><span class="sh-pill">Peptisinergix&trade;</span><span class="sh-pill">{{ section.settings.badge2 }}</span></div>
       <div class="product-price">{{ product.price | money }}</div>
       {% form 'product', product, class: 'product-form' %}
         {% if product.variants.size > 1 %}<select name="id" class="variant-select">{% for variant in product.variants %}<option value="{{ variant.id }}" {% if variant == product.selected_or_first_available_variant %}selected{% endif %}>{{ variant.title }} - {{ variant.price | money }}</option>{% endfor %}</select>{% else %}<input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">{% endif %}
         <input class="quantity-input" name="quantity" type="number" value="1" min="1" aria-label="Quantity">
-        <button class="sh-button sh-button--red" type="submit" {% unless product.available %}disabled{% endunless %}>{% if product.available %}Add to Cart{% else %}Sold Out{% endif %}</button>
+        <button class="sh-button sh-button--red" type="submit" {% unless product.available %}disabled{% endunless %}>{% if product.available %}{{ section.settings.add_to_cart_label }}{% else %}{{ section.settings.sold_out_label }}{% endif %}</button>
       {% endform %}
-      <a class="sh-button sh-button--secondary" href="/products/shadeless-3-step-serum-system">Shop the Full System</a>
+      <a class="sh-button sh-button--secondary" href="{{ section.settings.system_link | default: '/products/shadeless-3-step-serum-system' }}">{{ section.settings.system_label }}</a>
       <div class="accordion" style="margin-top:26px;">
-        <details open><summary>Role in the system</summary><div class="content">{{ product.metafields.custom.step_role | default: 'This serum is designed to work inside the full Prepare → Optimize → Enhance routine.' }}</div></details>
-        <details><summary>Best for</summary><div class="content">{{ product.metafields.custom.best_for | default: 'Tone, texture, dullness, and visible clarity concerns.' }}</div></details>
-        <details><summary>How to use</summary><div class="content">{{ product.metafields.custom.how_to_use | default: 'Use as directed on packaging. During the day, finish with sunscreen.' }}</div></details>
-        <details><summary>Ingredients</summary><div class="content">{{ product.metafields.custom.full_inci | default: '[Insert final INCI list before launch.]' }}</div></details>
+        <details open><summary>{{ section.settings.acc1_summary }}</summary><div class="content">{{ product.metafields.custom.step_role | default: section.settings.acc1_default }}</div></details>
+        <details><summary>{{ section.settings.acc2_summary }}</summary><div class="content">{{ product.metafields.custom.best_for | default: section.settings.acc2_default }}</div></details>
+        <details><summary>{{ section.settings.acc3_summary }}</summary><div class="content">{{ product.metafields.custom.how_to_use | default: section.settings.acc3_default }}</div></details>
+        <details><summary>{{ section.settings.acc4_summary }}</summary><div class="content">{{ product.metafields.custom.full_inci | default: section.settings.acc4_default }}</div></details>
       </div>
     </div>
   </div>
 </section>
 {% schema %}
-{"name":"Main product - step serum","settings":[]}
+{
+  "name": "Main product - step serum",
+  "settings": [
+    {"type": "text", "id": "eyebrow_default", "label": "Eyebrow default", "default": "Shadeless Serum"},
+    {"type": "textarea", "id": "body_default", "label": "Description default", "default": "A step in the Shadeless Prepare, Optimize, Enhance routine for visible tone, texture, and clarity goals."},
+    {"type": "text", "id": "badge1", "label": "Badge 1", "default": "Biotech Skincare"},
+    {"type": "text", "id": "badge2", "label": "Badge 2", "default": "Tone + Texture"},
+    {"type": "text", "id": "add_to_cart_label", "label": "Add to cart label", "default": "Add to Cart"},
+    {"type": "text", "id": "sold_out_label", "label": "Sold out label", "default": "Sold Out"},
+    {"type": "text", "id": "system_label", "label": "System button label", "default": "Shop the Full System"},
+    {"type": "url", "id": "system_link", "label": "System button link"},
+    {"type": "header", "content": "Accordion labels"},
+    {"type": "text", "id": "acc1_summary", "label": "Accordion 1 label", "default": "Role in the system"},
+    {"type": "textarea", "id": "acc1_default", "label": "Accordion 1 default content", "default": "This serum is designed to work inside the full Prepare \u2192 Optimize \u2192 Enhance routine."},
+    {"type": "text", "id": "acc2_summary", "label": "Accordion 2 label", "default": "Best for"},
+    {"type": "textarea", "id": "acc2_default", "label": "Accordion 2 default content", "default": "Tone, texture, dullness, and visible clarity concerns."},
+    {"type": "text", "id": "acc3_summary", "label": "Accordion 3 label", "default": "How to use"},
+    {"type": "textarea", "id": "acc3_default", "label": "Accordion 3 default content", "default": "Use as directed on packaging. During the day, finish with sunscreen."},
+    {"type": "text", "id": "acc4_summary", "label": "Accordion 4 label", "default": "Ingredients"},
+    {"type": "textarea", "id": "acc4_default", "label": "Accordion 4 default content", "default": "[Insert final INCI list before launch.]"}
+  ],
+  "presets": [{"name": "Main product - step serum"}]
+}
 {% endschema %}

@@ -1,5 +1,20 @@
-<section class="page-hero"><div class="sh-container"><div class="sh-eyebrow">Customer Care</div><h1 class="sh-h1">Shipping & Returns</h1><p class="sh-body">Add final U.S. shipping, processing, return, refund, and damaged-product policies before launch.</p></div></section>
-<section class="sh-section"><div class="sh-container sh-grid sh-grid-2"><div class="sh-card"><h2 class="sh-h2">Shipping</h2><ul class="sh-list"><li>U.S. shipping regions: [insert]</li><li>Free shipping threshold: [insert]</li><li>Processing time: [insert]</li><li>Delivery estimate: [insert]</li></ul></div><div class="sh-card"><h2 class="sh-h2">Returns</h2><ul class="sh-list"><li>Return window: [insert]</li><li>Opened product policy: [insert]</li><li>Damaged product policy: [insert]</li><li>Refund timing: [insert]</li></ul></div></div></section>
+<section class="page-hero"><div class="sh-container"><div class="sh-eyebrow">{{ section.settings.eyebrow }}</div><h1 class="sh-h1">{{ section.settings.heading }}</h1><p class="sh-body">{{ section.settings.body }}</p></div></section>
+<section class="sh-section"><div class="sh-container sh-grid sh-grid-2"><div class="sh-card"><h2 class="sh-h2">{{ section.settings.shipping_heading }}</h2><ul class="sh-list">{% assign si = section.settings.shipping_items | newline_to_br | split: '<br />' %}{% for item in si %}{% assign ic = item | strip %}{% if ic != '' %}<li>{{ ic }}</li>{% endif %}{% endfor %}</ul></div><div class="sh-card"><h2 class="sh-h2">{{ section.settings.returns_heading }}</h2><ul class="sh-list">{% assign ri = section.settings.returns_items | newline_to_br | split: '<br />' %}{% for item in ri %}{% assign ic = item | strip %}{% if ic != '' %}<li>{{ ic }}</li>{% endif %}{% endfor %}</ul></div></div></section>
 {% schema %}
-{"name":"Page - Shipping Returns","settings":[]}
+{
+  "name": "Page - Shipping Returns",
+  "settings": [
+    {"type": "header", "content": "Hero"},
+    {"type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Customer Care"},
+    {"type": "textarea", "id": "heading", "label": "Heading", "default": "Shipping & Returns"},
+    {"type": "textarea", "id": "body", "label": "Body text", "default": "Add final U.S. shipping, processing, return, refund, and damaged-product policies before launch."},
+    {"type": "header", "content": "Shipping card"},
+    {"type": "text", "id": "shipping_heading", "label": "Heading", "default": "Shipping"},
+    {"type": "textarea", "id": "shipping_items", "label": "Items (one per line)", "default": "U.S. shipping regions: [insert]\nFree shipping threshold: [insert]\nProcessing time: [insert]\nDelivery estimate: [insert]"},
+    {"type": "header", "content": "Returns card"},
+    {"type": "text", "id": "returns_heading", "label": "Heading", "default": "Returns"},
+    {"type": "textarea", "id": "returns_items", "label": "Items (one per line)", "default": "Return window: [insert]\nOpened product policy: [insert]\nDamaged product policy: [insert]\nRefund timing: [insert]"}
+  ],
+  "presets": [{"name": "Page - Shipping Returns"}]
+}
 {% endschema %}

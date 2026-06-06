@@ -2,10 +2,23 @@
   "sections": {
     "main": {
       "type": "page-faq",
-      "settings": {}
+      "settings": {},
+      "blocks": {
+        "g1": {"type": "faq_group", "settings": {"title": "Product Use"}},
+        "faq1": {"type": "faq_item", "settings": {"question": "What is Shadeless?", "answer": "Shadeless is a biotech skincare brand built around a 3-step serum system for more even-looking tone, smoother-looking texture, and cleaner skin clarity."}},
+        "faq2": {"type": "faq_item", "settings": {"question": "What is the 3-Step Serum System?", "answer": "A coordinated routine: Step 1 Prepare, Step 2 Optimize, Step 3 Enhance."}},
+        "faq3": {"type": "faq_item", "settings": {"question": "Do I need all three steps?", "answer": "The full system is recommended because each serum has a different role."}},
+        "faq4": {"type": "faq_item", "settings": {"question": "How do I use the system?", "answer": "Cleanse, apply Step 1, apply Step 2, apply Step 3, moisturize if needed, and use sunscreen during the day."}},
+        "g2": {"type": "faq_group", "settings": {"title": "Skin Type"}},
+        "faq5": {"type": "faq_item", "settings": {"question": "Is Shadeless for all skin tones?", "answer": "Yes. Shadeless is designed for every skin tone. It is not a whitening or bleaching brand."}},
+        "faq6": {"type": "faq_item", "settings": {"question": "Can sensitive skin use it?", "answer": "Patch test first and introduce gradually. Discontinue use if irritation occurs."}},
+        "faq7": {"type": "faq_item", "settings": {"question": "Should I use sunscreen?", "answer": "Yes. Use sunscreen every morning as the final step of your daytime routine."}},
+        "g3": {"type": "faq_group", "settings": {"title": "Science"}},
+        "faq8": {"type": "faq_item", "settings": {"question": "What is Peptisinergix\u2122?", "answer": "Peptisinergix\u2122 is Shadeless' formulation philosophy: organizing peptides and active ingredients by role, compatibility, and sequence."}},
+        "faq9": {"type": "faq_item", "settings": {"question": "Is Shadeless medical-grade?", "answer": "Shadeless is cosmetic skincare. It is not positioned as a drug, medical treatment, or replacement for dermatological care."}}
+      },
+      "block_order": ["g1", "faq1", "faq2", "faq3", "faq4", "g2", "faq5", "faq6", "faq7", "g3", "faq8", "faq9"]
     }
   },
-  "order": [
-    "main"
-  ]
+  "order": ["main"]
 }
