@@ -1,26 +1,42 @@
 <section class="sh-section sh-bleed">
-  <div class="sh-container">
-    <div class="sh-center"><div class="sh-eyebrow">{{ section.settings.eyebrow }}</div><h2 class="sh-h2">{{ section.settings.heading }}</h2><p class="sh-body" style="max-width:820px;margin:0 auto;">{{ section.settings.body }}</p></div>
-    <div class="comparison" style="margin-top:34px;">
-      <div class="comparison-card bad"><h3 class="sh-h3">{{ section.settings.bad_title }}</h3><ul class="sh-list">{% assign bad_items = section.settings.bad_items | newline_to_br | split: '<br />' %}{% for item in bad_items %}{% assign item_clean = item | strip %}{% if item_clean != '' %}<li>{{ item_clean }}</li>{% endif %}{% endfor %}</ul></div>
-      <div class="comparison-card good"><h3 class="sh-h3">{{ section.settings.good_title }}</h3><ul class="sh-list">{% assign good_items = section.settings.good_items | newline_to_br | split: '<br />' %}{% for item in good_items %}{% assign item_clean = item | strip %}{% if item_clean != '' %}<li>{{ item_clean }}</li>{% endif %}{% endfor %}</ul></div>
+  <div class="sh-container product-feature">
+    <div class="product-feature-image">
+      {% assign featured_product = all_products[section.settings.product] %}
+      {% if featured_product and featured_product.featured_image %}
+        {{ featured_product.featured_image | image_url: width: 900 | image_tag: loading: 'lazy', alt: featured_product.title }}
+      {% else %}
+        <img src="{{ 'shadeless-front.png' | asset_url }}" alt="Shadeless 3-Step Serum System">
+      {% endif %}
     </div>
-    <div class="quote-band">{{ section.settings.quote }}</div>
+    <div>
+      <div class="sh-eyebrow">{{ section.settings.eyebrow }}</div>
+      <h2 class="sh-h2">{{ section.settings.heading }}</h2>
+      <p class="sh-body">{{ section.settings.body }}</p>
+      <ul class="sh-list">
+        {% assign list_items = section.settings.list_items | newline_to_br | split: '<br />' %}
+        {% for item in list_items %}{% assign item_clean = item | strip %}{% if item_clean != '' %}<li>{{ item_clean }}</li>{% endif %}{% endfor %}
+      </ul>
+      <div class="sh-button-row" style="margin-top:24px;">
+        <a class="sh-button sh-button--red" href="{% if featured_product %}{{ featured_product.url }}{% else %}{{ section.settings.primary_link | default: '/products/shadeless-3-step-serum-system' }}{% endif %}">{{ section.settings.primary_label }}</a>
+        <a class="sh-button sh-button--secondary" href="{{ section.settings.secondary_link | default: '/pages/the-3-step-system' }}">{{ section.settings.secondary_label }}</a>
+      </div>
+    </div>
   </div>
 </section>
 {% schema %}
 {
-  "name": "Routine comparison",
+  "name": "Featured 3-Step System",
   "settings": [
-    {"type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "System logic"},
-    {"type": "textarea", "id": "heading", "label": "Heading", "default": "When the concern is complex, the routine should be coordinated."},
-    {"type": "textarea", "id": "body", "label": "Body text", "default": "Many skincare routines are built by stacking products. But stacking is not the same as sequencing."},
-    {"type": "text", "id": "bad_title", "label": "Left column title", "default": "Random stacking"},
-    {"type": "textarea", "id": "bad_items", "label": "Left column items (one per line)", "default": "One serum for glow\nOne serum for pores\nOne serum for texture\nOne serum for comfort\nNo clear sequence"},
-    {"type": "text", "id": "good_title", "label": "Right column title", "default": "Shadeless sequence"},
-    {"type": "textarea", "id": "good_items", "label": "Right column items (one per line)", "default": "Step 1 prepares\nStep 2 optimizes\nStep 3 enhances\nOne clear system\nRoutine logic built in"},
-    {"type": "text", "id": "quote", "label": "Quote band text", "default": "Most routines stack. Shadeless sequences."}
+    {"type": "product", "id": "product", "label": "Featured product"},
+    {"type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Best place to start"},
+    {"type": "textarea", "id": "heading", "label": "Heading", "default": "Start with the full 3-Step Serum System."},
+    {"type": "textarea", "id": "body", "label": "Body text", "default": "A biotech serum system for more even-looking tone, smoother-looking texture, and cleaner skin clarity."},
+    {"type": "textarea", "id": "list_items", "label": "List items (one per line)", "default": "Step 1 Prepare Serum\nStep 2 Optimize Serum\nStep 3 Enhance Serum\nRoutine Guide"},
+    {"type": "text", "id": "primary_label", "label": "Primary button label", "default": "Shop the System"},
+    {"type": "url", "id": "primary_link", "label": "Primary button link (if no product selected)"},
+    {"type": "text", "id": "secondary_label", "label": "Secondary button label", "default": "Compare the Steps"},
+    {"type": "url", "id": "secondary_link", "label": "Secondary button link"}
   ],
-  "presets": [{"name": "Routine comparison"}]
+  "presets": [{"name": "Featured 3-Step System"}]
 }
 {% endschema %}
