@@ -1,16 +1,55 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
       "type": "page-science",
-      "settings": {}
+      "settings": {
+        "eyebrow": "Science",
+        "heading": "The Science of Sequence",
+        "body": "Peptisinergix™ is Shadeless' formulation philosophy: organizing peptides and active ingredients by role, compatibility, and sequence.",
+        "claims_heading": "What Shadeless claims",
+        "card1_title": "What we mean by results",
+        "card1_items": "More even-looking tone\nSmoother-looking texture\nCleaner-looking clarity\nMore refined-looking finish\nLess dull-looking complexion",
+        "card2_title": "What we do not claim",
+        "card2_items": "Whitening or bleaching\nMelasma treatment\nAcne treatment\nScar treatment\nDrug or medical procedure replacement",
+        "research_heading": "Research library",
+        "research_body": "Ingredient research, finished-product testing, consumer perception studies, and safety/tolerance testing will be added only when verified and approved."
+      }
     },
     "science_intro": {
       "type": "peptisinergix-intro",
-      "settings": {}
+      "settings": {
+        "eyebrow": "Peptisinergix™ System",
+        "heading": "Science with sequence.",
+        "body_1": "Peptisinergix™ is Shadeless' formulation philosophy: a way of organizing peptides and active ingredients by role, compatibility, and sequence.",
+        "body_2": "It is not random ingredient stacking. It is a system designed around how each step contributes to the visible look of tone, texture, and clarity.",
+        "cta_label": "Learn the Science",
+        "cta_link": "",
+        "card1_title": "Role-based",
+        "card1_body": "Each step has a specific purpose.",
+        "card2_title": "Sequence-led",
+        "card2_body": "The routine is organized in the order skin experiences it.",
+        "card3_title": "Visible-finish focused",
+        "card3_body": "The goal is skin that looks clearer, smoother, more even, and more refined."
+      }
     },
     "final": {
       "type": "final-cta",
-      "settings": {}
+      "settings": {
+        "eyebrow": "Start the system",
+        "heading": "Bring sequence to your skincare routine.",
+        "body": "Prepare. Optimize. Enhance. Start the 3-step system designed for more even-looking tone, smoother-looking texture, and cleaner skin clarity.",
+        "cta_label": "Shop the 3-Step Serum System",
+        "cta_link": ""
+      }
     }
   },
   "order": [
