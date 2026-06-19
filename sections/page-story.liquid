@@ -1,19 +1,133 @@
-<section class="page-hero"><div class="sh-container"><div class="sh-eyebrow">{{ section.settings.eyebrow }}</div><h1 class="sh-h1">{{ section.settings.heading }}</h1><p class="sh-body">{{ section.settings.body }}</p></div></section>
-<section class="sh-section"><div class="sh-container sh-grid sh-grid-2"><div><h2 class="sh-h2">{{ section.settings.s2_heading }}</h2><p class="sh-body">{{ section.settings.s2_body_1 }}</p><p class="sh-body"><strong>{{ section.settings.s2_body_2 }}</strong></p></div><div class="sh-card sh-card-soft"><h3 class="sh-h3">{{ section.settings.card_title }}</h3><p>{{ section.settings.card_body }}</p></div></div></section>
+<section class="page-hero"
+  style="{% if section.settings.custom_bg != blank %}background:{{ section.settings.custom_bg }};{% elsif section.settings.bg_style == 'white' %}background:#fff;{% elsif section.settings.bg_style == 'dark' %}background:var(--black);color:#fff;{% endif %}{% if section.settings.bg_image %}background-image:url('{{ section.settings.bg_image | image_url: width: 1800 }}');background-size:cover;background-position:center;{% endif %}">
+  <div class="sh-container">
+    {% if section.settings.eyebrow != blank %}<div class="sh-eyebrow">{{ section.settings.eyebrow }}</div>{% endif %}
+    <h1 class="sh-h1">{{ section.settings.heading }}</h1>
+    {% if section.settings.body != blank %}<p class="sh-body">{{ section.settings.body }}</p>{% endif %}
+  </div>
+</section>
+<section class="sh-section sh-bleed">
+  <div class="sh-container sh-grid sh-grid-2" style="align-items:start;">
+    <div>
+      {% if section.settings.s2_heading != blank %}<h2 class="sh-h2">{{ section.settings.s2_heading }}</h2>{% endif %}
+      {% if section.settings.s2_body_1 != blank %}<p class="sh-body">{{ section.settings.s2_body_1 }}</p>{% endif %}
+      {% if section.settings.s2_body_2 != blank %}<p class="sh-body"><strong>{{ section.settings.s2_body_2 }}</strong></p>{% endif %}
+      {% if section.settings.founder_image %}
+        <div style="margin-top:24px;border-radius:var(--radius);overflow:hidden;">
+          {{ section.settings.founder_image | image_url: width: 900 | image_tag: loading: 'lazy', alt: section.settings.s2_heading }}
+        </div>
+      {% endif %}
+    </div>
+    <div class="sh-card sh-card-soft">
+      {% if section.settings.card_title != blank %}<h3 class="sh-h3">{{ section.settings.card_title }}</h3>{% endif %}
+      {% if section.settings.card_body != blank %}<p>{{ section.settings.card_body }}</p>{% endif %}
+      {% if section.settings.card_cta_label != blank %}
+        <a class="sh-button sh-button--secondary" href="{{ section.settings.card_cta_link }}" style="margin-top:16px;display:inline-flex;">{{ section.settings.card_cta_label }}</a>
+      {% endif %}
+    </div>
+  </div>
+</section>
 {% schema %}
 {
   "name": "Page - Our Story",
   "settings": [
-    {"type": "header", "content": "Hero"},
-    {"type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Our Story"},
-    {"type": "textarea", "id": "heading", "label": "Heading", "default": "Shadeless is not about changing your skin tone."},
-    {"type": "textarea", "id": "body", "label": "Body text", "default": "It is about helping skin look clearer, smoother, more even, and more refined \u2014 in every skin tone."},
-    {"type": "header", "content": "Story section"},
-    {"type": "textarea", "id": "s2_heading", "label": "Heading", "default": "Less visual shadow. More visible clarity."},
-    {"type": "textarea", "id": "s2_body_1", "label": "Body text", "default": "The name Shadeless is built around the idea of reducing the look of visual unevenness: dullness, rough texture, visible marks, and lack of clarity that can make skin appear tired or inconsistent."},
-    {"type": "textarea", "id": "s2_body_2", "label": "Bold statement", "default": "It is not about whitening. It is not about bleaching. It is not about making skin lighter."},
-    {"type": "text", "id": "card_title", "label": "Card title", "default": "Why we exist"},
-    {"type": "textarea", "id": "card_body", "label": "Card body", "default": "Many people own multiple serums but still feel their routine is incomplete. Shadeless was created to organize advanced skincare into three clear steps: Prepare, Optimize, Enhance."}
+    {
+      "type": "header",
+      "content": "Hero"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Our Story"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Shadeless is not about changing your skin tone."
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body text",
+      "default": "It is about helping skin look clearer, smoother, more even, and more refined — in every skin tone."
+    },
+    {
+      "type": "select",
+      "id": "bg_style",
+      "label": "Hero background style",
+      "options": [
+        {"value": "soft", "label": "Soft gradient (default)"},
+        {"value": "white", "label": "White"},
+        {"value": "dark", "label": "Dark"},
+        {"value": "custom", "label": "Custom color"}
+      ],
+      "default": "soft"
+    },
+    {
+      "type": "color",
+      "id": "custom_bg",
+      "label": "Custom hero background color"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Hero background image"
+    },
+    {
+      "type": "header",
+      "content": "Story section"
+    },
+    {
+      "type": "textarea",
+      "id": "s2_heading",
+      "label": "Section heading",
+      "default": "Less visual shadow. More visible clarity."
+    },
+    {
+      "type": "textarea",
+      "id": "s2_body_1",
+      "label": "Body text",
+      "default": "The name Shadeless is built around the idea of reducing the look of visual unevenness: dullness, rough texture, visible marks, and lack of clarity."
+    },
+    {
+      "type": "textarea",
+      "id": "s2_body_2",
+      "label": "Bold statement",
+      "default": "It is not about whitening. It is not about bleaching. It is not about making skin lighter."
+    },
+    {
+      "type": "image_picker",
+      "id": "founder_image",
+      "label": "Story image (optional)"
+    },
+    {
+      "type": "header",
+      "content": "Card"
+    },
+    {
+      "type": "text",
+      "id": "card_title",
+      "label": "Card title",
+      "default": "Why we exist"
+    },
+    {
+      "type": "textarea",
+      "id": "card_body",
+      "label": "Card body",
+      "default": "Many people own multiple serums but still feel their routine is incomplete. Shadeless was created to organize advanced skincare into three clear steps: Prepare, Optimize, Enhance."
+    },
+    {
+      "type": "text",
+      "id": "card_cta_label",
+      "label": "Card button label (optional)"
+    },
+    {
+      "type": "url",
+      "id": "card_cta_link",
+      "label": "Card button link"
+    }
   ],
   "presets": [{"name": "Page - Our Story"}]
 }

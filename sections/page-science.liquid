@@ -1,24 +1,173 @@
-<section class="page-hero"><div class="sh-container"><div class="sh-eyebrow">{{ section.settings.eyebrow }}</div><h1 class="sh-h1">{{ section.settings.heading }}</h1><p class="sh-body">{{ section.settings.body }}</p></div></section>
-<section class="sh-section sh-bleed"><div class="sh-container"><h2 class="sh-h2 sh-center">{{ section.settings.claims_heading }}</h2><div class="sh-grid sh-grid-2"><div class="sh-card"><h3 class="sh-h3">{{ section.settings.card1_title }}</h3><ul class="sh-list">{% assign c1 = section.settings.card1_items | newline_to_br | split: '<br />' %}{% for item in c1 %}{% assign ic = item | strip %}{% if ic != '' %}<li>{{ ic }}</li>{% endif %}{% endfor %}</ul></div><div class="sh-card"><h3 class="sh-h3">{{ section.settings.card2_title }}</h3><ul class="sh-list">{% assign c2 = section.settings.card2_items | newline_to_br | split: '<br />' %}{% for item in c2 %}{% assign ic = item | strip %}{% if ic != '' %}<li>{{ ic }}</li>{% endif %}{% endfor %}</ul></div></div></div></section>
-<section class="sh-section"><div class="sh-container sh-center"><h2 class="sh-h2">{{ section.settings.research_heading }}</h2><p class="sh-body">{{ section.settings.research_body }}</p></div></section>
+<section class="page-hero"
+  style="{% if section.settings.custom_bg != blank %}background:{{ section.settings.custom_bg }};{% elsif section.settings.bg_style == 'white' %}background:#fff;{% elsif section.settings.bg_style == 'dark' %}background:var(--black);color:#fff;{% endif %}{% if section.settings.bg_image %}background-image:url('{{ section.settings.bg_image | image_url: width: 1800 }}');background-size:cover;background-position:center;{% endif %}">
+  <div class="sh-container">
+    {% if section.settings.eyebrow != blank %}<div class="sh-eyebrow">{{ section.settings.eyebrow }}</div>{% endif %}
+    <h1 class="sh-h1">{{ section.settings.heading }}</h1>
+    {% if section.settings.body != blank %}<p class="sh-body">{{ section.settings.body }}</p>{% endif %}
+  </div>
+</section>
+<section class="sh-section sh-bleed">
+  <div class="sh-container">
+    {% if section.settings.claims_heading != blank %}<h2 class="sh-h2 sh-center">{{ section.settings.claims_heading }}</h2>{% endif %}
+    <div class="sh-grid sh-grid-2" style="margin-top:30px;">
+      <div class="sh-card">
+        {% if section.settings.card1_title != blank %}<h3 class="sh-h3">{{ section.settings.card1_title }}</h3>{% endif %}
+        <ul class="sh-list">
+          {% for block in section.blocks %}
+            {% if block.type == 'claim_do' %}
+              <li {{ block.shopify_attributes }}>{{ block.settings.text }}</li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="sh-card">
+        {% if section.settings.card2_title != blank %}<h3 class="sh-h3">{{ section.settings.card2_title }}</h3>{% endif %}
+        <ul class="sh-list">
+          {% for block in section.blocks %}
+            {% if block.type == 'claim_dont' %}
+              <li {{ block.shopify_attributes }}>{{ block.settings.text }}</li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="sh-section">
+  <div class="sh-container sh-center">
+    {% if section.settings.research_heading != blank %}<h2 class="sh-h2">{{ section.settings.research_heading }}</h2>{% endif %}
+    {% if section.settings.research_body != blank %}<p class="sh-body">{{ section.settings.research_body }}</p>{% endif %}
+    {% if section.settings.research_image %}
+      <div style="margin-top:30px;max-width:800px;margin-left:auto;margin-right:auto;">
+        {{ section.settings.research_image | image_url: width: 1200 | image_tag: loading: 'lazy', alt: section.settings.research_heading }}
+      </div>
+    {% endif %}
+  </div>
+</section>
 {% schema %}
 {
   "name": "Page - Science",
   "settings": [
-    {"type": "header", "content": "Hero"},
-    {"type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Science"},
-    {"type": "textarea", "id": "heading", "label": "Heading", "default": "The Science of Sequence"},
-    {"type": "textarea", "id": "body", "label": "Body text", "default": "Peptisinergix™ is Shadeless' formulation philosophy: organizing peptides and active ingredients by role, compatibility, and sequence."},
-    {"type": "header", "content": "Claims section"},
-    {"type": "text", "id": "claims_heading", "label": "Heading", "default": "What Shadeless claims"},
-    {"type": "text", "id": "card1_title", "label": "Card 1 title", "default": "What we mean by results"},
-    {"type": "textarea", "id": "card1_items", "label": "Card 1 items (one per line)", "default": "More even-looking tone\nSmoother-looking texture\nCleaner-looking clarity\nMore refined-looking finish\nLess dull-looking complexion"},
-    {"type": "text", "id": "card2_title", "label": "Card 2 title", "default": "What we do not claim"},
-    {"type": "textarea", "id": "card2_items", "label": "Card 2 items (one per line)", "default": "Whitening or bleaching\nMelasma treatment\nAcne treatment\nScar treatment\nDrug or medical procedure replacement"},
-    {"type": "header", "content": "Research section"},
-    {"type": "text", "id": "research_heading", "label": "Heading", "default": "Research library"},
-    {"type": "textarea", "id": "research_body", "label": "Body text", "default": "Ingredient research, finished-product testing, consumer perception studies, and safety/tolerance testing will be added only when verified and approved."}
+    {
+      "type": "header",
+      "content": "Hero"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Science"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "The Science of Sequence"
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body text",
+      "default": "Peptisinergix™ is Shadeless' formulation philosophy: organizing peptides and active ingredients by role, compatibility, and sequence."
+    },
+    {
+      "type": "select",
+      "id": "bg_style",
+      "label": "Hero background style",
+      "options": [
+        {"value": "soft", "label": "Soft gradient (default)"},
+        {"value": "white", "label": "White"},
+        {"value": "dark", "label": "Dark"},
+        {"value": "custom", "label": "Custom color"}
+      ],
+      "default": "soft"
+    },
+    {
+      "type": "color",
+      "id": "custom_bg",
+      "label": "Custom hero background color"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Hero background image"
+    },
+    {
+      "type": "header",
+      "content": "Claims section"
+    },
+    {
+      "type": "text",
+      "id": "claims_heading",
+      "label": "Claims heading",
+      "default": "What Shadeless claims"
+    },
+    {
+      "type": "text",
+      "id": "card1_title",
+      "label": "Left card title",
+      "default": "What we mean by results"
+    },
+    {
+      "type": "text",
+      "id": "card2_title",
+      "label": "Right card title",
+      "default": "What we do not claim"
+    },
+    {
+      "type": "header",
+      "content": "Research section"
+    },
+    {
+      "type": "text",
+      "id": "research_heading",
+      "label": "Research heading",
+      "default": "Research library"
+    },
+    {
+      "type": "textarea",
+      "id": "research_body",
+      "label": "Research body",
+      "default": "Ingredient research, finished-product testing, consumer perception studies, and safety/tolerance testing will be added only when verified and approved."
+    },
+    {
+      "type": "image_picker",
+      "id": "research_image",
+      "label": "Research image (optional)"
+    }
   ],
-  "presets": [{"name": "Page - Science"}]
+  "blocks": [
+    {
+      "type": "claim_do",
+      "name": "We do claim",
+      "settings": [
+        {"type": "text", "id": "text", "label": "Claim", "default": "More even-looking tone"}
+      ]
+    },
+    {
+      "type": "claim_dont",
+      "name": "We do NOT claim",
+      "settings": [
+        {"type": "text", "id": "text", "label": "Claim", "default": "Whitening or bleaching"}
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Page - Science",
+      "blocks": [
+        {"type": "claim_do", "settings": {"text": "More even-looking tone"}},
+        {"type": "claim_do", "settings": {"text": "Smoother-looking texture"}},
+        {"type": "claim_do", "settings": {"text": "Cleaner-looking clarity"}},
+        {"type": "claim_do", "settings": {"text": "More refined-looking finish"}},
+        {"type": "claim_do", "settings": {"text": "Less dull-looking complexion"}},
+        {"type": "claim_dont", "settings": {"text": "Whitening or bleaching"}},
+        {"type": "claim_dont", "settings": {"text": "Melasma treatment"}},
+        {"type": "claim_dont", "settings": {"text": "Acne treatment"}},
+        {"type": "claim_dont", "settings": {"text": "Scar treatment"}},
+        {"type": "claim_dont", "settings": {"text": "Drug or medical procedure replacement"}}
+      ]
+    }
+  ]
 }
 {% endschema %}
