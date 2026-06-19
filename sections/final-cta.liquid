@@ -3,10 +3,8 @@
   {% if section.settings.bg_image %}
     <div style="position:relative;overflow:hidden;">
       <div style="position:absolute;inset:0;background-image:url('{{ section.settings.bg_image | image_url: width: 1800 }}');background-size:cover;background-position:center;opacity:{{ section.settings.bg_image_opacity | divided_by: 100.0 }};"></div>
-      <div style="position:relative;z-index:1;" class="sh-container sh-center">
-  {% else %}
-  <div class="sh-container sh-center">
   {% endif %}
+  <div class="sh-container sh-center" {% if section.settings.bg_image %}style="position:relative;z-index:1;"{% endif %}>
     {% if section.settings.eyebrow != blank %}<div class="sh-eyebrow" style="{% if section.settings.bg_style == 'dark' or section.settings.bg_style == 'accent' %}color:rgba(255,255,255,.7);{% endif %}">{{ section.settings.eyebrow }}</div>{% endif %}
     <h2 class="sh-h2">{{ section.settings.heading }}</h2>
     {% if section.settings.body != blank %}<p class="sh-body" style="max-width:740px;margin:0 auto 28px;">{{ section.settings.body }}</p>{% endif %}
