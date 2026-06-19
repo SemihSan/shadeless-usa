@@ -1,110 +1,171 @@
+<section class="sh-section"
+  style="{% if section.settings.custom_bg != blank %}background:{{ section.settings.custom_bg }};{% elsif section.settings.bg_style == 'soft' %}background:linear-gradient(180deg,#fff,var(--soft));{% endif %}{% if section.settings.padding_top > 0 %}padding-top:{{ section.settings.padding_top }}px;{% endif %}{% if section.settings.padding_bottom > 0 %}padding-bottom:{{ section.settings.padding_bottom }}px;{% endif %}">
+  <div class="sh-container product-feature">
+    <div class="product-feature-image">
+      {% if section.settings.image != blank %}
+        {{ section.settings.image | image_url: width: 900 | image_tag: loading: 'lazy', alt: section.settings.image_alt }}
+      {% else %}
+        {% assign featured_product = all_products[section.settings.product] %}
+        {% if featured_product and featured_product.featured_image %}
+          {{ featured_product.featured_image | image_url: width: 900 | image_tag: loading: 'lazy', alt: featured_product.title }}
+        {% else %}
+          <img src="{{ 'shadeless-front.png' | asset_url }}" alt="Shadeless 3-Step Serum System" width="900" height="900">
+        {% endif %}
+      {% endif %}
+    </div>
+    <div>
+      {% if section.settings.eyebrow != blank %}<div class="sh-eyebrow">{{ section.settings.eyebrow }}</div>{% endif %}
+      <h2 class="sh-h2">{{ section.settings.heading }}</h2>
+      {% if section.settings.body != blank %}<p class="sh-body">{{ section.settings.body }}</p>{% endif %}
+      <ul class="sh-list">
+        {% for block in section.blocks %}
+          {% if block.type == 'list_item' %}
+            <li {{ block.shopify_attributes }}>{{ block.settings.text }}</li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+      <div class="sh-button-row" style="margin-top:24px;">
+        {% if section.settings.primary_label != blank %}
+          <a class="sh-button sh-button--red" href="{% if featured_product %}{{ featured_product.url }}{% else %}{{ section.settings.primary_link | default: '/products/shadeless-3-step-serum-system' }}{% endif %}">{{ section.settings.primary_label }}</a>
+        {% endif %}
+        {% if section.settings.secondary_label != blank %}
+          <a class="sh-button sh-button--secondary" href="{{ section.settings.secondary_link | default: '/pages/the-3-step-system' }}">{{ section.settings.secondary_label }}</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+{% schema %}
 {
-  "current": {
-    "color_accent": "#9e1717",
-    "color_accent_dark": "#7d1010",
-    "color_text": "#111111",
-    "color_text_secondary": "#303030",
-    "color_text_muted": "#6d6d6d",
-    "color_bg": "#ffffff",
-    "color_bg_soft": "#f7f5f3",
-    "color_border": "#e7e3df",
-    "color_header_bg": "#ffffff",
-    "color_header_text": "#111111",
-    "color_logo": "#9e1717",
-    "color_footer_bg": "#111111",
-    "color_footer_text": "#ffffff",
-    "color_footer_link": "#e9e4e0",
-    "color_announcement_bg": "#9e1717",
-    "color_announcement_text": "#ffffff",
-    "logo_text": "SHADELESS",
-    "logo_max_width": 160,
-    "brand_tagline": "Biotech skincare for more even-looking tone, smoother texture, and cleaner skin clarity.",
-    "layout_max_width": 1180,
-    "layout_border_radius": 22,
-    "section_padding_desktop": 88,
-    "section_padding_mobile": 60,
-    "font_size_base": 16,
-    "btn_primary_bg": "#111111",
-    "btn_primary_text": "#ffffff",
-    "btn_primary_hover_bg": "#9e1717",
-    "btn_accent_bg": "#9e1717",
-    "btn_accent_text": "#ffffff",
-    "btn_border_radius": 60,
-    "cart_show_item_count": true,
-    "cart_empty_text": "Your cart is empty.",
-    "cart_checkout_label": "Proceed to Checkout",
-    "global_disclaimer": "Shadeless products are cosmetic skincare products. They are not intended to diagnose, treat, cure, or prevent any disease. Individual results may vary.",
-    "sections": {
-      "announcement-bar": {
-        "type": "announcement-bar",
-        "settings": {
-          "text": "Introducing the Shadeless 3-Step Serum System — Prepare. Optimize. Enhance.",
-          "show_emoji": false,
-          "emoji": "✨"
-        }
-      },
-      "header": {
-        "type": "header",
-        "settings": {
-          "show_search": true,
-          "search_label": "Search",
-          "cart_label": "Cart"
-        },
-        "blocks": {
-          "nav-shop": {"type": "nav_link", "settings": {"label": "Shop", "link": "/collections/all"}},
-          "nav-system": {"type": "nav_link", "settings": {"label": "The 3-Step System", "link": "/pages/the-3-step-system"}},
-          "nav-science": {"type": "nav_link", "settings": {"label": "Science", "link": "/pages/science"}},
-          "nav-results": {"type": "nav_link", "settings": {"label": "Results", "link": "/pages/results"}},
-          "nav-story": {"type": "nav_link", "settings": {"label": "Our Story", "link": "/pages/our-story"}},
-          "nav-faq": {"type": "nav_link", "settings": {"label": "FAQ", "link": "/pages/faq"}}
-        },
-        "blocks_order": ["nav-shop", "nav-system", "nav-science", "nav-results", "nav-story", "nav-faq"]
-      },
-      "footer": {
-        "type": "footer",
-        "settings": {
-          "brand_description": "Shadeless is a biotech skincare brand built around a 3-step serum system for more even-looking tone, smoother-looking texture, and cleaner skin clarity.",
-          "address": "Distributed by: Shadeless Biotechnology Inc., 265 Franklin Street Ste 1702, Boston, MA 02110",
-          "copyright_text": "All rights reserved."
-        },
-        "blocks": {
-          "col-shop": {
-            "type": "link_column",
-            "settings": {
-              "title": "Shop",
-              "labels": "3-Step Serum System\nStep 1 Prepare\nStep 2 Optimize\nStep 3 Enhance",
-              "links": "/products/shadeless-3-step-serum-system\n/products/step-1-prepare-serum\n/products/step-2-optimize-serum\n/products/step-3-enhance-serum"
-            }
-          },
-          "col-learn": {
-            "type": "link_column",
-            "settings": {
-              "title": "Learn",
-              "labels": "The 3-Step System\nPeptisinergix™\nIngredients\nResults\nOur Story",
-              "links": "/pages/the-3-step-system\n/pages/science\n/pages/ingredients\n/pages/results\n/pages/our-story"
-            }
-          },
-          "col-care": {
-            "type": "link_column",
-            "settings": {
-              "title": "Customer Care",
-              "labels": "Contact\nShipping & Returns\nFAQ\nBatch / QR Information",
-              "links": "/pages/contact\n/pages/shipping-returns\n/pages/faq\n/pages/batch-qr-information"
-            }
-          },
-          "col-legal": {
-            "type": "link_column",
-            "settings": {
-              "title": "Legal",
-              "labels": "Terms\nPrivacy\nAccessibility",
-              "links": "/policies/terms-of-service\n/policies/privacy-policy\n/pages/accessibility"
-            }
-          }
-        },
-        "blocks_order": ["col-shop", "col-learn", "col-care", "col-legal"]
-      }
+  "name": "Featured 3-Step System",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
     },
-    "content_for_index": []
-  },
-  "presets": {}
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Featured product",
+      "info": "Product image is used if no custom image is set below."
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Best place to start"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Start with the full 3-Step Serum System."
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body text",
+      "default": "A biotech serum system for more even-looking tone, smoother-looking texture, and cleaner skin clarity."
+    },
+    {
+      "type": "header",
+      "content": "Buttons"
+    },
+    {
+      "type": "text",
+      "id": "primary_label",
+      "label": "Primary button label",
+      "default": "Shop the System"
+    },
+    {
+      "type": "url",
+      "id": "primary_link",
+      "label": "Primary button link (if no product selected)"
+    },
+    {
+      "type": "text",
+      "id": "secondary_label",
+      "label": "Secondary button label",
+      "default": "Compare the Steps"
+    },
+    {
+      "type": "url",
+      "id": "secondary_link",
+      "label": "Secondary button link"
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Custom product image",
+      "info": "Overrides the product image above."
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Image alt text",
+      "default": "Shadeless 3-Step Serum System"
+    },
+    {
+      "type": "header",
+      "content": "Section appearance"
+    },
+    {
+      "type": "select",
+      "id": "bg_style",
+      "label": "Background style",
+      "options": [
+        {"value": "white", "label": "White"},
+        {"value": "soft", "label": "Soft gradient"},
+        {"value": "custom", "label": "Custom color"}
+      ],
+      "default": "soft"
+    },
+    {
+      "type": "color",
+      "id": "custom_bg",
+      "label": "Custom background color"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0, "max": 160, "step": 4, "unit": "px", "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0, "max": 160, "step": 4, "unit": "px", "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "list_item",
+      "name": "List item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Item text",
+          "default": "Step 1 Prepare Serum"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured 3-Step System",
+      "blocks": [
+        {"type": "list_item", "settings": {"text": "Step 1 Prepare Serum"}},
+        {"type": "list_item", "settings": {"text": "Step 2 Optimize Serum"}},
+        {"type": "list_item", "settings": {"text": "Step 3 Enhance Serum"}},
+        {"type": "list_item", "settings": {"text": "Routine Guide"}}
+      ]
+    }
+  ]
 }
+{% endschema %}
