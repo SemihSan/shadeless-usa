@@ -1,25 +1,52 @@
-<section class="product-hero">
+<section class="product-hero"
+  style="{% if section.settings.custom_bg != blank %}background:{{ section.settings.custom_bg }};{% elsif section.settings.bg_style == 'soft' %}background:var(--soft);{% elsif section.settings.bg_style == 'dark' %}background:var(--black);color:#fff;{% endif %}">
   <div class="sh-container product-layout">
     <div class="product-media">
-      {% if product.featured_image %}{{ product.featured_image | image_url: width: 1000 | image_tag: loading: 'eager', alt: product.title }}{% else %}<img src="{{ 'shadeless-front.png' | asset_url }}" alt="{{ product.title | escape }}">{% endif %}
+      {% if product.featured_image %}
+        {{ product.featured_image | image_url: width: 1000 | image_tag: loading: 'eager', alt: product.title }}
+      {% else %}
+        <img src="{{ 'shadeless-front.png' | asset_url }}" alt="{{ product.title | escape }}">
+      {% endif %}
     </div>
     <div class="product-info">
       <div class="sh-eyebrow">{{ product.metafields.custom.step_number | default: section.settings.eyebrow_default }}</div>
       <h1 class="sh-h1">{{ product.title }}</h1>
       <p class="sh-body">{{ product.metafields.custom.short_benefit | default: product.description | strip_html | default: section.settings.body_default }}</p>
-      <div class="badge-row"><span class="sh-pill">{{ section.settings.badge1 }}</span><span class="sh-pill">Peptisinergix&trade;</span><span class="sh-pill">{{ section.settings.badge2 }}</span></div>
+      <div class="badge-row">
+        {% for block in section.blocks %}
+          {% if block.type == 'badge' %}
+            <span class="sh-pill" {{ block.shopify_attributes }}>{{ block.settings.label }}</span>
+          {% endif %}
+        {% endfor %}
+      </div>
       <div class="product-price">{{ product.price | money }}</div>
       {% form 'product', product, class: 'product-form' %}
-        {% if product.variants.size > 1 %}<select name="id" class="variant-select">{% for variant in product.variants %}<option value="{{ variant.id }}" {% if variant == product.selected_or_first_available_variant %}selected{% endif %}>{{ variant.title }} - {{ variant.price | money }}</option>{% endfor %}</select>{% else %}<input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">{% endif %}
+        {% if product.variants.size > 1 %}
+          <select name="id" class="variant-select">
+            {% for variant in product.variants %}
+              <option value="{{ variant.id }}" {% if variant == product.selected_or_first_available_variant %}selected{% endif %}>{{ variant.title }} - {{ variant.price | money }}</option>
+            {% endfor %}
+          </select>
+        {% else %}
+          <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+        {% endif %}
         <input class="quantity-input" name="quantity" type="number" value="1" min="1" aria-label="Quantity">
-        <button class="sh-button sh-button--red" type="submit" {% unless product.available %}disabled{% endunless %}>{% if product.available %}{{ section.settings.add_to_cart_label }}{% else %}{{ section.settings.sold_out_label }}{% endif %}</button>
+        <button class="sh-button sh-button--red" type="submit" {% unless product.available %}disabled{% endunless %}>
+          {% if product.available %}{{ section.settings.add_to_cart_label }}{% else %}{{ section.settings.sold_out_label }}{% endif %}
+        </button>
       {% endform %}
-      <a class="sh-button sh-button--secondary" href="{{ section.settings.system_link | default: '/products/shadeless-3-step-serum-system' }}">{{ section.settings.system_label }}</a>
+      {% if section.settings.system_label != blank %}
+        <a class="sh-button sh-button--secondary" href="{{ section.settings.system_link | default: '/products/shadeless-3-step-serum-system' }}">{{ section.settings.system_label }}</a>
+      {% endif %}
       <div class="accordion" style="margin-top:26px;">
-        <details open><summary>{{ section.settings.acc1_summary }}</summary><div class="content">{{ product.metafields.custom.step_role | default: section.settings.acc1_default }}</div></details>
-        <details><summary>{{ section.settings.acc2_summary }}</summary><div class="content">{{ product.metafields.custom.best_for | default: section.settings.acc2_default }}</div></details>
-        <details><summary>{{ section.settings.acc3_summary }}</summary><div class="content">{{ product.metafields.custom.how_to_use | default: section.settings.acc3_default }}</div></details>
-        <details><summary>{{ section.settings.acc4_summary }}</summary><div class="content">{{ product.metafields.custom.full_inci | default: section.settings.acc4_default }}</div></details>
+        {% for block in section.blocks %}
+          {% if block.type == 'accordion_tab' %}
+            <details {{ block.shopify_attributes }}>
+              <summary>{{ block.settings.label }}</summary>
+              <div class="content">{{ block.settings.content | default: product.metafields.custom[block.settings.metafield_key] }}</div>
+            </details>
+          {% endif %}
+        {% endfor %}
       </div>
     </div>
   </div>
@@ -28,24 +55,123 @@
 {
   "name": "Main product - step serum",
   "settings": [
-    {"type": "text", "id": "eyebrow_default", "label": "Eyebrow default", "default": "Shadeless Serum"},
-    {"type": "textarea", "id": "body_default", "label": "Description default", "default": "A step in the Shadeless Prepare, Optimize, Enhance routine for visible tone, texture, and clarity goals."},
-    {"type": "text", "id": "badge1", "label": "Badge 1", "default": "Biotech Skincare"},
-    {"type": "text", "id": "badge2", "label": "Badge 2", "default": "Tone + Texture"},
-    {"type": "text", "id": "add_to_cart_label", "label": "Add to cart label", "default": "Add to Cart"},
-    {"type": "text", "id": "sold_out_label", "label": "Sold out label", "default": "Sold Out"},
-    {"type": "text", "id": "system_label", "label": "System button label", "default": "Shop the Full System"},
-    {"type": "url", "id": "system_link", "label": "System button link"},
-    {"type": "header", "content": "Accordion labels"},
-    {"type": "text", "id": "acc1_summary", "label": "Accordion 1 label", "default": "Role in the system"},
-    {"type": "textarea", "id": "acc1_default", "label": "Accordion 1 default content", "default": "This serum is designed to work inside the full Prepare \u2192 Optimize \u2192 Enhance routine."},
-    {"type": "text", "id": "acc2_summary", "label": "Accordion 2 label", "default": "Best for"},
-    {"type": "textarea", "id": "acc2_default", "label": "Accordion 2 default content", "default": "Tone, texture, dullness, and visible clarity concerns."},
-    {"type": "text", "id": "acc3_summary", "label": "Accordion 3 label", "default": "How to use"},
-    {"type": "textarea", "id": "acc3_default", "label": "Accordion 3 default content", "default": "Use as directed on packaging. During the day, finish with sunscreen."},
-    {"type": "text", "id": "acc4_summary", "label": "Accordion 4 label", "default": "Ingredients"},
-    {"type": "textarea", "id": "acc4_default", "label": "Accordion 4 default content", "default": "[Insert final INCI list before launch.]"}
+    {
+      "type": "header",
+      "content": "Product info defaults"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow_default",
+      "label": "Eyebrow (fallback)",
+      "default": "Shadeless Serum",
+      "info": "Shown when product metafield 'step_number' is not set."
+    },
+    {
+      "type": "textarea",
+      "id": "body_default",
+      "label": "Description (fallback)",
+      "default": "A step in the Shadeless Prepare, Optimize, Enhance routine for visible tone, texture, and clarity goals."
+    },
+    {
+      "type": "header",
+      "content": "Buttons"
+    },
+    {
+      "type": "text",
+      "id": "add_to_cart_label",
+      "label": "Add to cart label",
+      "default": "Add to Cart"
+    },
+    {
+      "type": "text",
+      "id": "sold_out_label",
+      "label": "Sold out label",
+      "default": "Sold Out"
+    },
+    {
+      "type": "text",
+      "id": "system_label",
+      "label": "System button label",
+      "default": "Shop the Full System"
+    },
+    {
+      "type": "url",
+      "id": "system_link",
+      "label": "System button link"
+    },
+    {
+      "type": "header",
+      "content": "Section appearance"
+    },
+    {
+      "type": "select",
+      "id": "bg_style",
+      "label": "Background style",
+      "options": [
+        {"value": "white", "label": "White"},
+        {"value": "soft", "label": "Soft"},
+        {"value": "dark", "label": "Dark"},
+        {"value": "custom", "label": "Custom color"}
+      ],
+      "default": "white"
+    },
+    {
+      "type": "color",
+      "id": "custom_bg",
+      "label": "Custom background color"
+    }
   ],
-  "presets": [{"name": "Main product - step serum"}]
+  "blocks": [
+    {
+      "type": "badge",
+      "name": "Product badge",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Badge label",
+          "default": "Biotech Skincare"
+        }
+      ]
+    },
+    {
+      "type": "accordion_tab",
+      "name": "Info accordion tab",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Tab label",
+          "default": "Role in the system"
+        },
+        {
+          "type": "textarea",
+          "id": "content",
+          "label": "Tab content",
+          "default": "This serum is designed to work inside the full Prepare → Optimize → Enhance routine."
+        },
+        {
+          "type": "text",
+          "id": "metafield_key",
+          "label": "Product metafield key (optional)",
+          "info": "If set, content is pulled from product.metafields.custom.[key]. Content above is the fallback."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Main product - step serum",
+      "blocks": [
+        {"type": "badge", "settings": {"label": "Biotech Skincare"}},
+        {"type": "badge", "settings": {"label": "Peptisinergix™"}},
+        {"type": "badge", "settings": {"label": "Tone + Texture"}},
+        {"type": "accordion_tab", "settings": {"label": "Role in the system", "content": "This serum is designed to work inside the full Prepare → Optimize → Enhance routine.", "metafield_key": "step_role"}},
+        {"type": "accordion_tab", "settings": {"label": "Best for", "content": "Tone, texture, dullness, and visible clarity concerns.", "metafield_key": "best_for"}},
+        {"type": "accordion_tab", "settings": {"label": "How to use", "content": "Use as directed on packaging. During the day, finish with sunscreen.", "metafield_key": "how_to_use"}},
+        {"type": "accordion_tab", "settings": {"label": "Ingredients", "content": "[Insert final INCI list before launch.]", "metafield_key": "full_inci"}}
+      ]
+    }
+  ]
 }
 {% endschema %}

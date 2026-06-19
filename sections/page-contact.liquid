@@ -1,22 +1,164 @@
-<section class="page-hero"><div class="sh-container"><div class="sh-eyebrow">{{ section.settings.eyebrow }}</div><h1 class="sh-h1">{{ section.settings.heading }}</h1><p class="sh-body">{{ section.settings.body }}</p></div></section>
-<section class="sh-section"><div class="sh-container">{% form 'contact', class: 'contact-form' %}<input type="text" name="contact[name]" placeholder="{{ section.settings.placeholder_name }}"><input type="email" name="contact[email]" placeholder="{{ section.settings.placeholder_email }}" required><select name="contact[inquiry_type]"><option>Order support</option><option>Product question</option><option>Routine guidance</option><option>Press</option><option>Retail partnership</option><option>Professional / esthetician inquiry</option><option>Other</option></select><textarea name="contact[body]" rows="6" placeholder="{{ section.settings.placeholder_message }}"></textarea><button class="sh-button sh-button--red" type="submit">{{ section.settings.button_label }}</button>{% if form.posted_successfully? %}<div class="newsletter-success">{{ section.settings.success_message }}</div>{% endif %}{% if form.errors %}{{ form.errors | default_errors }}{% endif %}{% endform %}<div class="sh-center" style="margin-top:40px;"><p class="sh-body">{{ section.settings.address | newline_to_br }}</p></div></div></section>
+<section class="page-hero"
+  style="{% if section.settings.custom_bg != blank %}background:{{ section.settings.custom_bg }};{% elsif section.settings.bg_style == 'white' %}background:#fff;{% elsif section.settings.bg_style == 'dark' %}background:var(--black);color:#fff;{% endif %}{% if section.settings.bg_image %}background-image:url('{{ section.settings.bg_image | image_url: width: 1800 }}');background-size:cover;background-position:center;{% endif %}">
+  <div class="sh-container">
+    {% if section.settings.eyebrow != blank %}<div class="sh-eyebrow">{{ section.settings.eyebrow }}</div>{% endif %}
+    <h1 class="sh-h1">{{ section.settings.heading }}</h1>
+    {% if section.settings.body != blank %}<p class="sh-body">{{ section.settings.body }}</p>{% endif %}
+  </div>
+</section>
+<section class="sh-section">
+  <div class="sh-container">
+    {% form 'contact', class: 'contact-form' %}
+      <input type="text" name="contact[name]" placeholder="{{ section.settings.placeholder_name }}">
+      <input type="email" name="contact[email]" placeholder="{{ section.settings.placeholder_email }}" required>
+      {% if section.settings.show_inquiry_type %}
+        <select name="contact[inquiry_type]">
+          {% for block in section.blocks %}
+            {% if block.type == 'inquiry_type' %}
+              <option {{ block.shopify_attributes }}>{{ block.settings.label }}</option>
+            {% endif %}
+          {% endfor %}
+        </select>
+      {% endif %}
+      <textarea name="contact[body]" rows="{{ section.settings.textarea_rows | default: 6 }}" placeholder="{{ section.settings.placeholder_message }}"></textarea>
+      <button class="sh-button sh-button--red" type="submit">{{ section.settings.button_label }}</button>
+      {% if form.posted_successfully? %}<div class="newsletter-success">{{ section.settings.success_message }}</div>{% endif %}
+      {% if form.errors %}{{ form.errors | default_errors }}{% endif %}
+    {% endform %}
+    {% if section.settings.address != blank %}
+      <div class="sh-center" style="margin-top:40px;">
+        <p class="sh-body">{{ section.settings.address | newline_to_br }}</p>
+      </div>
+    {% endif %}
+  </div>
+</section>
 {% schema %}
 {
   "name": "Page - Contact",
   "settings": [
-    {"type": "header", "content": "Hero"},
-    {"type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Contact"},
-    {"type": "textarea", "id": "heading", "label": "Heading", "default": "Contact Shadeless"},
-    {"type": "textarea", "id": "body", "label": "Body text", "default": "Questions about your order, routine, product information, or partnership opportunities? Send us a note."},
-    {"type": "header", "content": "Form"},
-    {"type": "text", "id": "placeholder_name", "label": "Name placeholder", "default": "Name"},
-    {"type": "text", "id": "placeholder_email", "label": "Email placeholder", "default": "Email"},
-    {"type": "text", "id": "placeholder_message", "label": "Message placeholder", "default": "Message"},
-    {"type": "text", "id": "button_label", "label": "Button label", "default": "Send Message"},
-    {"type": "text", "id": "success_message", "label": "Success message", "default": "Thank you. We received your message."},
-    {"type": "header", "content": "Address"},
-    {"type": "textarea", "id": "address", "label": "Address (use new lines)", "default": "Shadeless Biotechnology Inc.\n265 Franklin Street Ste 1702\nBoston, MA 02110"}
+    {
+      "type": "header",
+      "content": "Hero"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Contact"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Contact Shadeless"
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body text",
+      "default": "Questions about your order, routine, product information, or partnership opportunities? Send us a note."
+    },
+    {
+      "type": "select",
+      "id": "bg_style",
+      "label": "Hero background style",
+      "options": [
+        {"value": "soft", "label": "Soft gradient (default)"},
+        {"value": "white", "label": "White"},
+        {"value": "dark", "label": "Dark"},
+        {"value": "custom", "label": "Custom color"}
+      ],
+      "default": "soft"
+    },
+    {
+      "type": "color",
+      "id": "custom_bg",
+      "label": "Custom hero background color"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Hero background image"
+    },
+    {
+      "type": "header",
+      "content": "Form"
+    },
+    {
+      "type": "text",
+      "id": "placeholder_name",
+      "label": "Name placeholder",
+      "default": "Name"
+    },
+    {
+      "type": "text",
+      "id": "placeholder_email",
+      "label": "Email placeholder",
+      "default": "Email"
+    },
+    {
+      "type": "text",
+      "id": "placeholder_message",
+      "label": "Message placeholder",
+      "default": "Message"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_inquiry_type",
+      "label": "Show inquiry type dropdown",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "textarea_rows",
+      "label": "Message textarea rows",
+      "min": 3, "max": 12, "step": 1, "default": 6
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Send Message"
+    },
+    {
+      "type": "text",
+      "id": "success_message",
+      "label": "Success message",
+      "default": "Thank you. We received your message."
+    },
+    {
+      "type": "header",
+      "content": "Address"
+    },
+    {
+      "type": "textarea",
+      "id": "address",
+      "label": "Address",
+      "default": "Shadeless Biotechnology Inc.\n265 Franklin Street Ste 1702\nBoston, MA 02110"
+    }
   ],
-  "presets": [{"name": "Page - Contact"}]
+  "blocks": [
+    {
+      "type": "inquiry_type",
+      "name": "Inquiry type option",
+      "settings": [
+        {"type": "text", "id": "label", "label": "Option label", "default": "Order support"}
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Page - Contact",
+      "blocks": [
+        {"type": "inquiry_type", "settings": {"label": "Order support"}},
+        {"type": "inquiry_type", "settings": {"label": "Product question"}},
+        {"type": "inquiry_type", "settings": {"label": "Routine guidance"}},
+        {"type": "inquiry_type", "settings": {"label": "Press"}},
+        {"type": "inquiry_type", "settings": {"label": "Retail partnership"}},
+        {"type": "inquiry_type", "settings": {"label": "Professional / esthetician inquiry"}},
+        {"type": "inquiry_type", "settings": {"label": "Other"}}
+      ]
+    }
+  ]
 }
 {% endschema %}
