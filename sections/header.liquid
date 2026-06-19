@@ -1,31 +1,100 @@
-<header class="site-header">
+<header class="site-header" style="--header-bg:{{ settings.color_header_bg }};">
   <div class="sh-container header-inner">
     <button class="menu-toggle" data-mobile-toggle aria-label="Open menu">☰</button>
-    <a class="brand-logo" href="{{ routes.root_url }}" aria-label="Shadeless home">SHADELESS</a>
+    <a class="brand-logo" href="{{ routes.root_url }}" aria-label="{{ settings.logo_text | default: shop.name }} home">
+      {% if settings.logo_image %}
+        <img src="{{ settings.logo_image | image_url: width: 320 }}"
+             alt="{{ settings.logo_text | default: shop.name }}"
+             width="{{ settings.logo_max_width }}"
+             style="max-width:{{ settings.logo_max_width }}px;height:auto;">
+      {% else %}
+        {{ settings.logo_text | default: 'SHADELESS' }}
+      {% endif %}
+    </a>
     <nav class="nav" aria-label="Main navigation">
-      <a href="/collections/all">Shop</a>
-      <a href="/pages/the-3-step-system">The 3-Step System</a>
-      <a href="/pages/science">Science</a>
-      <a href="/pages/results">Results</a>
-      <a href="/pages/our-story">Our Story</a>
-      <a href="/pages/faq">FAQ</a>
+      {% for block in section.blocks %}
+        {% if block.type == 'nav_link' %}
+          <a href="{{ block.settings.link }}" {{ block.shopify_attributes }}>{{ block.settings.label }}</a>
+        {% endif %}
+      {% endfor %}
     </nav>
     <div class="header-actions">
-      <a href="{{ routes.search_url }}">Search</a>
-      <a href="{{ routes.cart_url }}">Cart ({{ cart.item_count }})</a>
+      {% if section.settings.show_search %}<a href="{{ routes.search_url }}">{{ section.settings.search_label | default: 'Search' }}</a>{% endif %}
+      <a href="{{ routes.cart_url }}">{{ section.settings.cart_label | default: 'Cart' }}{% if settings.cart_show_item_count %} ({{ cart.item_count }}){% endif %}</a>
     </div>
   </div>
   <nav class="mobile-menu" data-mobile-menu aria-label="Mobile navigation">
-    <a href="/collections/all">Shop</a>
-    <a href="/pages/the-3-step-system">The 3-Step System</a>
-    <a href="/pages/science">Science</a>
-    <a href="/pages/results">Results</a>
-    <a href="/pages/our-story">Our Story</a>
-    <a href="/pages/faq">FAQ</a>
-    <a href="{{ routes.search_url }}">Search</a>
-    <a href="{{ routes.cart_url }}">Cart ({{ cart.item_count }})</a>
+    {% for block in section.blocks %}
+      {% if block.type == 'nav_link' %}
+        <a href="{{ block.settings.link }}">{{ block.settings.label }}</a>
+      {% endif %}
+    {% endfor %}
+    {% if section.settings.show_search %}<a href="{{ routes.search_url }}">{{ section.settings.search_label | default: 'Search' }}</a>{% endif %}
+    <a href="{{ routes.cart_url }}">{{ section.settings.cart_label | default: 'Cart' }}{% if settings.cart_show_item_count %} ({{ cart.item_count }}){% endif %}</a>
   </nav>
 </header>
 {% schema %}
-{"name":"Header","settings":[]}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Header actions"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_search",
+      "label": "Show search link",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "search_label",
+      "label": "Search label",
+      "default": "Search"
+    },
+    {
+      "type": "text",
+      "id": "cart_label",
+      "label": "Cart label",
+      "default": "Cart"
+    },
+    {
+      "type": "paragraph",
+      "content": "Logo and colors are controlled in Theme Settings → Logo & Brand and Theme Settings → Colors."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "nav_link",
+      "name": "Navigation link",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Link label",
+          "default": "Shop"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link URL"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Header",
+      "blocks": [
+        {"type": "nav_link", "settings": {"label": "Shop", "link": "/collections/all"}},
+        {"type": "nav_link", "settings": {"label": "The 3-Step System", "link": "/pages/the-3-step-system"}},
+        {"type": "nav_link", "settings": {"label": "Science", "link": "/pages/science"}},
+        {"type": "nav_link", "settings": {"label": "Results", "link": "/pages/results"}},
+        {"type": "nav_link", "settings": {"label": "Our Story", "link": "/pages/our-story"}},
+        {"type": "nav_link", "settings": {"label": "FAQ", "link": "/pages/faq"}}
+      ]
+    }
+  ]
+}
 {% endschema %}
