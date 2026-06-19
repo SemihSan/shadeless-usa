@@ -6,6 +6,7 @@
         <img src="{{ settings.logo_image | image_url: width: 320 }}"
              alt="{{ settings.logo_text | default: shop.name }}"
              width="{{ settings.logo_max_width }}"
+             height="60"
              style="max-width:{{ settings.logo_max_width }}px;height:auto;">
       {% else %}
         {{ settings.logo_text | default: 'SHADELESS' }}
