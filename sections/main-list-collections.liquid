@@ -16,7 +16,7 @@
             {% elsif collection.products.first.featured_image %}
               {{ collection.products.first.featured_image | image_url: width: 700 | image_tag: loading: 'lazy', alt: collection.title }}
             {% else %}
-              <img src="{{ 'shadeless-front.png' | asset_url }}" alt="{{ collection.title | escape }}">
+              <img src="{{ 'shadeless-front.png' | asset_url }}" alt="{{ collection.title | escape }}" width="700" height="700">
             {% endif %}
           </div>
           <div class="product-card__body">

@@ -13,7 +13,7 @@
             {% if article.image %}
               {{ article.image | image_url: width: 700 | image_tag: loading: 'lazy', alt: article.title }}
             {% else %}
-              <img src="{{ 'shadeless-front.png' | asset_url }}" alt="{{ article.title | escape }}">
+              <img src="{{ 'shadeless-front.png' | asset_url }}" alt="{{ article.title | escape }}" width="700" height="700">
             {% endif %}
           </a>
           <div class="product-card__body">
