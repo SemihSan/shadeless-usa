@@ -1,20 +1,69 @@
-<section class="page-hero"><div class="sh-container"><div class="sh-eyebrow">{{ section.settings.eyebrow }}</div><h1 class="sh-h1">{{ section.settings.heading }}</h1><p class="sh-body">{{ section.settings.body }}</p></div></section>
-<section class="sh-section"><div class="sh-container accordion">
-  {% for block in section.blocks %}
-    {% if block.type == 'faq_group' %}
-      <h2 class="sh-h2" style="{% unless forloop.first %}margin-top:50px;{% endunless %}" {{ block.shopify_attributes }}>{{ block.settings.title }}</h2>
-    {% elsif block.type == 'faq_item' %}
-      <details {{ block.shopify_attributes }}><summary>{{ block.settings.question }}</summary><div class="content">{{ block.settings.answer }}</div></details>
-    {% endif %}
-  {% endfor %}
-</div></section>
+<section class="page-hero"
+  style="{% if section.settings.custom_bg != blank %}background:{{ section.settings.custom_bg }};{% elsif section.settings.bg_style == 'white' %}background:#fff;{% elsif section.settings.bg_style == 'dark' %}background:var(--black);color:#fff;{% endif %}{% if section.settings.bg_image %}background-image:url('{{ section.settings.bg_image | image_url: width: 1800 }}');background-size:cover;background-position:center;{% endif %}">
+  <div class="sh-container">
+    {% if section.settings.eyebrow != blank %}<div class="sh-eyebrow">{{ section.settings.eyebrow }}</div>{% endif %}
+    <h1 class="sh-h1">{{ section.settings.heading }}</h1>
+    {% if section.settings.body != blank %}<p class="sh-body">{{ section.settings.body }}</p>{% endif %}
+  </div>
+</section>
+<section class="sh-section">
+  <div class="sh-container accordion">
+    {% for block in section.blocks %}
+      {% if block.type == 'faq_group' %}
+        <h2 class="sh-h2" style="{% unless forloop.first %}margin-top:50px;{% endunless %}" {{ block.shopify_attributes }}>{{ block.settings.title }}</h2>
+      {% elsif block.type == 'faq_item' %}
+        <details {{ block.shopify_attributes }}>
+          <summary>{{ block.settings.question }}</summary>
+          <div class="content">{{ block.settings.answer }}</div>
+        </details>
+      {% endif %}
+    {% endfor %}
+  </div>
+</section>
 {% schema %}
 {
   "name": "Page - FAQ",
   "settings": [
-    {"type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "FAQ"},
-    {"type": "textarea", "id": "heading", "label": "Heading", "default": "How to use the Shadeless 3-Step Serum System"},
-    {"type": "textarea", "id": "body", "label": "Body text", "default": "Answers about routine order, skin types, Peptisinergix™, ingredients, and orders."}
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "FAQ"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "How to use the Shadeless 3-Step Serum System"
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body text",
+      "default": "Answers about routine order, skin types, Peptisinergix™, ingredients, and orders."
+    },
+    {
+      "type": "select",
+      "id": "bg_style",
+      "label": "Hero background style",
+      "options": [
+        {"value": "soft", "label": "Soft gradient (default)"},
+        {"value": "white", "label": "White"},
+        {"value": "dark", "label": "Dark"},
+        {"value": "custom", "label": "Custom color"}
+      ],
+      "default": "soft"
+    },
+    {
+      "type": "color",
+      "id": "custom_bg",
+      "label": "Custom hero background color"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Hero background image"
+    }
   ],
   "blocks": [
     {

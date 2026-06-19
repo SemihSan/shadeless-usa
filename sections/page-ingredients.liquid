@@ -1,13 +1,72 @@
-<section class="page-hero"><div class="sh-container"><div class="sh-eyebrow">{{ section.settings.eyebrow }}</div><h1 class="sh-h1">{{ section.settings.heading }}</h1><p class="sh-body">{{ section.settings.body }}</p></div></section>
-<section class="sh-section"><div class="sh-container accordion"><h2 class="sh-h2">{{ section.settings.list_heading }}</h2>{% for block in section.blocks %}<details {% if forloop.first %}open{% endif %} {{ block.shopify_attributes }}><summary>{{ block.settings.step_title }}</summary><div class="content">{{ block.settings.ingredients }}</div></details>{% endfor %}</div></section>
+<section class="page-hero"
+  style="{% if section.settings.custom_bg != blank %}background:{{ section.settings.custom_bg }};{% elsif section.settings.bg_style == 'white' %}background:#fff;{% elsif section.settings.bg_style == 'dark' %}background:var(--black);color:#fff;{% endif %}{% if section.settings.bg_image %}background-image:url('{{ section.settings.bg_image | image_url: width: 1800 }}');background-size:cover;background-position:center;{% endif %}">
+  <div class="sh-container">
+    {% if section.settings.eyebrow != blank %}<div class="sh-eyebrow">{{ section.settings.eyebrow }}</div>{% endif %}
+    <h1 class="sh-h1">{{ section.settings.heading }}</h1>
+    {% if section.settings.body != blank %}<p class="sh-body">{{ section.settings.body }}</p>{% endif %}
+  </div>
+</section>
+<section class="sh-section">
+  <div class="sh-container accordion">
+    {% if section.settings.list_heading != blank %}<h2 class="sh-h2">{{ section.settings.list_heading }}</h2>{% endif %}
+    {% for block in section.blocks %}
+      <details {% if forloop.first %}open{% endif %} {{ block.shopify_attributes }}>
+        <summary>{{ block.settings.step_title }}</summary>
+        <div class="content">{{ block.settings.ingredients }}</div>
+      </details>
+    {% endfor %}
+  </div>
+</section>
 {% schema %}
 {
   "name": "Page - Ingredients",
   "settings": [
-    {"type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Ingredients"},
-    {"type": "textarea", "id": "heading", "label": "Heading", "default": "Ingredients, explained clearly."},
-    {"type": "textarea", "id": "body", "label": "Body text", "default": "Learn how Shadeless organizes ingredients by role, sequence, and visible cosmetic benefit."},
-    {"type": "text", "id": "list_heading", "label": "Section heading", "default": "Full ingredient lists"}
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Ingredients"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Ingredients, explained clearly."
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body text",
+      "default": "Learn how Shadeless organizes ingredients by role, sequence, and visible cosmetic benefit."
+    },
+    {
+      "type": "text",
+      "id": "list_heading",
+      "label": "Section heading",
+      "default": "Full ingredient lists"
+    },
+    {
+      "type": "select",
+      "id": "bg_style",
+      "label": "Hero background style",
+      "options": [
+        {"value": "soft", "label": "Soft gradient (default)"},
+        {"value": "white", "label": "White"},
+        {"value": "dark", "label": "Dark"},
+        {"value": "custom", "label": "Custom color"}
+      ],
+      "default": "soft"
+    },
+    {
+      "type": "color",
+      "id": "custom_bg",
+      "label": "Custom hero background color"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Hero background image"
+    }
   ],
   "blocks": [
     {
