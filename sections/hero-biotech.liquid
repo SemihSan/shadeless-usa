@@ -1,19 +1,29 @@
-<section class="hero">
+{% assign bg = section.settings.bg_color | default: 'none' %}
+{% assign text_color = section.settings.text_color | default: '' %}
+<section class="hero" style="
+  {% if section.settings.bg_image %}background-image: linear-gradient({{ section.settings.overlay_opacity }}%, rgba(255,255,255,0) {{ section.settings.overlay_opacity }}%), url('{{ section.settings.bg_image | image_url: width: 1800 }}'); background-size: cover; background-position: {{ section.settings.bg_position }};{% elsif bg != 'none' %}background: {{ bg }};{% else %}background:radial-gradient(circle at 70% 40%,#f2eeee 0,#fff 46%,#f8f6f5 100%);{% endif %}
+  {% if section.settings.min_height > 0 %}min-height: {{ section.settings.min_height }}px;{% endif %}
+  {% if text_color != '' %}color: {{ text_color }};{% endif %}
+">
   <div class="sh-container hero-grid">
-    <div class="hero-copy">
-      <div class="sh-eyebrow">{{ section.settings.eyebrow }}</div>
+    <div class="hero-copy {% if section.settings.text_align == 'center' %}sh-center{% endif %}">
+      {% if section.settings.eyebrow != blank %}<div class="sh-eyebrow" style="{% if text_color != '' %}color: {{ text_color }};{% endif %}">{{ section.settings.eyebrow }}</div>{% endif %}
       <h1 class="sh-h1">{{ section.settings.heading }}</h1>
-      <p class="sh-body">{{ section.settings.text }}</p>
-      <div class="sh-button-row">
-        <a class="sh-button sh-button--red" href="{{ section.settings.primary_link }}">{{ section.settings.primary_label }}</a>
-        <a class="sh-button sh-button--secondary" href="{{ section.settings.secondary_link }}">{{ section.settings.secondary_label }}</a>
+      {% if section.settings.text != blank %}<p class="sh-body">{{ section.settings.text }}</p>{% endif %}
+      <div class="sh-button-row {% if section.settings.text_align == 'center' %}" style="justify-content:center;{% endif %}">
+        {% if section.settings.primary_label != blank %}
+          <a class="sh-button sh-button--red" href="{{ section.settings.primary_link }}">{{ section.settings.primary_label }}</a>
+        {% endif %}
+        {% if section.settings.secondary_label != blank %}
+          <a class="sh-button sh-button--secondary" href="{{ section.settings.secondary_link }}">{{ section.settings.secondary_label }}</a>
+        {% endif %}
       </div>
-      <div class="hero-trust">{{ section.settings.trust_line }}</div>
+      {% if section.settings.trust_line != blank %}<div class="hero-trust">{{ section.settings.trust_line }}</div>{% endif %}
     </div>
     <div class="hero-image-wrap">
       {% if section.settings.image != blank %}
-        {{ section.settings.image | image_url: width: 1100 | image_tag: loading: 'eager', width: 1100, height: 1100, alt: 'Shadeless 3-Step Serum System' }}
-      {% else %}
+        {{ section.settings.image | image_url: width: 1100 | image_tag: loading: 'eager', width: 1100, height: 1100, alt: section.settings.image_alt }}
+      {% elsif section.settings.show_default_image %}
         <img src="{{ 'shadeless-front.png' | asset_url }}" width="1100" height="1100" alt="Shadeless Step 3 Enhance Serum">
       {% endif %}
     </div>
@@ -21,18 +31,151 @@
 </section>
 {% schema %}
 {
-  "name": "Hero biotech promise",
+  "name": "Hero – Biotech promise",
   "settings": [
-    {"type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Shadeless Biotech Skincare"},
-    {"type": "textarea", "id": "heading", "label": "Heading", "default": "Biotech skincare for more even-looking tone, smoother texture, and cleaner skin clarity."},
-    {"type": "textarea", "id": "text", "label": "Text", "default": "The Shadeless 3-Step Serum System is designed to prepare, optimize, and enhance the look of skin through intelligent sequencing and peptide-led formulation logic."},
-    {"type": "text", "id": "primary_label", "label": "Primary CTA label", "default": "Shop the 3-Step System"},
-    {"type": "url", "id": "primary_link", "label": "Primary CTA link"},
-    {"type": "text", "id": "secondary_label", "label": "Secondary CTA label", "default": "See How It Works"},
-    {"type": "url", "id": "secondary_link", "label": "Secondary CTA link"},
-    {"type": "text", "id": "trust_line", "label": "Trust line", "default": "Prepare. Optimize. Enhance. One coordinated routine."},
-    {"type": "image_picker", "id": "image", "label": "Hero image"}
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow text",
+      "default": "Shadeless Biotech Skincare"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Biotech skincare for more even-looking tone, smoother texture, and cleaner skin clarity."
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Body text",
+      "default": "The Shadeless 3-Step Serum System is designed to prepare, optimize, and enhance the look of skin through intelligent sequencing and peptide-led formulation logic."
+    },
+    {
+      "type": "select",
+      "id": "text_align",
+      "label": "Text alignment",
+      "options": [
+        {"value": "left", "label": "Left"},
+        {"value": "center", "label": "Center"}
+      ],
+      "default": "left"
+    },
+    {
+      "type": "text",
+      "id": "trust_line",
+      "label": "Trust line (below buttons)",
+      "default": "Prepare. Optimize. Enhance. One coordinated routine."
+    },
+    {
+      "type": "header",
+      "content": "Buttons"
+    },
+    {
+      "type": "text",
+      "id": "primary_label",
+      "label": "Primary button label",
+      "default": "Shop the 3-Step System"
+    },
+    {
+      "type": "url",
+      "id": "primary_link",
+      "label": "Primary button link"
+    },
+    {
+      "type": "text",
+      "id": "secondary_label",
+      "label": "Secondary button label",
+      "default": "See How It Works"
+    },
+    {
+      "type": "url",
+      "id": "secondary_link",
+      "label": "Secondary button link"
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Hero product image"
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Image alt text",
+      "default": "Shadeless 3-Step Serum System"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_default_image",
+      "label": "Show default image if none uploaded",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Background"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Background image",
+      "info": "Overrides background color if set."
+    },
+    {
+      "type": "select",
+      "id": "bg_position",
+      "label": "Background position",
+      "options": [
+        {"value": "center center", "label": "Center"},
+        {"value": "top center", "label": "Top"},
+        {"value": "bottom center", "label": "Bottom"},
+        {"value": "left center", "label": "Left"},
+        {"value": "right center", "label": "Right"}
+      ],
+      "default": "center center"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Image overlay opacity (lighter = more overlay)",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "unit": "%",
+      "default": 0,
+      "info": "Adds a white overlay on top of the background image to keep text readable."
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "info": "Used when no background image is set. Leave empty for default gradient."
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color override",
+      "info": "Useful when using a dark background image."
+    },
+    {
+      "type": "range",
+      "id": "min_height",
+      "label": "Minimum section height",
+      "min": 0,
+      "max": 900,
+      "step": 20,
+      "unit": "px",
+      "default": 0,
+      "info": "Set to 0 to use automatic height."
+    }
   ],
-  "presets": [{"name": "Hero biotech promise"}]
+  "presets": [{"name": "Hero – Biotech promise"}]
 }
 {% endschema %}

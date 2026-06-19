@@ -2,21 +2,145 @@
   <div class="sh-container">
     <div class="footer-grid">
       <div>
-        <a class="brand-logo" href="{{ routes.root_url }}">SHADELESS</a>
-        <p class="footer-brand">Shadeless is a biotech skincare brand built around a 3-step serum system for more even-looking tone, smoother-looking texture, and cleaner skin clarity.</p>
-        <p class="footer-brand">Shadeless products are cosmetic skincare products. They are not intended to diagnose, treat, cure, or prevent any disease. Individual results may vary.</p>
+        <a class="brand-logo" href="{{ routes.root_url }}">
+          {% if settings.logo_image %}
+            <img src="{{ settings.logo_image | image_url: width: 200 }}" alt="{{ settings.logo_text | default: shop.name }}" style="max-width:160px;height:auto;filter:brightness(10);">
+          {% else %}
+            {{ settings.logo_text | default: 'SHADELESS' }}
+          {% endif %}
+        </a>
+        <p class="footer-brand">{{ section.settings.brand_description }}</p>
+        <p class="footer-brand">{{ settings.global_disclaimer }}</p>
+        <div class="footer-social" style="display:flex;gap:14px;margin-top:16px;">
+          {% if settings.social_instagram != blank %}<a href="{{ settings.social_instagram }}" target="_blank" rel="noopener" aria-label="Instagram" style="font-size:20px;">📸</a>{% endif %}
+          {% if settings.social_tiktok != blank %}<a href="{{ settings.social_tiktok }}" target="_blank" rel="noopener" aria-label="TikTok" style="font-size:20px;">🎵</a>{% endif %}
+          {% if settings.social_facebook != blank %}<a href="{{ settings.social_facebook }}" target="_blank" rel="noopener" aria-label="Facebook" style="font-size:20px;">📘</a>{% endif %}
+          {% if settings.social_youtube != blank %}<a href="{{ settings.social_youtube }}" target="_blank" rel="noopener" aria-label="YouTube" style="font-size:20px;">▶️</a>{% endif %}
+          {% if settings.social_pinterest != blank %}<a href="{{ settings.social_pinterest }}" target="_blank" rel="noopener" aria-label="Pinterest" style="font-size:20px;">📌</a>{% endif %}
+        </div>
       </div>
-      <div class="footer-links"><div class="footer-title">Shop</div><a href="/products/shadeless-3-step-serum-system">3-Step Serum System</a><a href="/products/step-1-prepare-serum">Step 1 Prepare</a><a href="/products/step-2-optimize-serum">Step 2 Optimize</a><a href="/products/step-3-enhance-serum">Step 3 Enhance</a></div>
-      <div class="footer-links"><div class="footer-title">Learn</div><a href="/pages/the-3-step-system">The 3-Step System</a><a href="/pages/science">Peptisinergix&trade;</a><a href="/pages/ingredients">Ingredients</a><a href="/pages/results">Results</a><a href="/pages/our-story">Our Story</a></div>
-      <div class="footer-links"><div class="footer-title">Customer Care</div><a href="/pages/contact">Contact</a><a href="/pages/shipping-returns">Shipping & Returns</a><a href="/pages/faq">FAQ</a><a href="/pages/batch-qr-information">Batch / QR Information</a></div>
-      <div class="footer-links"><div class="footer-title">Legal</div><a href="/policies/terms-of-service">Terms</a><a href="/policies/privacy-policy">Privacy</a><a href="/pages/accessibility">Accessibility</a></div>
+      {% for block in section.blocks %}
+        {% if block.type == 'link_column' %}
+          <div class="footer-links" {{ block.shopify_attributes }}>
+            <div class="footer-title">{{ block.settings.title }}</div>
+            {% assign links = block.settings.links | newline_to_br | split: '<br />' %}
+            {% assign labels = block.settings.labels | newline_to_br | split: '<br />' %}
+            {% for link in links %}
+              {% assign link_clean = link | strip %}
+              {% assign label_clean = labels[forloop.index0] | strip %}
+              {% if link_clean != blank %}
+                <a href="{{ link_clean }}">{{ label_clean | default: link_clean }}</a>
+              {% endif %}
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endfor %}
     </div>
     <div class="footer-bottom">
-      <p>Distributed by: Shadeless Biotechnology Inc., 265 Franklin Street Ste 1702, Boston, MA 02110</p>
-      <p>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. All rights reserved.</p>
+      <p>{{ section.settings.address }}</p>
+      <p>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. {{ section.settings.copyright_text }}</p>
     </div>
   </div>
 </footer>
 {% schema %}
-{"name":"Footer","settings":[]}
+{
+  "name": "Footer",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Brand"
+    },
+    {
+      "type": "textarea",
+      "id": "brand_description",
+      "label": "Brand description",
+      "default": "Shadeless is a biotech skincare brand built around a 3-step serum system for more even-looking tone, smoother-looking texture, and cleaner skin clarity."
+    },
+    {
+      "type": "header",
+      "content": "Footer bottom"
+    },
+    {
+      "type": "textarea",
+      "id": "address",
+      "label": "Address",
+      "default": "Distributed by: Shadeless Biotechnology Inc., 265 Franklin Street Ste 1702, Boston, MA 02110"
+    },
+    {
+      "type": "text",
+      "id": "copyright_text",
+      "label": "Copyright text",
+      "default": "All rights reserved."
+    },
+    {
+      "type": "paragraph",
+      "content": "Social media links are set in Theme Settings → Social media. Colors are set in Theme Settings → Colors."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "link_column",
+      "name": "Link column",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Column title",
+          "default": "Shop"
+        },
+        {
+          "type": "textarea",
+          "id": "labels",
+          "label": "Link labels (one per line)",
+          "default": "3-Step Serum System\nStep 1 Prepare\nStep 2 Optimize\nStep 3 Enhance"
+        },
+        {
+          "type": "textarea",
+          "id": "links",
+          "label": "Link URLs (one per line, same order as labels)",
+          "default": "/products/shadeless-3-step-serum-system\n/products/step-1-prepare-serum\n/products/step-2-optimize-serum\n/products/step-3-enhance-serum"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Footer",
+      "blocks": [
+        {
+          "type": "link_column",
+          "settings": {
+            "title": "Shop",
+            "labels": "3-Step Serum System\nStep 1 Prepare\nStep 2 Optimize\nStep 3 Enhance",
+            "links": "/products/shadeless-3-step-serum-system\n/products/step-1-prepare-serum\n/products/step-2-optimize-serum\n/products/step-3-enhance-serum"
+          }
+        },
+        {
+          "type": "link_column",
+          "settings": {
+            "title": "Learn",
+            "labels": "The 3-Step System\nPeptisinergix™\nIngredients\nResults\nOur Story",
+            "links": "/pages/the-3-step-system\n/pages/science\n/pages/ingredients\n/pages/results\n/pages/our-story"
+          }
+        },
+        {
+          "type": "link_column",
+          "settings": {
+            "title": "Customer Care",
+            "labels": "Contact\nShipping & Returns\nFAQ\nBatch / QR Information",
+            "links": "/pages/contact\n/pages/shipping-returns\n/pages/faq\n/pages/batch-qr-information"
+          }
+        },
+        {
+          "type": "link_column",
+          "settings": {
+            "title": "Legal",
+            "labels": "Terms\nPrivacy\nAccessibility",
+            "links": "/policies/terms-of-service\n/policies/privacy-policy\n/pages/accessibility"
+          }
+        }
+      ]
+    }
+  ]
+}
 {% endschema %}
