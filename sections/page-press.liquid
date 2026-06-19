@@ -1,23 +1,128 @@
-<section class="page-hero"><div class="sh-container"><div class="sh-eyebrow">{{ section.settings.eyebrow }}</div><h1 class="sh-h1">{{ section.settings.heading }}</h1><p class="sh-body">{{ section.settings.body }}</p></div></section>
-<section class="sh-section"><div class="sh-container sh-grid sh-grid-4"><div class="sh-card"><h3 class="sh-h3">{{ section.settings.card1_title }}</h3><p>{{ section.settings.card1_body }}</p></div><div class="sh-card"><h3 class="sh-h3">{{ section.settings.card2_title }}</h3><p>{{ section.settings.card2_body }}</p></div><div class="sh-card"><h3 class="sh-h3">{{ section.settings.card3_title }}</h3><p>{{ section.settings.card3_body }}</p></div><div class="sh-card"><h3 class="sh-h3">{{ section.settings.card4_title }}</h3><p>{{ section.settings.card4_body }}</p></div></div></section>
+<section class="page-hero"
+  style="{% if section.settings.custom_bg != blank %}background:{{ section.settings.custom_bg }};{% elsif section.settings.bg_style == 'white' %}background:#fff;{% elsif section.settings.bg_style == 'dark' %}background:var(--black);color:#fff;{% endif %}{% if section.settings.bg_image %}background-image:url('{{ section.settings.bg_image | image_url: width: 1800 }}');background-size:cover;background-position:center;{% endif %}">
+  <div class="sh-container">
+    {% if section.settings.eyebrow != blank %}<div class="sh-eyebrow">{{ section.settings.eyebrow }}</div>{% endif %}
+    <h1 class="sh-h1">{{ section.settings.heading }}</h1>
+    {% if section.settings.body != blank %}<p class="sh-body">{{ section.settings.body }}</p>{% endif %}
+  </div>
+</section>
+<section class="sh-section">
+  <div class="sh-container sh-grid sh-grid-4">
+    {% for block in section.blocks %}
+      {% if block.type == 'partner_card' %}
+        <div class="sh-card" {{ block.shopify_attributes }}>
+          {% if block.settings.icon != blank %}<div style="font-size:32px;margin-bottom:12px;">{{ block.settings.icon }}</div>{% endif %}
+          {% if block.settings.logo %}<div style="margin-bottom:14px;">{{ block.settings.logo | image_url: width: 200 | image_tag: loading: 'lazy', alt: block.settings.title, style: 'max-height:48px;object-fit:contain;' }}</div>{% endif %}
+          <h3 class="sh-h3">{{ block.settings.title }}</h3>
+          {% if block.settings.body != blank %}<p>{{ block.settings.body }}</p>{% endif %}
+          {% if block.settings.cta_label != blank %}
+            <a class="sh-button sh-button--secondary" href="{{ block.settings.cta_link }}" style="margin-top:14px;display:inline-flex;font-size:13px;padding:10px 16px;">{{ block.settings.cta_label }}</a>
+          {% endif %}
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</section>
 {% schema %}
 {
-  "name": "Page - Press Partnerships",
+  "name": "Press & Partnerships",
   "settings": [
-    {"type": "header", "content": "Hero"},
-    {"type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Press + Partnerships"},
-    {"type": "textarea", "id": "heading", "label": "Heading", "default": "Partner with Shadeless"},
-    {"type": "textarea", "id": "body", "label": "Body text", "default": "A biotech skincare system built around tone, texture, clarity, and intelligent sequence."},
-    {"type": "header", "content": "Cards"},
-    {"type": "text", "id": "card1_title", "label": "Card 1 title", "default": "For press"},
-    {"type": "textarea", "id": "card1_body", "label": "Card 1 body", "default": "Media kit, founder interviews, product information, and assets."},
-    {"type": "text", "id": "card2_title", "label": "Card 2 title", "default": "For creators"},
-    {"type": "textarea", "id": "card2_body", "label": "Card 2 body", "default": "Creator education, sampling, and campaign inquiries."},
-    {"type": "text", "id": "card3_title", "label": "Card 3 title", "default": "For professionals"},
-    {"type": "textarea", "id": "card3_body", "label": "Card 3 body", "default": "Esthetician, spa, and professional education inquiries."},
-    {"type": "text", "id": "card4_title", "label": "Card 4 title", "default": "For retail"},
-    {"type": "textarea", "id": "card4_body", "label": "Card 4 body", "default": "Retail buyer, wholesale, and distribution inquiries."}
+    {
+      "type": "header",
+      "content": "Hero"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Press + Partnerships"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Partner with Shadeless"
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body text",
+      "default": "A biotech skincare system built around tone, texture, clarity, and intelligent sequence."
+    },
+    {
+      "type": "select",
+      "id": "bg_style",
+      "label": "Hero background style",
+      "options": [
+        {"value": "soft", "label": "Soft gradient (default)"},
+        {"value": "white", "label": "White"},
+        {"value": "dark", "label": "Dark"},
+        {"value": "custom", "label": "Custom color"}
+      ],
+      "default": "soft"
+    },
+    {
+      "type": "color",
+      "id": "custom_bg",
+      "label": "Custom hero background color"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Hero background image"
+    }
   ],
-  "presets": [{"name": "Page - Press Partnerships"}]
+  "blocks": [
+    {
+      "type": "partner_card",
+      "name": "Partner card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Icon / emoji",
+          "default": "📰"
+        },
+        {
+          "type": "image_picker",
+          "id": "logo",
+          "label": "Partner logo (optional)"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "For press"
+        },
+        {
+          "type": "textarea",
+          "id": "body",
+          "label": "Body",
+          "default": "Media kit, founder interviews, product information, and assets."
+        },
+        {
+          "type": "text",
+          "id": "cta_label",
+          "label": "Button label (optional)"
+        },
+        {
+          "type": "url",
+          "id": "cta_link",
+          "label": "Button link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Page - Press + Partnerships",
+      "blocks": [
+        {"type": "partner_card", "settings": {"icon": "📰", "title": "For press", "body": "Media kit, founder interviews, product information, and assets."}},
+        {"type": "partner_card", "settings": {"icon": "🎬", "title": "For creators", "body": "Creator education, sampling, and campaign inquiries."}},
+        {"type": "partner_card", "settings": {"icon": "🏥", "title": "For professionals", "body": "Esthetician, spa, and professional education inquiries."}},
+        {"type": "partner_card", "settings": {"icon": "🏪", "title": "For retail", "body": "Retail buyer, wholesale, and distribution inquiries."}}
+      ]
+    }
+  ]
 }
 {% endschema %}
