@@ -4,7 +4,7 @@
       <div>
         <a class="brand-logo" href="{{ routes.root_url }}">
           {% if settings.logo_image %}
-            <img src="{{ settings.logo_image | image_url: width: 200 }}" alt="{{ settings.logo_text | default: shop.name }}" style="max-width:160px;height:auto;filter:brightness(10);">
+            <img src="{{ settings.logo_image | image_url: width: 200 }}" alt="{{ settings.logo_text | default: shop.name }}" width="200" height="60" style="max-width:160px;height:auto;filter:brightness(10);">
           {% else %}
             {{ settings.logo_text | default: 'SHADELESS' }}
           {% endif %}
