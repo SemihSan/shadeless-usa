@@ -1,1 +1,414 @@
-[]
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Shadeless",
+    "theme_version": "2.0.0",
+    "theme_author": "Shadeless Biotechnology",
+    "theme_documentation_url": "https://shadeless.us",
+    "theme_support_url": "https://shadeless.us/pages/contact"
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Brand colors"
+      },
+      {
+        "type": "color",
+        "id": "color_accent",
+        "label": "Accent / brand color",
+        "default": "#9e1717",
+        "info": "Used for buttons, eyebrows, highlights, and accents throughout the site."
+      },
+      {
+        "type": "color",
+        "id": "color_accent_dark",
+        "label": "Accent dark (hover)",
+        "default": "#7d1010",
+        "info": "Darker shade used on hover states."
+      },
+      {
+        "type": "header",
+        "content": "Text colors"
+      },
+      {
+        "type": "color",
+        "id": "color_text",
+        "label": "Primary text",
+        "default": "#111111"
+      },
+      {
+        "type": "color",
+        "id": "color_text_secondary",
+        "label": "Secondary text",
+        "default": "#303030"
+      },
+      {
+        "type": "color",
+        "id": "color_text_muted",
+        "label": "Muted text",
+        "default": "#6d6d6d"
+      },
+      {
+        "type": "header",
+        "content": "Background colors"
+      },
+      {
+        "type": "color",
+        "id": "color_bg",
+        "label": "Page background",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "color_bg_soft",
+        "label": "Soft background",
+        "default": "#f7f5f3",
+        "info": "Used on cards and alternate section backgrounds."
+      },
+      {
+        "type": "color",
+        "id": "color_border",
+        "label": "Border / line color",
+        "default": "#e7e3df"
+      },
+      {
+        "type": "header",
+        "content": "Header colors"
+      },
+      {
+        "type": "color",
+        "id": "color_header_bg",
+        "label": "Header background",
+        "default": "#ffffff",
+        "info": "Header uses a semi-transparent version of this color."
+      },
+      {
+        "type": "color",
+        "id": "color_header_text",
+        "label": "Header text / nav",
+        "default": "#111111"
+      },
+      {
+        "type": "color",
+        "id": "color_logo",
+        "label": "Logo color",
+        "default": "#9e1717"
+      },
+      {
+        "type": "header",
+        "content": "Footer colors"
+      },
+      {
+        "type": "color",
+        "id": "color_footer_bg",
+        "label": "Footer background",
+        "default": "#111111"
+      },
+      {
+        "type": "color",
+        "id": "color_footer_text",
+        "label": "Footer text",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "color_footer_link",
+        "label": "Footer links",
+        "default": "#e9e4e0"
+      },
+      {
+        "type": "header",
+        "content": "Announcement bar colors"
+      },
+      {
+        "type": "color",
+        "id": "color_announcement_bg",
+        "label": "Announcement background",
+        "default": "#9e1717"
+      },
+      {
+        "type": "color",
+        "id": "color_announcement_text",
+        "label": "Announcement text",
+        "default": "#ffffff"
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Font settings"
+      },
+      {
+        "type": "font_picker",
+        "id": "font_body",
+        "label": "Body font",
+        "default": "assistant_n4"
+      },
+      {
+        "type": "font_picker",
+        "id": "font_heading",
+        "label": "Heading font",
+        "default": "assistant_n7"
+      },
+      {
+        "type": "font_picker",
+        "id": "font_logo",
+        "label": "Logo font",
+        "default": "playfair_display_n4",
+        "info": "Used for the text logo in the header."
+      },
+      {
+        "type": "range",
+        "id": "font_size_base",
+        "label": "Base font size",
+        "min": 14,
+        "max": 20,
+        "step": 1,
+        "unit": "px",
+        "default": 16
+      }
+    ]
+  },
+  {
+    "name": "Logo & Brand",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Logo"
+      },
+      {
+        "type": "image_picker",
+        "id": "logo_image",
+        "label": "Logo image",
+        "info": "If empty, the text logo will be shown. Recommended max height: 60px."
+      },
+      {
+        "type": "range",
+        "id": "logo_max_width",
+        "label": "Logo max width",
+        "min": 80,
+        "max": 300,
+        "step": 10,
+        "unit": "px",
+        "default": 160
+      },
+      {
+        "type": "text",
+        "id": "logo_text",
+        "label": "Text logo",
+        "default": "SHADELESS",
+        "info": "Shown when no logo image is uploaded."
+      },
+      {
+        "type": "header",
+        "content": "Brand info"
+      },
+      {
+        "type": "text",
+        "id": "brand_name",
+        "label": "Brand name",
+        "default": "Shadeless"
+      },
+      {
+        "type": "textarea",
+        "id": "brand_tagline",
+        "label": "Brand tagline",
+        "default": "Biotech skincare for more even-looking tone, smoother texture, and cleaner skin clarity."
+      },
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon",
+        "info": "Appears in browser tabs. Use a square PNG, at least 32x32px."
+      }
+    ]
+  },
+  {
+    "name": "Social media",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Social links"
+      },
+      {
+        "type": "url",
+        "id": "social_instagram",
+        "label": "Instagram URL"
+      },
+      {
+        "type": "url",
+        "id": "social_tiktok",
+        "label": "TikTok URL"
+      },
+      {
+        "type": "url",
+        "id": "social_facebook",
+        "label": "Facebook URL"
+      },
+      {
+        "type": "url",
+        "id": "social_youtube",
+        "label": "YouTube URL"
+      },
+      {
+        "type": "url",
+        "id": "social_pinterest",
+        "label": "Pinterest URL"
+      }
+    ]
+  },
+  {
+    "name": "Layout",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Container width"
+      },
+      {
+        "type": "range",
+        "id": "layout_max_width",
+        "label": "Max content width",
+        "min": 960,
+        "max": 1440,
+        "step": 20,
+        "unit": "px",
+        "default": 1180
+      },
+      {
+        "type": "range",
+        "id": "layout_border_radius",
+        "label": "Card border radius",
+        "min": 0,
+        "max": 40,
+        "step": 2,
+        "unit": "px",
+        "default": 22
+      },
+      {
+        "type": "header",
+        "content": "Section padding"
+      },
+      {
+        "type": "range",
+        "id": "section_padding_desktop",
+        "label": "Section padding (desktop)",
+        "min": 40,
+        "max": 140,
+        "step": 4,
+        "unit": "px",
+        "default": 88
+      },
+      {
+        "type": "range",
+        "id": "section_padding_mobile",
+        "label": "Section padding (mobile)",
+        "min": 30,
+        "max": 100,
+        "step": 5,
+        "unit": "px",
+        "default": 60
+      }
+    ]
+  },
+  {
+    "name": "Buttons",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Primary button"
+      },
+      {
+        "type": "color",
+        "id": "btn_primary_bg",
+        "label": "Primary button background",
+        "default": "#111111"
+      },
+      {
+        "type": "color",
+        "id": "btn_primary_text",
+        "label": "Primary button text",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "btn_primary_hover_bg",
+        "label": "Primary button hover background",
+        "default": "#9e1717"
+      },
+      {
+        "type": "header",
+        "content": "Accent button (red)"
+      },
+      {
+        "type": "color",
+        "id": "btn_accent_bg",
+        "label": "Accent button background",
+        "default": "#9e1717"
+      },
+      {
+        "type": "color",
+        "id": "btn_accent_text",
+        "label": "Accent button text",
+        "default": "#ffffff"
+      },
+      {
+        "type": "range",
+        "id": "btn_border_radius",
+        "label": "Button border radius",
+        "min": 0,
+        "max": 60,
+        "step": 2,
+        "unit": "px",
+        "default": 60
+      }
+    ]
+  },
+  {
+    "name": "Cart",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Cart settings"
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_show_item_count",
+        "label": "Show item count in header",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "cart_empty_text",
+        "label": "Empty cart message",
+        "default": "Your cart is empty."
+      },
+      {
+        "type": "text",
+        "id": "cart_checkout_label",
+        "label": "Checkout button label",
+        "default": "Proceed to Checkout"
+      }
+    ]
+  },
+  {
+    "name": "Cookie & Legal",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Legal disclaimer"
+      },
+      {
+        "type": "textarea",
+        "id": "global_disclaimer",
+        "label": "Global product disclaimer",
+        "default": "Shadeless products are cosmetic skincare products. They are not intended to diagnose, treat, cure, or prevent any disease. Individual results may vary.",
+        "info": "Shown in the footer."
+      }
+    ]
+  }
+]
