@@ -1,36 +1,24 @@
-<section class="sh-section"
-  style="{% if section.settings.custom_bg != blank %}background:{{ section.settings.custom_bg }};{% elsif section.settings.bg_style == 'soft' %}background:linear-gradient(180deg,#fff,var(--soft));{% endif %}{% if section.settings.padding_top > 0 %}padding-top:{{ section.settings.padding_top }}px;{% endif %}{% if section.settings.padding_bottom > 0 %}padding-bottom:{{ section.settings.padding_bottom }}px;{% endif %}">
+<section class="sh-section sh-bleed">
   <div class="sh-container product-feature">
     <div class="product-feature-image">
-      {% if section.settings.image != blank %}
-        {{ section.settings.image | image_url: width: 900 | image_tag: loading: 'lazy', alt: section.settings.image_alt }}
+      {% assign featured_product = all_products[section.settings.product] %}
+      {% if featured_product and featured_product.featured_image %}
+        {{ featured_product.featured_image | image_url: width: 900 | image_tag: loading: 'lazy', alt: featured_product.title }}
       {% else %}
-        {% assign featured_product = all_products[section.settings.product] %}
-        {% if featured_product and featured_product.featured_image %}
-          {{ featured_product.featured_image | image_url: width: 900 | image_tag: loading: 'lazy', alt: featured_product.title }}
-        {% else %}
-          <img src="{{ 'shadeless-front.png' | asset_url }}" alt="Shadeless 3-Step Serum System">
-        {% endif %}
+        <img src="{{ 'shadeless-front.png' | asset_url }}" alt="Shadeless 3-Step Serum System">
       {% endif %}
     </div>
     <div>
-      {% if section.settings.eyebrow != blank %}<div class="sh-eyebrow">{{ section.settings.eyebrow }}</div>{% endif %}
+      <div class="sh-eyebrow">{{ section.settings.eyebrow }}</div>
       <h2 class="sh-h2">{{ section.settings.heading }}</h2>
-      {% if section.settings.body != blank %}<p class="sh-body">{{ section.settings.body }}</p>{% endif %}
+      <p class="sh-body">{{ section.settings.body }}</p>
       <ul class="sh-list">
-        {% for block in section.blocks %}
-          {% if block.type == 'list_item' %}
-            <li {{ block.shopify_attributes }}>{{ block.settings.text }}</li>
-          {% endif %}
-        {% endfor %}
+        {% assign list_items = section.settings.list_items | newline_to_br | split: '<br />' %}
+        {% for item in list_items %}{% assign item_clean = item | strip %}{% if item_clean != '' %}<li>{{ item_clean }}</li>{% endif %}{% endfor %}
       </ul>
       <div class="sh-button-row" style="margin-top:24px;">
-        {% if section.settings.primary_label != blank %}
-          <a class="sh-button sh-button--red" href="{% if featured_product %}{{ featured_product.url }}{% else %}{{ section.settings.primary_link | default: '/products/shadeless-3-step-serum-system' }}{% endif %}">{{ section.settings.primary_label }}</a>
-        {% endif %}
-        {% if section.settings.secondary_label != blank %}
-          <a class="sh-button sh-button--secondary" href="{{ section.settings.secondary_link | default: '/pages/the-3-step-system' }}">{{ section.settings.secondary_label }}</a>
-        {% endif %}
+        <a class="sh-button sh-button--red" href="{% if featured_product %}{{ featured_product.url }}{% else %}{{ section.settings.primary_link | default: '/products/shadeless-3-step-serum-system' }}{% endif %}">{{ section.settings.primary_label }}</a>
+        <a class="sh-button sh-button--secondary" href="{{ section.settings.secondary_link | default: '/pages/the-3-step-system' }}">{{ section.settings.secondary_label }}</a>
       </div>
     </div>
   </div>
@@ -39,133 +27,16 @@
 {
   "name": "Featured 3-Step System",
   "settings": [
-    {
-      "type": "header",
-      "content": "Content"
-    },
-    {
-      "type": "product",
-      "id": "product",
-      "label": "Featured product",
-      "info": "Product image is used if no custom image is set below."
-    },
-    {
-      "type": "text",
-      "id": "eyebrow",
-      "label": "Eyebrow",
-      "default": "Best place to start"
-    },
-    {
-      "type": "textarea",
-      "id": "heading",
-      "label": "Heading",
-      "default": "Start with the full 3-Step Serum System."
-    },
-    {
-      "type": "textarea",
-      "id": "body",
-      "label": "Body text",
-      "default": "A biotech serum system for more even-looking tone, smoother-looking texture, and cleaner skin clarity."
-    },
-    {
-      "type": "header",
-      "content": "Buttons"
-    },
-    {
-      "type": "text",
-      "id": "primary_label",
-      "label": "Primary button label",
-      "default": "Shop the System"
-    },
-    {
-      "type": "url",
-      "id": "primary_link",
-      "label": "Primary button link (if no product selected)"
-    },
-    {
-      "type": "text",
-      "id": "secondary_label",
-      "label": "Secondary button label",
-      "default": "Compare the Steps"
-    },
-    {
-      "type": "url",
-      "id": "secondary_link",
-      "label": "Secondary button link"
-    },
-    {
-      "type": "header",
-      "content": "Image"
-    },
-    {
-      "type": "image_picker",
-      "id": "image",
-      "label": "Custom product image",
-      "info": "Overrides the product image above."
-    },
-    {
-      "type": "text",
-      "id": "image_alt",
-      "label": "Image alt text",
-      "default": "Shadeless 3-Step Serum System"
-    },
-    {
-      "type": "header",
-      "content": "Section appearance"
-    },
-    {
-      "type": "select",
-      "id": "bg_style",
-      "label": "Background style",
-      "options": [
-        {"value": "white", "label": "White"},
-        {"value": "soft", "label": "Soft gradient"},
-        {"value": "custom", "label": "Custom color"}
-      ],
-      "default": "soft"
-    },
-    {
-      "type": "color",
-      "id": "custom_bg",
-      "label": "Custom background color"
-    },
-    {
-      "type": "range",
-      "id": "padding_top",
-      "label": "Top padding",
-      "min": 0, "max": 160, "step": 4, "unit": "px", "default": 0
-    },
-    {
-      "type": "range",
-      "id": "padding_bottom",
-      "label": "Bottom padding",
-      "min": 0, "max": 160, "step": 4, "unit": "px", "default": 0
-    }
+    {"type": "product", "id": "product", "label": "Featured product"},
+    {"type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Best place to start"},
+    {"type": "textarea", "id": "heading", "label": "Heading", "default": "Start with the full 3-Step Serum System."},
+    {"type": "textarea", "id": "body", "label": "Body text", "default": "A biotech serum system for more even-looking tone, smoother-looking texture, and cleaner skin clarity."},
+    {"type": "textarea", "id": "list_items", "label": "List items (one per line)", "default": "Step 1 Prepare Serum\nStep 2 Optimize Serum\nStep 3 Enhance Serum\nRoutine Guide"},
+    {"type": "text", "id": "primary_label", "label": "Primary button label", "default": "Shop the System"},
+    {"type": "url", "id": "primary_link", "label": "Primary button link (if no product selected)"},
+    {"type": "text", "id": "secondary_label", "label": "Secondary button label", "default": "Compare the Steps"},
+    {"type": "url", "id": "secondary_link", "label": "Secondary button link"}
   ],
-  "blocks": [
-    {
-      "type": "list_item",
-      "name": "List item",
-      "settings": [
-        {
-          "type": "text",
-          "id": "text",
-          "label": "Item text",
-          "default": "Step 1 Prepare Serum"
-        }
-      ]
-    }
-  ],
-  "presets": [
-    {
-      "name": "Featured 3-Step System",
-      "blocks": [
-        {"type": "list_item", "settings": {"text": "Step 1 Prepare Serum"}},
-        {"type": "list_item", "settings": {"text": "Step 2 Optimize Serum"}},
-        {"type": "list_item", "settings": {"text": "Step 3 Enhance Serum"}},
-        {"type": "list_item", "settings": {"text": "Routine Guide"}}
-      ]
-    }
-  ]
+  "presets": [{"name": "Featured 3-Step System"}]
 }
 {% endschema %}

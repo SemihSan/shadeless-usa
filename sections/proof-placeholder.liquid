@@ -1,34 +1,127 @@
-<section class="sh-section">
+<section class="sh-section"
+  style="{% if section.settings.custom_bg != blank %}background:{{ section.settings.custom_bg }};{% elsif section.settings.bg_style == 'soft' %}background:linear-gradient(180deg,#fff,var(--soft));{% endif %}{% if section.settings.padding_top > 0 %}padding-top:{{ section.settings.padding_top }}px;{% endif %}{% if section.settings.padding_bottom > 0 %}padding-bottom:{{ section.settings.padding_bottom }}px;{% endif %}">
   <div class="sh-container sh-center">
-    <div class="sh-eyebrow">{{ section.settings.eyebrow }}</div>
+    {% if section.settings.eyebrow != blank %}<div class="sh-eyebrow">{{ section.settings.eyebrow }}</div>{% endif %}
     <h2 class="sh-h2">{{ section.settings.heading }}</h2>
-    <p class="sh-body" style="max-width:820px;margin:0 auto;">{{ section.settings.body }}</p>
+    {% if section.settings.body != blank %}<p class="sh-body" style="max-width:820px;margin:0 auto;">{{ section.settings.body }}</p>{% endif %}
     <div class="sh-grid sh-grid-3" style="margin-top:34px;text-align:left;">
-      <div class="sh-card"><h3 class="sh-h3">{{ section.settings.card1_title }}</h3><p>{{ section.settings.card1_body }}</p></div>
-      <div class="sh-card"><h3 class="sh-h3">{{ section.settings.card2_title }}</h3><p>{{ section.settings.card2_body }}</p></div>
-      <div class="sh-card"><h3 class="sh-h3">{{ section.settings.card3_title }}</h3><p>{{ section.settings.card3_body }}</p></div>
+      {% for block in section.blocks %}
+        {% if block.type == 'stat_card' %}
+          <div class="sh-card" {{ block.shopify_attributes }}>
+            {% if block.settings.stat != blank %}<div style="font-size:clamp(36px,5vw,60px);font-weight:800;color:var(--red);letter-spacing:-.03em;line-height:1;margin-bottom:8px;">{{ block.settings.stat }}</div>{% endif %}
+            {% if block.settings.icon != blank %}<div style="font-size:32px;margin-bottom:8px;">{{ block.settings.icon }}</div>{% endif %}
+            <h3 class="sh-h3">{{ block.settings.title }}</h3>
+            {% if block.settings.body != blank %}<p>{{ block.settings.body }}</p>{% endif %}
+          </div>
+        {% endif %}
+      {% endfor %}
     </div>
-    <p class="sh-small" style="margin-top:22px;">{{ section.settings.disclaimer }}</p>
+    {% if section.settings.disclaimer != blank %}<p class="sh-small" style="margin-top:22px;">{{ section.settings.disclaimer }}</p>{% endif %}
   </div>
 </section>
 {% schema %}
 {
-  "name": "Proof placeholder",
+  "name": "Proof / Results cards",
   "settings": [
-    {"type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Results"},
-    {"type": "textarea", "id": "heading", "label": "Heading", "default": "Visible results should be documented, not exaggerated."},
-    {"type": "textarea", "id": "body", "label": "Body text", "default": "We are building our U.S. results library through verified customer reviews, product feedback, and future consumer perception studies."},
-    {"type": "header", "content": "Card 1"},
-    {"type": "text", "id": "card1_title", "label": "Title", "default": "Verified customer reviews"},
-    {"type": "textarea", "id": "card1_body", "label": "Body", "default": "Coming soon."},
-    {"type": "header", "content": "Card 2"},
-    {"type": "text", "id": "card2_title", "label": "Title", "default": "Consumer perception study"},
-    {"type": "textarea", "id": "card2_body", "label": "Body", "default": "Coming soon."},
-    {"type": "header", "content": "Card 3"},
-    {"type": "text", "id": "card3_title", "label": "Title", "default": "Before / after policy"},
-    {"type": "textarea", "id": "card3_body", "label": "Body", "default": "Consent, consistent lighting, and clear usage context."},
-    {"type": "text", "id": "disclaimer", "label": "Disclaimer text", "default": "Individual results may vary."}
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Results"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Visible results should be documented, not exaggerated."
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body text",
+      "default": "We are building our U.S. results library through verified customer reviews, product feedback, and future consumer perception studies."
+    },
+    {
+      "type": "text",
+      "id": "disclaimer",
+      "label": "Disclaimer text",
+      "default": "Individual results may vary."
+    },
+    {
+      "type": "header",
+      "content": "Section appearance"
+    },
+    {
+      "type": "select",
+      "id": "bg_style",
+      "label": "Background style",
+      "options": [
+        {"value": "white", "label": "White"},
+        {"value": "soft", "label": "Soft gradient"},
+        {"value": "custom", "label": "Custom color"}
+      ],
+      "default": "white"
+    },
+    {
+      "type": "color",
+      "id": "custom_bg",
+      "label": "Custom background color"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0, "max": 160, "step": 4, "unit": "px", "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0, "max": 160, "step": 4, "unit": "px", "default": 0
+    }
   ],
-  "presets": [{"name": "Proof placeholder"}]
+  "blocks": [
+    {
+      "type": "stat_card",
+      "name": "Result card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "stat",
+          "label": "Statistic / number",
+          "default": "94%",
+          "info": "Optional large number displayed in accent color."
+        },
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Icon / emoji (optional)",
+          "info": "Optional emoji shown above the title."
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Verified customer reviews"
+        },
+        {
+          "type": "textarea",
+          "id": "body",
+          "label": "Body text",
+          "default": "Coming soon."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Proof / Results cards",
+      "blocks": [
+        {"type": "stat_card", "settings": {"stat": "", "icon": "⭐", "title": "Verified customer reviews", "body": "Coming soon."}},
+        {"type": "stat_card", "settings": {"stat": "", "icon": "🔬", "title": "Consumer perception study", "body": "Coming soon."}},
+        {"type": "stat_card", "settings": {"stat": "", "icon": "📸", "title": "Before / after policy", "body": "Consent, consistent lighting, and clear usage context."}}
+      ]
+    }
+  ]
 }
 {% endschema %}
