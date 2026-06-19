@@ -1,23 +1,138 @@
-<section class="page-hero"><div class="sh-container"><div class="sh-eyebrow">{{ section.settings.eyebrow }}</div><h1 class="sh-h1">{{ section.settings.heading }}</h1><p class="sh-body">{{ section.settings.body }}</p><a class="sh-button sh-button--red" href="{{ section.settings.cta_link | default: '/products/shadeless-3-step-serum-system' }}">{{ section.settings.cta_label }}</a></div></section>
-<section class="sh-section sh-bleed"><div class="sh-container sh-grid sh-grid-2"><div><h2 class="sh-h2">{{ section.settings.s2_heading }}</h2><p class="sh-body">{{ section.settings.s2_body }}</p></div><div class="sh-card"><h3 class="sh-h3">{{ section.settings.card_title }}</h3><p><strong>{{ section.settings.card_single_label }}:</strong> {{ section.settings.card_single_body }}</p><p><strong>{{ section.settings.card_system_label }}:</strong> {{ section.settings.card_system_body }}</p></div></div></section>
+<section class="page-hero"
+  style="{% if section.settings.custom_bg != blank %}background:{{ section.settings.custom_bg }};{% elsif section.settings.bg_style == 'white' %}background:#fff;{% elsif section.settings.bg_style == 'dark' %}background:var(--black);color:#fff;{% endif %}{% if section.settings.bg_image %}background-image:url('{{ section.settings.bg_image | image_url: width: 1800 }}');background-size:cover;background-position:center;{% endif %}">
+  <div class="sh-container">
+    {% if section.settings.eyebrow != blank %}<div class="sh-eyebrow">{{ section.settings.eyebrow }}</div>{% endif %}
+    <h1 class="sh-h1">{{ section.settings.heading }}</h1>
+    {% if section.settings.body != blank %}<p class="sh-body">{{ section.settings.body }}</p>{% endif %}
+    {% if section.settings.cta_label != blank %}
+      <a class="sh-button sh-button--red" href="{{ section.settings.cta_link | default: '/products/shadeless-3-step-serum-system' }}" style="margin-top:24px;display:inline-flex;">{{ section.settings.cta_label }}</a>
+    {% endif %}
+  </div>
+</section>
+<section class="sh-section sh-bleed">
+  <div class="sh-container sh-grid sh-grid-2">
+    <div>
+      {% if section.settings.s2_heading != blank %}<h2 class="sh-h2">{{ section.settings.s2_heading }}</h2>{% endif %}
+      {% if section.settings.s2_body != blank %}<p class="sh-body">{{ section.settings.s2_body }}</p>{% endif %}
+      {% if section.settings.s2_image != blank %}
+        <div style="margin-top:20px;">{{ section.settings.s2_image | image_url: width: 900 | image_tag: loading: 'lazy', alt: section.settings.s2_heading }}</div>
+      {% endif %}
+    </div>
+    <div class="sh-card sh-card-soft">
+      {% if section.settings.card_title != blank %}<h3 class="sh-h3">{{ section.settings.card_title }}</h3>{% endif %}
+      {% if section.settings.card_body != blank %}<p>{{ section.settings.card_body }}</p>{% endif %}
+      {% if section.settings.card_cta_label != blank %}
+        <a class="sh-button sh-button--secondary" href="{{ section.settings.card_cta_link }}" style="margin-top:16px;display:inline-flex;">{{ section.settings.card_cta_label }}</a>
+      {% endif %}
+    </div>
+  </div>
+</section>
 {% schema %}
 {
   "name": "Page - 3-Step System",
   "settings": [
-    {"type": "header", "content": "Hero"},
-    {"type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The 3-Step System"},
-    {"type": "textarea", "id": "heading", "label": "Heading", "default": "The system behind smoother-looking texture, more even-looking tone, and cleaner skin clarity."},
-    {"type": "textarea", "id": "body", "label": "Body text", "default": "Shadeless organizes active skincare into three coordinated steps: Prepare, Optimize, Enhance."},
-    {"type": "text", "id": "cta_label", "label": "Button label", "default": "Shop the 3-Step System"},
-    {"type": "url", "id": "cta_link", "label": "Button link"},
-    {"type": "header", "content": "Comparison section"},
-    {"type": "textarea", "id": "s2_heading", "label": "Heading", "default": "For skin that looks like it needs more than one answer."},
-    {"type": "textarea", "id": "s2_body", "label": "Body text", "default": "Dullness, rough-looking texture, uneven-looking tone, visible pores, post-blemish mark appearance, lack of clarity, and makeup that does not sit smoothly often show up together."},
-    {"type": "text", "id": "card_title", "label": "Card title", "default": "Full system vs. single serum"},
-    {"type": "text", "id": "card_single_label", "label": "Single label", "default": "Single serum"},
-    {"type": "textarea", "id": "card_single_body", "label": "Single body", "default": "may address one concern but can leave the routine incomplete."},
-    {"type": "text", "id": "card_system_label", "label": "System label", "default": "Shadeless system"},
-    {"type": "textarea", "id": "card_system_body", "label": "System body", "default": "organizes visible tone, texture, and clarity goals into a clear sequence."}
+    {
+      "type": "header",
+      "content": "Hero"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "The 3-Step System"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "The system behind smoother-looking texture, more even-looking tone, and cleaner skin clarity."
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body text",
+      "default": "Shadeless organizes active skincare into three coordinated steps: Prepare, Optimize, Enhance."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Button label",
+      "default": "Shop the 3-Step System"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button link"
+    },
+    {
+      "type": "select",
+      "id": "bg_style",
+      "label": "Hero background style",
+      "options": [
+        {"value": "soft", "label": "Soft gradient (default)"},
+        {"value": "white", "label": "White"},
+        {"value": "dark", "label": "Dark"},
+        {"value": "custom", "label": "Custom color"}
+      ],
+      "default": "soft"
+    },
+    {
+      "type": "color",
+      "id": "custom_bg",
+      "label": "Custom hero background color"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Hero background image"
+    },
+    {
+      "type": "header",
+      "content": "Content section"
+    },
+    {
+      "type": "textarea",
+      "id": "s2_heading",
+      "label": "Heading",
+      "default": "For skin that looks like it needs more than one answer."
+    },
+    {
+      "type": "textarea",
+      "id": "s2_body",
+      "label": "Body text",
+      "default": "Dullness, rough-looking texture, uneven-looking tone, visible pores, post-blemish mark appearance, lack of clarity, and makeup that does not sit smoothly often show up together."
+    },
+    {
+      "type": "image_picker",
+      "id": "s2_image",
+      "label": "Content section image (optional)"
+    },
+    {
+      "type": "header",
+      "content": "Card"
+    },
+    {
+      "type": "text",
+      "id": "card_title",
+      "label": "Card title",
+      "default": "Full system vs. single serum"
+    },
+    {
+      "type": "textarea",
+      "id": "card_body",
+      "label": "Card body",
+      "default": "Single serum may address one concern. The Shadeless system organizes visible tone, texture, and clarity goals into a clear sequence."
+    },
+    {
+      "type": "text",
+      "id": "card_cta_label",
+      "label": "Card button label (optional)"
+    },
+    {
+      "type": "url",
+      "id": "card_cta_link",
+      "label": "Card button link"
+    }
   ],
   "presets": [{"name": "Page - 3-Step System"}]
 }
