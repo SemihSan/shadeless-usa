@@ -1,20 +1,130 @@
-<section class="page-hero"><div class="sh-container"><div class="sh-eyebrow">{{ section.settings.eyebrow }}</div><h1 class="sh-h1">{{ section.settings.heading }}</h1><p class="sh-body">{{ section.settings.body }}</p></div></section>
-<section class="sh-section"><div class="sh-container sh-grid sh-grid-2"><div class="sh-card"><h2 class="sh-h2">{{ section.settings.shipping_heading }}</h2><ul class="sh-list">{% assign si = section.settings.shipping_items | newline_to_br | split: '<br />' %}{% for item in si %}{% assign ic = item | strip %}{% if ic != '' %}<li>{{ ic }}</li>{% endif %}{% endfor %}</ul></div><div class="sh-card"><h2 class="sh-h2">{{ section.settings.returns_heading }}</h2><ul class="sh-list">{% assign ri = section.settings.returns_items | newline_to_br | split: '<br />' %}{% for item in ri %}{% assign ic = item | strip %}{% if ic != '' %}<li>{{ ic }}</li>{% endif %}{% endfor %}</ul></div></div></section>
+<section class="page-hero"
+  style="{% if section.settings.custom_bg != blank %}background:{{ section.settings.custom_bg }};{% elsif section.settings.bg_style == 'white' %}background:#fff;{% elsif section.settings.bg_style == 'dark' %}background:var(--black);color:#fff;{% endif %}{% if section.settings.bg_image %}background-image:url('{{ section.settings.bg_image | image_url: width: 1800 }}');background-size:cover;background-position:center;{% endif %}">
+  <div class="sh-container">
+    {% if section.settings.eyebrow != blank %}<div class="sh-eyebrow">{{ section.settings.eyebrow }}</div>{% endif %}
+    <h1 class="sh-h1">{{ section.settings.heading }}</h1>
+    {% if section.settings.body != blank %}<p class="sh-body">{{ section.settings.body }}</p>{% endif %}
+  </div>
+</section>
+<section class="sh-section">
+  <div class="sh-container sh-grid sh-grid-2">
+    <div class="sh-card">
+      {% if section.settings.shipping_heading != blank %}<h2 class="sh-h2">{{ section.settings.shipping_heading }}</h2>{% endif %}
+      <ul class="sh-list">
+        {% for block in section.blocks %}
+          {% if block.type == 'shipping_item' %}
+            <li {{ block.shopify_attributes }}>{{ block.settings.text }}</li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="sh-card">
+      {% if section.settings.returns_heading != blank %}<h2 class="sh-h2">{{ section.settings.returns_heading }}</h2>{% endif %}
+      <ul class="sh-list">
+        {% for block in section.blocks %}
+          {% if block.type == 'returns_item' %}
+            <li {{ block.shopify_attributes }}>{{ block.settings.text }}</li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</section>
 {% schema %}
 {
-  "name": "Page - Shipping Returns",
+  "name": "Page - Shipping & Returns",
   "settings": [
-    {"type": "header", "content": "Hero"},
-    {"type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Customer Care"},
-    {"type": "textarea", "id": "heading", "label": "Heading", "default": "Shipping & Returns"},
-    {"type": "textarea", "id": "body", "label": "Body text", "default": "Add final U.S. shipping, processing, return, refund, and damaged-product policies before launch."},
-    {"type": "header", "content": "Shipping card"},
-    {"type": "text", "id": "shipping_heading", "label": "Heading", "default": "Shipping"},
-    {"type": "textarea", "id": "shipping_items", "label": "Items (one per line)", "default": "U.S. shipping regions: [insert]\nFree shipping threshold: [insert]\nProcessing time: [insert]\nDelivery estimate: [insert]"},
-    {"type": "header", "content": "Returns card"},
-    {"type": "text", "id": "returns_heading", "label": "Heading", "default": "Returns"},
-    {"type": "textarea", "id": "returns_items", "label": "Items (one per line)", "default": "Return window: [insert]\nOpened product policy: [insert]\nDamaged product policy: [insert]\nRefund timing: [insert]"}
+    {
+      "type": "header",
+      "content": "Hero"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Customer Care"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Shipping & Returns"
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body text",
+      "default": "All U.S. shipping, processing, return, and refund policies."
+    },
+    {
+      "type": "select",
+      "id": "bg_style",
+      "label": "Hero background style",
+      "options": [
+        {"value": "soft", "label": "Soft gradient (default)"},
+        {"value": "white", "label": "White"},
+        {"value": "dark", "label": "Dark"},
+        {"value": "custom", "label": "Custom color"}
+      ],
+      "default": "soft"
+    },
+    {
+      "type": "color",
+      "id": "custom_bg",
+      "label": "Custom hero background color"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Hero background image"
+    },
+    {
+      "type": "header",
+      "content": "Column headings"
+    },
+    {
+      "type": "text",
+      "id": "shipping_heading",
+      "label": "Shipping column heading",
+      "default": "Shipping"
+    },
+    {
+      "type": "text",
+      "id": "returns_heading",
+      "label": "Returns column heading",
+      "default": "Returns"
+    }
   ],
-  "presets": [{"name": "Page - Shipping Returns"}]
+  "blocks": [
+    {
+      "type": "shipping_item",
+      "name": "Shipping item",
+      "settings": [
+        {"type": "text", "id": "text", "label": "Item text", "default": "U.S. shipping regions: [insert]"}
+      ]
+    },
+    {
+      "type": "returns_item",
+      "name": "Returns item",
+      "settings": [
+        {"type": "text", "id": "text", "label": "Item text", "default": "Return window: [insert]"}
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Page - Shipping & Returns",
+      "blocks": [
+        {"type": "shipping_item", "settings": {"text": "U.S. shipping regions: [insert]"}},
+        {"type": "shipping_item", "settings": {"text": "Free shipping threshold: [insert]"}},
+        {"type": "shipping_item", "settings": {"text": "Processing time: [insert]"}},
+        {"type": "shipping_item", "settings": {"text": "Delivery estimate: [insert]"}},
+        {"type": "returns_item", "settings": {"text": "Return window: [insert]"}},
+        {"type": "returns_item", "settings": {"text": "Opened product policy: [insert]"}},
+        {"type": "returns_item", "settings": {"text": "Damaged product policy: [insert]"}},
+        {"type": "returns_item", "settings": {"text": "Refund timing: [insert]"}}
+      ]
+    }
+  ]
 }
 {% endschema %}
