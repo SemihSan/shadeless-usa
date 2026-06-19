@@ -49,55 +49,65 @@
         "settings": {
           "text": "Introducing the Shadeless 3-Step Serum System — Prepare. Optimize. Enhance.",
           "show_emoji": false,
-          "emoji": "✨"
+          "emoji": "✨",
+          "link": "",
+          "link_label": "Shop Now"
         }
       },
       "header": {
         "type": "header",
         "blocks": {
-          "nav-shop": {
-            "type": "nav_link",
-            "settings": {
-              "label": "Shop",
-              "link": "/collections/all"
-            }
-          },
-          "nav-system": {
+          "nav_link_njrb8V": {
             "type": "nav_link",
             "settings": {
               "label": "The 3-Step System",
-              "link": "/pages/the-3-step-system"
+              "link": "shopify://pages/the-3-step-system"
             }
           },
-          "nav-science": {
-            "type": "nav_link",
-            "settings": {
-              "label": "Science",
-              "link": "/pages/science"
-            }
-          },
-          "nav-results": {
-            "type": "nav_link",
-            "settings": {
-              "label": "Results",
-              "link": "/pages/results"
-            }
-          },
-          "nav-story": {
+          "nav_link_YLaXpz": {
             "type": "nav_link",
             "settings": {
               "label": "Our Story",
-              "link": "/pages/our-story"
+              "link": "shopify://pages/our-story"
             }
           },
-          "nav-faq": {
+          "nav_link_9FEaGn": {
             "type": "nav_link",
             "settings": {
-              "label": "FAQ",
-              "link": "/pages/faq"
+              "label": "Ingredients",
+              "link": "shopify://pages/ingredients"
+            }
+          },
+          "nav_link_KWCBrk": {
+            "type": "nav_link",
+            "settings": {
+              "label": "Results",
+              "link": "shopify://pages/results"
+            }
+          },
+          "nav_link_cULrae": {
+            "type": "nav_link",
+            "settings": {
+              "label": "Science",
+              "link": "shopify://pages/science"
+            }
+          },
+          "nav_link_Fhbbnt": {
+            "type": "nav_link",
+            "settings": {
+              "label": "Shipping & Returns",
+              "link": "shopify://pages/shipping-returns"
             }
           }
         },
+        "block_order": [
+          "nav_link_njrb8V",
+          "nav_link_YLaXpz",
+          "nav_link_9FEaGn",
+          "nav_link_KWCBrk",
+          "nav_link_cULrae",
+          "nav_link_Fhbbnt"
+        ],
         "settings": {
           "show_search": true,
           "search_label": "Search",
@@ -106,40 +116,6 @@
       },
       "footer": {
         "type": "footer",
-        "blocks": {
-          "col-shop": {
-            "type": "link_column",
-            "settings": {
-              "title": "Shop",
-              "labels": "3-Step Serum System\nStep 1 Prepare\nStep 2 Optimize\nStep 3 Enhance",
-              "links": "/products/shadeless-3-step-serum-system\n/products/step-1-prepare-serum\n/products/step-2-optimize-serum\n/products/step-3-enhance-serum"
-            }
-          },
-          "col-learn": {
-            "type": "link_column",
-            "settings": {
-              "title": "Learn",
-              "labels": "The 3-Step System\nPeptisinergix™\nIngredients\nResults\nOur Story",
-              "links": "/pages/the-3-step-system\n/pages/science\n/pages/ingredients\n/pages/results\n/pages/our-story"
-            }
-          },
-          "col-care": {
-            "type": "link_column",
-            "settings": {
-              "title": "Customer Care",
-              "labels": "Contact\nShipping & Returns\nFAQ\nBatch / QR Information",
-              "links": "/pages/contact\n/pages/shipping-returns\n/pages/faq\n/pages/batch-qr-information"
-            }
-          },
-          "col-legal": {
-            "type": "link_column",
-            "settings": {
-              "title": "Legal",
-              "labels": "Terms\nPrivacy\nAccessibility",
-              "links": "/policies/terms-of-service\n/policies/privacy-policy\n/pages/accessibility"
-            }
-          }
-        },
         "settings": {
           "brand_description": "Shadeless is a biotech skincare brand built around a 3-step serum system for more even-looking tone, smoother-looking texture, and cleaner skin clarity.",
           "address": "Distributed by: Shadeless Biotechnology Inc., 265 Franklin Street Ste 1702, Boston, MA 02110",
