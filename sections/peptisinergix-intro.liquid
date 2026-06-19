@@ -1,16 +1,30 @@
-<section class="sh-section">
+{% assign section_bg = section.settings.bg_style %}
+{% if section_bg == 'soft' %}{% assign bg_class = 'sh-bleed' %}
+{% elsif section_bg == 'dark' %}{% assign bg_class = 'sh-section--dark' %}
+{% else %}{% assign bg_class = '' %}
+{% endif %}
+<section class="sh-section {{ bg_class }}"
+  style="{% if section.settings.custom_bg != blank %}background:{{ section.settings.custom_bg }};{% endif %}{% if section.settings.padding_top > 0 %}padding-top:{{ section.settings.padding_top }}px;{% endif %}{% if section.settings.padding_bottom > 0 %}padding-bottom:{{ section.settings.padding_bottom }}px;{% endif %}">
   <div class="sh-container sh-grid sh-grid-2" style="align-items:center;">
     <div>
-      <div class="sh-eyebrow">{{ section.settings.eyebrow }}</div>
+      {% if section.settings.eyebrow != blank %}<div class="sh-eyebrow">{{ section.settings.eyebrow }}</div>{% endif %}
       <h2 class="sh-h2">{{ section.settings.heading }}</h2>
-      <p class="sh-body">{{ section.settings.body_1 }}</p>
-      <p class="sh-body">{{ section.settings.body_2 }}</p>
-      <a class="sh-button" href="{{ section.settings.cta_link | default: '/pages/science' }}">{{ section.settings.cta_label }}</a>
+      {% if section.settings.body_1 != blank %}<p class="sh-body">{{ section.settings.body_1 }}</p>{% endif %}
+      {% if section.settings.body_2 != blank %}<p class="sh-body">{{ section.settings.body_2 }}</p>{% endif %}
+      {% if section.settings.cta_label != blank %}
+        <a class="sh-button" href="{{ section.settings.cta_link | default: '/pages/science' }}">{{ section.settings.cta_label }}</a>
+      {% endif %}
     </div>
     <div class="sh-grid">
-      <div class="sh-card"><h3 class="sh-h3">{{ section.settings.card1_title }}</h3><p>{{ section.settings.card1_body }}</p></div>
-      <div class="sh-card"><h3 class="sh-h3">{{ section.settings.card2_title }}</h3><p>{{ section.settings.card2_body }}</p></div>
-      <div class="sh-card"><h3 class="sh-h3">{{ section.settings.card3_title }}</h3><p>{{ section.settings.card3_body }}</p></div>
+      {% for block in section.blocks %}
+        {% if block.type == 'card' %}
+          <div class="sh-card" {{ block.shopify_attributes }}>
+            {% if block.settings.icon != blank %}<div style="font-size:28px;margin-bottom:10px;">{{ block.settings.icon }}</div>{% endif %}
+            <h3 class="sh-h3">{{ block.settings.title }}</h3>
+            {% if block.settings.body != blank %}<p>{{ block.settings.body }}</p>{% endif %}
+          </div>
+        {% endif %}
+      {% endfor %}
     </div>
   </div>
 </section>
@@ -18,22 +32,116 @@
 {
   "name": "Peptisinergix intro",
   "settings": [
-    {"type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Peptisinergix™ System"},
-    {"type": "textarea", "id": "heading", "label": "Heading", "default": "Science with sequence."},
-    {"type": "textarea", "id": "body_1", "label": "Body text 1", "default": "Peptisinergix™ is Shadeless' formulation philosophy: a way of organizing peptides and active ingredients by role, compatibility, and sequence."},
-    {"type": "textarea", "id": "body_2", "label": "Body text 2", "default": "It is not random ingredient stacking. It is a system designed around how each step contributes to the visible look of tone, texture, and clarity."},
-    {"type": "text", "id": "cta_label", "label": "Button label", "default": "Learn the Science"},
-    {"type": "url", "id": "cta_link", "label": "Button link"},
-    {"type": "header", "content": "Card 1"},
-    {"type": "text", "id": "card1_title", "label": "Title", "default": "Role-based"},
-    {"type": "textarea", "id": "card1_body", "label": "Body", "default": "Each step has a specific purpose."},
-    {"type": "header", "content": "Card 2"},
-    {"type": "text", "id": "card2_title", "label": "Title", "default": "Sequence-led"},
-    {"type": "textarea", "id": "card2_body", "label": "Body", "default": "The routine is organized in the order skin experiences it."},
-    {"type": "header", "content": "Card 3"},
-    {"type": "text", "id": "card3_title", "label": "Title", "default": "Visible-finish focused"},
-    {"type": "textarea", "id": "card3_body", "label": "Body", "default": "The goal is skin that looks clearer, smoother, more even, and more refined."}
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Peptisinergix™ System"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Science with sequence."
+    },
+    {
+      "type": "textarea",
+      "id": "body_1",
+      "label": "Body text 1",
+      "default": "Peptisinergix™ is Shadeless' formulation philosophy: a way of organizing peptides and active ingredients by role, compatibility, and sequence."
+    },
+    {
+      "type": "textarea",
+      "id": "body_2",
+      "label": "Body text 2",
+      "default": "It is not random ingredient stacking. It is a system designed around how each step contributes to the visible look of tone, texture, and clarity."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Button label",
+      "default": "Learn the Science"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Section appearance"
+    },
+    {
+      "type": "select",
+      "id": "bg_style",
+      "label": "Background style",
+      "options": [
+        {"value": "white", "label": "White"},
+        {"value": "soft", "label": "Soft / light gray"},
+        {"value": "custom", "label": "Custom color"}
+      ],
+      "default": "white"
+    },
+    {
+      "type": "color",
+      "id": "custom_bg",
+      "label": "Custom background color",
+      "info": "Only used when 'Custom color' is selected above."
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding override",
+      "min": 0, "max": 160, "step": 4, "unit": "px", "default": 0,
+      "info": "Set to 0 to use global section padding."
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding override",
+      "min": 0, "max": 160, "step": 4, "unit": "px", "default": 0
+    }
   ],
-  "presets": [{"name": "Peptisinergix intro"}]
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Feature card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Icon / emoji",
+          "default": "🔬",
+          "info": "Optional emoji or icon."
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Role-based"
+        },
+        {
+          "type": "textarea",
+          "id": "body",
+          "label": "Body",
+          "default": "Each step has a specific purpose."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Peptisinergix intro",
+      "blocks": [
+        {"type": "card", "settings": {"icon": "🎯", "title": "Role-based", "body": "Each step has a specific purpose."}},
+        {"type": "card", "settings": {"icon": "🔄", "title": "Sequence-led", "body": "The routine is organized in the order skin experiences it."}},
+        {"type": "card", "settings": {"icon": "✨", "title": "Visible-finish focused", "body": "The goal is skin that looks clearer, smoother, more even, and more refined."}}
+      ]
+    }
+  ]
 }
 {% endschema %}
