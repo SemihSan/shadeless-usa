@@ -1,25 +1,61 @@
-<section class="product-hero">
+<section class="product-hero"
+  style="{% if section.settings.custom_bg != blank %}background:{{ section.settings.custom_bg }};{% elsif section.settings.bg_style == 'soft' %}background:var(--soft);{% elsif section.settings.bg_style == 'dark' %}background:var(--black);color:#fff;{% endif %}">
   <div class="sh-container product-layout">
     <div class="product-media">
-      {% if product.featured_image %}{{ product.featured_image | image_url: width: 1000 | image_tag: loading: 'eager', alt: product.title }}{% else %}<img src="{{ 'shadeless-front.png' | asset_url }}" alt="{{ product.title | escape }}">{% endif %}
+      {% if product.featured_image %}
+        {{ product.featured_image | image_url: width: 1000 | image_tag: loading: 'eager', alt: product.title }}
+      {% else %}
+        <img src="{{ 'shadeless-front.png' | asset_url }}" alt="{{ product.title | escape }}">
+      {% endif %}
     </div>
     <div class="product-info">
       <div class="sh-eyebrow">{{ section.settings.eyebrow }}</div>
       <h1 class="sh-h1">{{ product.title }}</h1>
       <p class="sh-body">{{ section.settings.body }}</p>
-      <div class="badge-row"><span class="sh-pill">Prepare</span><span class="sh-pill">Optimize</span><span class="sh-pill">Enhance</span><span class="sh-pill">Peptisinergix&trade;</span></div>
+      <div class="badge-row">
+        {% for block in section.blocks %}
+          {% if block.type == 'badge' %}
+            <span class="sh-pill" {{ block.shopify_attributes }}>{{ block.settings.label }}</span>
+          {% endif %}
+        {% endfor %}
+      </div>
       <div class="product-price">{{ product.price | money }}</div>
       {% form 'product', product, class: 'product-form' %}
-        {% if product.variants.size > 1 %}<select name="id" class="variant-select">{% for variant in product.variants %}<option value="{{ variant.id }}" {% if variant == product.selected_or_first_available_variant %}selected{% endif %}>{{ variant.title }} - {{ variant.price | money }}</option>{% endfor %}</select>{% else %}<input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">{% endif %}
+        {% if product.variants.size > 1 %}
+          <select name="id" class="variant-select">
+            {% for variant in product.variants %}
+              <option value="{{ variant.id }}" {% if variant == product.selected_or_first_available_variant %}selected{% endif %}>{{ variant.title }} - {{ variant.price | money }}</option>
+            {% endfor %}
+          </select>
+        {% else %}
+          <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+        {% endif %}
         <input class="quantity-input" name="quantity" type="number" value="1" min="1" aria-label="Quantity">
-        <button class="sh-button sh-button--red" type="submit" {% unless product.available %}disabled{% endunless %}>{% if product.available %}{{ section.settings.add_to_cart_label }}{% else %}{{ section.settings.sold_out_label }}{% endif %}</button>
+        <button class="sh-button sh-button--red" type="submit" {% unless product.available %}disabled{% endunless %}>
+          {% if product.available %}{{ section.settings.add_to_cart_label }}{% else %}{{ section.settings.sold_out_label }}{% endif %}
+        </button>
       {% endform %}
-      <p class="sh-small">{{ section.settings.disclaimer }}</p>
+      {% if section.settings.disclaimer != blank %}
+        <p class="sh-small">{{ section.settings.disclaimer }}</p>
+      {% endif %}
       <div class="accordion" style="margin-top:26px;">
-        <details open><summary>{{ section.settings.acc1_summary }}</summary><div class="content"><ul class="sh-list">{% assign acc1 = section.settings.acc1_items | newline_to_br | split: '<br />' %}{% for item in acc1 %}{% assign ic = item | strip %}{% if ic != '' %}<li>{{ ic }}</li>{% endif %}{% endfor %}</ul></div></details>
-        <details><summary>{{ section.settings.acc2_summary }}</summary><div class="content"><ul class="sh-list">{% assign acc2 = section.settings.acc2_items | newline_to_br | split: '<br />' %}{% for item in acc2 %}{% assign ic = item | strip %}{% if ic != '' %}<li>{{ ic }}</li>{% endif %}{% endfor %}</ul></div></details>
-        <details><summary>{{ section.settings.acc3_summary }}</summary><div class="content">{{ section.settings.acc3_content }}</div></details>
-        <details><summary>{{ section.settings.acc4_summary }}</summary><div class="content">{{ section.settings.acc4_content }}</div></details>
+        {% for block in section.blocks %}
+          {% if block.type == 'accordion_tab' %}
+            <details {{ block.shopify_attributes }}>
+              <summary>{{ block.settings.label }}</summary>
+              <div class="content">
+                {% if block.settings.use_list %}
+                  <ul class="sh-list">
+                    {% assign items = block.settings.content | newline_to_br | split: '<br />' %}
+                    {% for item in items %}{% assign ic = item | strip %}{% if ic != '' %}<li>{{ ic }}</li>{% endif %}{% endfor %}
+                  </ul>
+                {% else %}
+                  {{ block.settings.content }}
+                {% endif %}
+              </div>
+            </details>
+          {% endif %}
+        {% endfor %}
       </div>
     </div>
   </div>
@@ -28,24 +64,109 @@
 {
   "name": "Main product - system",
   "settings": [
-    {"type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Shadeless 3-Step Serum System"},
-    {"type": "textarea", "id": "body", "label": "Description", "default": "A biotech serum system for more even-looking tone, smoother-looking texture, and cleaner skin clarity."},
-    {"type": "text", "id": "add_to_cart_label", "label": "Add to cart label", "default": "Add to Cart"},
-    {"type": "text", "id": "sold_out_label", "label": "Sold out label", "default": "Sold Out"},
-    {"type": "textarea", "id": "disclaimer", "label": "Disclaimer", "default": "Full ingredients should be listed on this page and the outer box. Cosmetic skincare, not a drug product."},
-    {"type": "header", "content": "Accordion 1"},
-    {"type": "text", "id": "acc1_summary", "label": "Label", "default": "What it helps improve the appearance of"},
-    {"type": "textarea", "id": "acc1_items", "label": "Items (one per line)", "default": "Uneven-looking tone\nRough-looking texture\nDullness\nVisible pores\nPost-blemish mark appearance\nLack of clarity\nTired-looking complexion"},
-    {"type": "header", "content": "Accordion 2"},
-    {"type": "text", "id": "acc2_summary", "label": "Label", "default": "What's included"},
-    {"type": "textarea", "id": "acc2_items", "label": "Items (one per line)", "default": "Step 1 Prepare Serum\nStep 2 Optimize Serum\nStep 3 Enhance Serum\nRoutine Guide"},
-    {"type": "header", "content": "Accordion 3"},
-    {"type": "text", "id": "acc3_summary", "label": "Label", "default": "How to use"},
-    {"type": "textarea", "id": "acc3_content", "label": "Content", "default": "Use morning and night. Cleanse. Apply Step 1, then Step 2, then Step 3. Follow with moisturizer if needed. In the morning, finish with sunscreen."},
-    {"type": "header", "content": "Accordion 4"},
-    {"type": "text", "id": "acc4_summary", "label": "Label", "default": "Ingredients"},
-    {"type": "textarea", "id": "acc4_content", "label": "Content", "default": "[Insert final U.S. INCI lists for Step 1, Step 2, and Step 3 before launch.]"}
+    {
+      "type": "header",
+      "content": "Product info"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Shadeless 3-Step Serum System"
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Description",
+      "default": "A biotech serum system for more even-looking tone, smoother-looking texture, and cleaner skin clarity."
+    },
+    {
+      "type": "text",
+      "id": "add_to_cart_label",
+      "label": "Add to cart label",
+      "default": "Add to Cart"
+    },
+    {
+      "type": "text",
+      "id": "sold_out_label",
+      "label": "Sold out label",
+      "default": "Sold Out"
+    },
+    {
+      "type": "textarea",
+      "id": "disclaimer",
+      "label": "Disclaimer",
+      "default": "Full ingredients should be listed on this page and the outer box. Cosmetic skincare, not a drug product."
+    },
+    {
+      "type": "header",
+      "content": "Section appearance"
+    },
+    {
+      "type": "select",
+      "id": "bg_style",
+      "label": "Background style",
+      "options": [
+        {"value": "white", "label": "White"},
+        {"value": "soft", "label": "Soft"},
+        {"value": "dark", "label": "Dark"},
+        {"value": "custom", "label": "Custom color"}
+      ],
+      "default": "white"
+    },
+    {
+      "type": "color",
+      "id": "custom_bg",
+      "label": "Custom background color"
+    }
   ],
-  "presets": [{"name": "Main product - system"}]
+  "blocks": [
+    {
+      "type": "badge",
+      "name": "Product badge",
+      "settings": [
+        {"type": "text", "id": "label", "label": "Badge label", "default": "Prepare"}
+      ]
+    },
+    {
+      "type": "accordion_tab",
+      "name": "Info tab",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Tab label",
+          "default": "What's included"
+        },
+        {
+          "type": "textarea",
+          "id": "content",
+          "label": "Content (one item per line for list mode)",
+          "default": "Step 1 Prepare Serum\nStep 2 Optimize Serum\nStep 3 Enhance Serum\nRoutine Guide"
+        },
+        {
+          "type": "checkbox",
+          "id": "use_list",
+          "label": "Display as bullet list",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Main product - system",
+      "blocks": [
+        {"type": "badge", "settings": {"label": "Prepare"}},
+        {"type": "badge", "settings": {"label": "Optimize"}},
+        {"type": "badge", "settings": {"label": "Enhance"}},
+        {"type": "badge", "settings": {"label": "Peptisinergix™"}},
+        {"type": "accordion_tab", "settings": {"label": "What it helps improve the appearance of", "use_list": true, "content": "Uneven-looking tone\nRough-looking texture\nDullness\nVisible pores\nPost-blemish mark appearance\nLack of clarity\nTired-looking complexion"}},
+        {"type": "accordion_tab", "settings": {"label": "What's included", "use_list": true, "content": "Step 1 Prepare Serum\nStep 2 Optimize Serum\nStep 3 Enhance Serum\nRoutine Guide"}},
+        {"type": "accordion_tab", "settings": {"label": "How to use", "use_list": false, "content": "Use morning and night. Cleanse. Apply Step 1, then Step 2, then Step 3. Follow with moisturizer if needed. In the morning, finish with sunscreen."}},
+        {"type": "accordion_tab", "settings": {"label": "Ingredients", "use_list": false, "content": "[Insert final U.S. INCI lists for Step 1, Step 2, and Step 3 before launch.]"}}
+      ]
+    }
+  ]
 }
 {% endschema %}

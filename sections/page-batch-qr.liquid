@@ -1,22 +1,140 @@
-<section class="page-hero"><div class="sh-container"><div class="sh-eyebrow">{{ section.settings.eyebrow }}</div><h1 class="sh-h1">{{ section.settings.heading }}</h1><p class="sh-body">{{ section.settings.body }}</p></div></section>
-<section class="sh-section"><div class="sh-container sh-grid sh-grid-2"><div class="sh-card"><h2 class="sh-h2">{{ section.settings.form_heading }}</h2><form class="batch-form"><input type="text" placeholder="{{ section.settings.form_placeholder }}"><button class="sh-button sh-button--red" type="button">{{ section.settings.form_button }}</button></form><p class="sh-small">{{ section.settings.form_note }}</p></div><div><h2 class="sh-h2">{{ section.settings.list_heading }}</h2><ul class="sh-list">{% assign li = section.settings.list_items | newline_to_br | split: '<br />' %}{% for item in li %}{% assign ic = item | strip %}{% if ic != '' %}<li>{{ ic }}</li>{% endif %}{% endfor %}</ul></div></div></section>
+<section class="page-hero"
+  style="{% if section.settings.custom_bg != blank %}background:{{ section.settings.custom_bg }};{% elsif section.settings.bg_style == 'white' %}background:#fff;{% elsif section.settings.bg_style == 'dark' %}background:var(--black);color:#fff;{% endif %}{% if section.settings.bg_image %}background-image:url('{{ section.settings.bg_image | image_url: width: 1800 }}');background-size:cover;background-position:center;{% endif %}">
+  <div class="sh-container">
+    {% if section.settings.eyebrow != blank %}<div class="sh-eyebrow">{{ section.settings.eyebrow }}</div>{% endif %}
+    <h1 class="sh-h1">{{ section.settings.heading }}</h1>
+    {% if section.settings.body != blank %}<p class="sh-body">{{ section.settings.body }}</p>{% endif %}
+  </div>
+</section>
+<section class="sh-section">
+  <div class="sh-container sh-grid sh-grid-2">
+    <div class="sh-card">
+      {% if section.settings.form_heading != blank %}<h2 class="sh-h2">{{ section.settings.form_heading }}</h2>{% endif %}
+      <form class="batch-form">
+        <input type="text" placeholder="{{ section.settings.form_placeholder }}">
+        <button class="sh-button sh-button--red" type="button">{{ section.settings.form_button }}</button>
+      </form>
+      {% if section.settings.form_note != blank %}<p class="sh-small">{{ section.settings.form_note }}</p>{% endif %}
+    </div>
+    <div>
+      {% if section.settings.list_heading != blank %}<h2 class="sh-h2">{{ section.settings.list_heading }}</h2>{% endif %}
+      <ul class="sh-list">
+        {% for block in section.blocks %}
+          {% if block.type == 'info_item' %}
+            <li {{ block.shopify_attributes }}>{{ block.settings.text }}</li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</section>
 {% schema %}
 {
   "name": "Page - Batch QR",
   "settings": [
-    {"type": "header", "content": "Hero"},
-    {"type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "QR + Batch"},
-    {"type": "textarea", "id": "heading", "label": "Heading", "default": "Product Information & Batch Lookup"},
-    {"type": "textarea", "id": "body", "label": "Body text", "default": "Scan your Shadeless QR code or enter your batch number to access product information, usage guidance, and batch details."},
-    {"type": "header", "content": "Lookup form"},
-    {"type": "text", "id": "form_heading", "label": "Heading", "default": "Look up product"},
-    {"type": "text", "id": "form_placeholder", "label": "Input placeholder", "default": "Enter batch number"},
-    {"type": "text", "id": "form_button", "label": "Button label", "default": "Look Up Product"},
-    {"type": "textarea", "id": "form_note", "label": "Note text", "default": "Connect this form to a Shopify app, metaobject, or custom batch database before launch."},
-    {"type": "header", "content": "Info list"},
-    {"type": "text", "id": "list_heading", "label": "Heading", "default": "What your QR code shows"},
-    {"type": "textarea", "id": "list_items", "label": "Items (one per line)", "default": "Product name\nUsage directions\nFull ingredients\nBatch information\nCustomer support link"}
+    {
+      "type": "header",
+      "content": "Hero"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "QR + Batch"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Product Information & Batch Lookup"
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body text",
+      "default": "Scan your Shadeless QR code or enter your batch number to access product information, usage guidance, and batch details."
+    },
+    {
+      "type": "select",
+      "id": "bg_style",
+      "label": "Hero background style",
+      "options": [
+        {"value": "soft", "label": "Soft gradient (default)"},
+        {"value": "white", "label": "White"},
+        {"value": "dark", "label": "Dark"},
+        {"value": "custom", "label": "Custom color"}
+      ],
+      "default": "soft"
+    },
+    {
+      "type": "color",
+      "id": "custom_bg",
+      "label": "Custom hero background color"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Hero background image"
+    },
+    {
+      "type": "header",
+      "content": "Lookup form"
+    },
+    {
+      "type": "text",
+      "id": "form_heading",
+      "label": "Form heading",
+      "default": "Look up product"
+    },
+    {
+      "type": "text",
+      "id": "form_placeholder",
+      "label": "Input placeholder",
+      "default": "Enter batch number"
+    },
+    {
+      "type": "text",
+      "id": "form_button",
+      "label": "Button label",
+      "default": "Look Up Product"
+    },
+    {
+      "type": "textarea",
+      "id": "form_note",
+      "label": "Note text",
+      "default": "Connect this form to a Shopify app, metaobject, or custom batch database before launch."
+    },
+    {
+      "type": "header",
+      "content": "Info list"
+    },
+    {
+      "type": "text",
+      "id": "list_heading",
+      "label": "List heading",
+      "default": "What your QR code shows"
+    }
   ],
-  "presets": [{"name": "Page - Batch QR"}]
+  "blocks": [
+    {
+      "type": "info_item",
+      "name": "Info item",
+      "settings": [
+        {"type": "text", "id": "text", "label": "Item text", "default": "Product name"}
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Page - Batch QR",
+      "blocks": [
+        {"type": "info_item", "settings": {"text": "Product name"}},
+        {"type": "info_item", "settings": {"text": "Usage directions"}},
+        {"type": "info_item", "settings": {"text": "Full ingredients"}},
+        {"type": "info_item", "settings": {"text": "Batch information"}},
+        {"type": "info_item", "settings": {"text": "Customer support link"}}
+      ]
+    }
+  ]
 }
 {% endschema %}
