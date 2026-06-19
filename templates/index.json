@@ -88,8 +88,8 @@
         "secondary_link": "",
         "image": "shopify://shop_images/3-steps-serums-product.jpg",
         "image_alt": "Shadeless 3-Step Serum System",
-        "bg_style": "custom",
-        "custom_bg": "#E84444",
+        "bg_style": "soft",
+        "custom_bg": "",
         "padding_top": 0,
         "padding_bottom": 0
       }

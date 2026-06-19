@@ -3,12 +3,88 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="theme-color" content="#9E1717">
+    <meta name="theme-color" content="{{ settings.color_accent }}">
     <link rel="canonical" href="{{ canonical_url }}">
     <title>{% if page_title %}{{ page_title }}{% else %}{{ shop.name }}{% endif %}{% unless page_title contains shop.name %} | {{ shop.name }}{% endunless %}</title>
     {% if page_description %}<meta name="description" content="{{ page_description | escape }}">{% endif %}
+    {% if settings.favicon %}<link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32 }}">{% endif %}
     {{ content_for_header }}
     {{ 'theme.css' | asset_url | stylesheet_tag }}
+    <style>
+      {% if settings.font_body %}
+        {{ settings.font_body | font_face: font_display: 'swap' }}
+      {% endif %}
+      {% if settings.font_heading %}
+        {{ settings.font_heading | font_face: font_display: 'swap' }}
+      {% endif %}
+      {% if settings.font_logo %}
+        {{ settings.font_logo | font_face: font_display: 'swap' }}
+      {% endif %}
+    </style>
+    <style>
+      :root {
+        /* Brand colors */
+        --red: {{ settings.color_accent }};
+        --red-dark: {{ settings.color_accent_dark }};
+        /* Text */
+        --black: {{ settings.color_text }};
+        --charcoal: {{ settings.color_text_secondary }};
+        --gray: {{ settings.color_text_muted }};
+        /* Backgrounds */
+        --white: {{ settings.color_bg }};
+        --soft: {{ settings.color_bg_soft }};
+        --line: {{ settings.color_border }};
+        /* Layout */
+        --max: {{ settings.layout_max_width }}px;
+        --radius: {{ settings.layout_border_radius }}px;
+        --shadow: 0 22px 70px rgba(0,0,0,.08);
+        /* Typography */
+        --font: {% if settings.font_body %}{{ settings.font_body.family }}, {{ settings.font_body.fallback_families }}{% else %}Helvetica Neue, Helvetica, Arial, sans-serif{% endif %};
+        --font-heading: {% if settings.font_heading %}{{ settings.font_heading.family }}, {{ settings.font_heading.fallback_families }}{% else %}Helvetica Neue, Helvetica, Arial, sans-serif{% endif %};
+        --font-logo: {% if settings.font_logo %}{{ settings.font_logo.family }}, {{ settings.font_logo.fallback_families }}{% else %}Georgia, Times, serif{% endif %};
+        --font-size-base: {{ settings.font_size_base }}px;
+        /* Header */
+        --header-bg: {{ settings.color_header_bg }};
+        --header-text: {{ settings.color_header_text }};
+        --logo-color: {{ settings.color_logo }};
+        /* Footer */
+        --footer-bg: {{ settings.color_footer_bg }};
+        --footer-text: {{ settings.color_footer_text }};
+        --footer-link: {{ settings.color_footer_link }};
+        /* Announcement */
+        --announcement-bg: {{ settings.color_announcement_bg }};
+        --announcement-text: {{ settings.color_announcement_text }};
+        /* Buttons */
+        --btn-primary-bg: {{ settings.btn_primary_bg }};
+        --btn-primary-text: {{ settings.btn_primary_text }};
+        --btn-primary-hover: {{ settings.btn_primary_hover_bg }};
+        --btn-accent-bg: {{ settings.btn_accent_bg }};
+        --btn-accent-text: {{ settings.btn_accent_text }};
+        --btn-radius: {{ settings.btn_border_radius }}px;
+        /* Section padding */
+        --section-padding: {{ settings.section_padding_desktop }}px;
+        --section-padding-mobile: {{ settings.section_padding_mobile }}px;
+      }
+      body { font-family: var(--font); font-size: var(--font-size-base); }
+      h1, h2, h3, h4, h5, h6 { font-family: var(--font-heading); }
+      .brand-logo { font-family: var(--font-logo); color: var(--logo-color); }
+      .announcement { background: var(--announcement-bg); color: var(--announcement-text); }
+      .site-header { background: color-mix(in srgb, var(--header-bg) 92%, transparent); }
+      .nav a, .header-actions a { color: var(--header-text); }
+      .footer { background: var(--footer-bg); color: var(--footer-text); }
+      .footer a { color: var(--footer-link); }
+      .sh-section { padding: var(--section-padding) 0; }
+      @media (max-width: 900px) { .sh-section { padding: var(--section-padding-mobile) 0; } }
+      .sh-button, .shopify-payment-button__button {
+        background: var(--btn-primary-bg);
+        color: var(--btn-primary-text);
+        border-color: var(--btn-primary-bg);
+        border-radius: var(--btn-radius);
+      }
+      .sh-button:hover { background: var(--btn-primary-hover); border-color: var(--btn-primary-hover); }
+      .sh-button--red { background: var(--btn-accent-bg); color: var(--btn-accent-text); border-color: var(--btn-accent-bg); }
+      .sh-button--red:hover { background: var(--red-dark); border-color: var(--red-dark); }
+    </style>
     <script src="{{ 'theme.js' | asset_url }}" defer></script>
   </head>
   <body class="template-{{ template.name | handle }}">
