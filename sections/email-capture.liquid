@@ -1,29 +1,109 @@
-<section class="sh-section">
+<section class="sh-section"
+  style="{% if section.settings.custom_bg != blank %}background:{{ section.settings.custom_bg }};{% elsif section.settings.bg_style == 'soft' %}background:linear-gradient(180deg,#fff,var(--soft));{% elsif section.settings.bg_style == 'dark' %}background:var(--black);color:#fff;{% endif %}{% if section.settings.padding_top > 0 %}padding-top:{{ section.settings.padding_top }}px;{% endif %}{% if section.settings.padding_bottom > 0 %}padding-bottom:{{ section.settings.padding_bottom }}px;{% endif %}">
   <div class="sh-container sh-center">
-    <div class="sh-eyebrow">{{ section.settings.eyebrow }}</div>
+    {% if section.settings.eyebrow != blank %}<div class="sh-eyebrow">{{ section.settings.eyebrow }}</div>{% endif %}
     <h2 class="sh-h2">{{ section.settings.heading }}</h2>
-    <p class="sh-body" style="max-width:720px;margin:0 auto;">{{ section.settings.body }}</p>
+    {% if section.settings.body != blank %}<p class="sh-body" style="max-width:720px;margin:0 auto;">{{ section.settings.body }}</p>{% endif %}
     {% form 'customer', class: 'email-form' %}
-      <input type="hidden" name="contact[tags]" value="routine-guide">
+      <input type="hidden" name="contact[tags]" value="{{ section.settings.contact_tag | default: 'routine-guide' }}">
       <input type="email" name="contact[email]" required placeholder="{{ section.settings.placeholder }}" aria-label="Email">
       <button class="sh-button sh-button--red" type="submit">{{ section.settings.button_label }}</button>
       {% if form.posted_successfully? %}<div class="newsletter-success">{{ section.settings.success_message }}</div>{% endif %}
       {% if form.errors %}<div class="sh-small">{{ form.errors | default_errors }}</div>{% endif %}
     {% endform %}
-    <p class="sh-small">{{ section.settings.legal_text }}</p>
+    {% if section.settings.legal_text != blank %}<p class="sh-small">{{ section.settings.legal_text }}</p>{% endif %}
   </div>
 </section>
 {% schema %}
 {
   "name": "Email capture",
   "settings": [
-    {"type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Routine guide"},
-    {"type": "textarea", "id": "heading", "label": "Heading", "default": "Get the Shadeless Routine Guide"},
-    {"type": "textarea", "id": "body", "label": "Body text", "default": "Learn how to use the 3-Step Serum System for more even-looking tone, smoother-looking texture, and cleaner skin clarity."},
-    {"type": "text", "id": "placeholder", "label": "Email placeholder", "default": "Enter your email"},
-    {"type": "text", "id": "button_label", "label": "Button label", "default": "Send Me the Guide"},
-    {"type": "text", "id": "success_message", "label": "Success message", "default": "Thank you. Your guide request has been received."},
-    {"type": "text", "id": "legal_text", "label": "Legal text", "default": "By signing up, you agree to receive emails from Shadeless. You can unsubscribe at any time."}
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Routine guide"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Get the Shadeless Routine Guide"
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body text",
+      "default": "Learn how to use the 3-Step Serum System for more even-looking tone, smoother-looking texture, and cleaner skin clarity."
+    },
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Email placeholder",
+      "default": "Enter your email"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Send Me the Guide"
+    },
+    {
+      "type": "text",
+      "id": "success_message",
+      "label": "Success message",
+      "default": "Thank you. Your guide request has been received."
+    },
+    {
+      "type": "text",
+      "id": "legal_text",
+      "label": "Legal text",
+      "default": "By signing up, you agree to receive emails from Shadeless. You can unsubscribe at any time."
+    },
+    {
+      "type": "text",
+      "id": "contact_tag",
+      "label": "Customer tag",
+      "default": "routine-guide",
+      "info": "Tag applied to the customer in Shopify when they sign up."
+    },
+    {
+      "type": "header",
+      "content": "Section appearance"
+    },
+    {
+      "type": "select",
+      "id": "bg_style",
+      "label": "Background style",
+      "options": [
+        {"value": "white", "label": "White"},
+        {"value": "soft", "label": "Soft gradient"},
+        {"value": "dark", "label": "Dark"},
+        {"value": "custom", "label": "Custom color"}
+      ],
+      "default": "white"
+    },
+    {
+      "type": "color",
+      "id": "custom_bg",
+      "label": "Custom background color"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0, "max": 160, "step": 4, "unit": "px", "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0, "max": 160, "step": 4, "unit": "px", "default": 0
+    }
   ],
   "presets": [{"name": "Email capture"}]
 }
