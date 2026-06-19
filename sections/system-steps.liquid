@@ -1,10 +1,27 @@
-<section class="sh-section">
+<section class="sh-section"
+  style="{% if section.settings.custom_bg != blank %}background:{{ section.settings.custom_bg }};{% elsif section.settings.bg_style == 'soft' %}background:var(--soft);{% endif %}{% if section.settings.padding_top > 0 %}padding-top:{{ section.settings.padding_top }}px;{% endif %}{% if section.settings.padding_bottom > 0 %}padding-bottom:{{ section.settings.padding_bottom }}px;{% endif %}">
   <div class="sh-container">
-    <div class="sh-center"><div class="sh-eyebrow">{{ section.settings.eyebrow }}</div><h2 class="sh-h2">{{ section.settings.heading }}</h2><p class="sh-body" style="max-width:820px;margin:0 auto;">{{ section.settings.body }}</p></div>
+    <div class="sh-center">
+      {% if section.settings.eyebrow != blank %}<div class="sh-eyebrow">{{ section.settings.eyebrow }}</div>{% endif %}
+      <h2 class="sh-h2">{{ section.settings.heading }}</h2>
+      {% if section.settings.body != blank %}<p class="sh-body" style="max-width:820px;margin:0 auto;">{{ section.settings.body }}</p>{% endif %}
+    </div>
     <div class="sh-grid sh-grid-3" style="margin-top:42px;">
-      <article class="sh-card step-card"><div class="step-number">Step 1</div><h3 class="sh-h3">{{ section.settings.step1_title }}</h3><p class="role">{{ section.settings.step1_role }}</p><p>{{ section.settings.step1_body }}</p><p class="sh-small"><strong>Best for:</strong> {{ section.settings.step1_best_for }}</p><a class="sh-button sh-button--secondary" href="{{ section.settings.step1_link | default: '/products/step-1-prepare-serum' }}">{{ section.settings.step1_label }}</a></article>
-      <article class="sh-card step-card"><div class="step-number">Step 2</div><h3 class="sh-h3">{{ section.settings.step2_title }}</h3><p class="role">{{ section.settings.step2_role }}</p><p>{{ section.settings.step2_body }}</p><p class="sh-small"><strong>Best for:</strong> {{ section.settings.step2_best_for }}</p><a class="sh-button sh-button--secondary" href="{{ section.settings.step2_link | default: '/products/step-2-optimize-serum' }}">{{ section.settings.step2_label }}</a></article>
-      <article class="sh-card step-card"><div class="step-number">Step 3</div><h3 class="sh-h3">{{ section.settings.step3_title }}</h3><p class="role">{{ section.settings.step3_role }}</p><p>{{ section.settings.step3_body }}</p><p class="sh-small"><strong>Best for:</strong> {{ section.settings.step3_best_for }}</p><a class="sh-button sh-button--secondary" href="{{ section.settings.step3_link | default: '/products/step-3-enhance-serum' }}">{{ section.settings.step3_label }}</a></article>
+      {% for block in section.blocks %}
+        {% if block.type == 'step' %}
+          <article class="sh-card step-card" {{ block.shopify_attributes }}>
+            <div class="step-number">{{ block.settings.step_label }}</div>
+            <h3 class="sh-h3">{{ block.settings.title }}</h3>
+            {% if block.settings.role != blank %}<p class="role">{{ block.settings.role }}</p>{% endif %}
+            {% if block.settings.body != blank %}<p>{{ block.settings.body }}</p>{% endif %}
+            {% if block.settings.best_for != blank %}<p class="sh-small"><strong>{{ section.settings.best_for_label | default: 'Best for:' }}</strong> {{ block.settings.best_for }}</p>{% endif %}
+            {% if block.settings.image %}<div style="margin:16px 0;">{{ block.settings.image | image_url: width: 500 | image_tag: loading: 'lazy', alt: block.settings.title }}</div>{% endif %}
+            {% if block.settings.button_label != blank %}
+              <a class="sh-button sh-button--secondary" href="{{ block.settings.button_link }}">{{ block.settings.button_label }}</a>
+            {% endif %}
+          </article>
+        {% endif %}
+      {% endfor %}
     </div>
   </div>
 </section>
@@ -12,31 +29,163 @@
 {
   "name": "System steps",
   "settings": [
-    {"type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Prepare. Optimize. Enhance."},
-    {"type": "textarea", "id": "heading", "label": "Heading", "default": "Three steps. One visible skin-refinement system."},
-    {"type": "textarea", "id": "body", "label": "Body text", "default": "Each serum has a defined role. Together, they create a complete routine for skin that looks smoother, clearer, more even, and more refined."},
-    {"type": "header", "content": "Step 1"},
-    {"type": "text", "id": "step1_title", "label": "Title", "default": "Prepare Serum"},
-    {"type": "text", "id": "step1_role", "label": "Role", "default": "The surface-preparation step."},
-    {"type": "textarea", "id": "step1_body", "label": "Description", "default": "Helps skin look fresher, smoother, and more ready for the next steps in the system."},
-    {"type": "text", "id": "step1_best_for", "label": "Best for", "default": "rough-looking texture, dullness, lack of smoothness."},
-    {"type": "text", "id": "step1_label", "label": "Button label", "default": "Learn Step 1"},
-    {"type": "url", "id": "step1_link", "label": "Button link"},
-    {"type": "header", "content": "Step 2"},
-    {"type": "text", "id": "step2_title", "label": "Title", "default": "Optimize Serum"},
-    {"type": "text", "id": "step2_role", "label": "Role", "default": "The core tone + texture step."},
-    {"type": "textarea", "id": "step2_body", "label": "Description", "default": "Designed to support the appearance of more even-looking tone, smoother-looking texture, and clearer-looking skin."},
-    {"type": "text", "id": "step2_best_for", "label": "Best for", "default": "uneven-looking tone, dullness, visible pores, post-blemish mark appearance."},
-    {"type": "text", "id": "step2_label", "label": "Button label", "default": "Learn Step 2"},
-    {"type": "url", "id": "step2_link", "label": "Button link"},
-    {"type": "header", "content": "Step 3"},
-    {"type": "text", "id": "step3_title", "label": "Title", "default": "Enhance Serum"},
-    {"type": "text", "id": "step3_role", "label": "Role", "default": "The tone + texture completion step."},
-    {"type": "textarea", "id": "step3_body", "label": "Description", "default": "Designed to enhance the final look of clarity, smoothness, polish, and refinement."},
-    {"type": "text", "id": "step3_best_for", "label": "Best for", "default": "skin that needs a more finished, luminous, confident look."},
-    {"type": "text", "id": "step3_label", "label": "Button label", "default": "Learn Step 3"},
-    {"type": "url", "id": "step3_link", "label": "Button link"}
+    {
+      "type": "header",
+      "content": "Intro text"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Prepare. Optimize. Enhance."
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Three steps. One visible skin-refinement system."
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body text",
+      "default": "Each serum has a defined role. Together, they create a complete routine for skin that looks smoother, clearer, more even, and more refined."
+    },
+    {
+      "type": "text",
+      "id": "best_for_label",
+      "label": "\"Best for\" label",
+      "default": "Best for:"
+    },
+    {
+      "type": "header",
+      "content": "Section appearance"
+    },
+    {
+      "type": "select",
+      "id": "bg_style",
+      "label": "Background style",
+      "options": [
+        {"value": "white", "label": "White"},
+        {"value": "soft", "label": "Soft / light gray"},
+        {"value": "custom", "label": "Custom color"}
+      ],
+      "default": "white"
+    },
+    {
+      "type": "color",
+      "id": "custom_bg",
+      "label": "Custom background color"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0, "max": 160, "step": 4, "unit": "px", "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0, "max": 160, "step": 4, "unit": "px", "default": 0
+    }
   ],
-  "presets": [{"name": "System steps"}]
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "step_label",
+          "label": "Step label",
+          "default": "Step 1"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Step image (optional)"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Prepare Serum"
+        },
+        {
+          "type": "text",
+          "id": "role",
+          "label": "Role tagline",
+          "default": "The surface-preparation step."
+        },
+        {
+          "type": "textarea",
+          "id": "body",
+          "label": "Description",
+          "default": "Helps skin look fresher, smoother, and more ready for the next steps in the system."
+        },
+        {
+          "type": "text",
+          "id": "best_for",
+          "label": "Best for",
+          "default": "rough-looking texture, dullness, lack of smoothness."
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "Learn Step 1"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "System steps",
+      "blocks": [
+        {
+          "type": "step",
+          "settings": {
+            "step_label": "Step 1",
+            "title": "Prepare Serum",
+            "role": "The surface-preparation step.",
+            "body": "Helps skin look fresher, smoother, and more ready for the next steps in the system.",
+            "best_for": "rough-looking texture, dullness, lack of smoothness.",
+            "button_label": "Learn Step 1",
+            "button_link": "/products/step-1-prepare-serum"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "step_label": "Step 2",
+            "title": "Optimize Serum",
+            "role": "The core tone + texture step.",
+            "body": "Designed to support the appearance of more even-looking tone, smoother-looking texture, and clearer-looking skin.",
+            "best_for": "uneven-looking tone, dullness, visible pores, post-blemish mark appearance.",
+            "button_label": "Learn Step 2",
+            "button_link": "/products/step-2-optimize-serum"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "step_label": "Step 3",
+            "title": "Enhance Serum",
+            "role": "The tone + texture completion step.",
+            "body": "Designed to enhance the final look of clarity, smoothness, polish, and refinement.",
+            "best_for": "skin that needs a more finished, luminous, confident look.",
+            "button_label": "Learn Step 3",
+            "button_link": "/products/step-3-enhance-serum"
+          }
+        }
+      ]
+    }
+  ]
 }
 {% endschema %}
