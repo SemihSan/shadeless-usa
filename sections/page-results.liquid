@@ -1,26 +1,150 @@
-<section class="page-hero"><div class="sh-container"><div class="sh-eyebrow">{{ section.settings.eyebrow }}</div><h1 class="sh-h1">{{ section.settings.heading }}</h1><p class="sh-body">{{ section.settings.body }}</p></div></section>
-<section class="sh-section"><div class="sh-container"><div class="sh-grid sh-grid-3"><div class="sh-card">{{ section.settings.card1 }}</div><div class="sh-card">{{ section.settings.card2 }}</div><div class="sh-card">{{ section.settings.card3 }}</div><div class="sh-card">{{ section.settings.card4 }}</div><div class="sh-card">{{ section.settings.card5 }}</div><div class="sh-card">{{ section.settings.card6 }}</div></div></div></section>
-<section class="sh-section"><div class="sh-container"><h2 class="sh-h2">{{ section.settings.policy_heading }}</h2><p class="sh-body">{{ section.settings.policy_body }}</p><p class="sh-small">{{ section.settings.policy_disclaimer }}</p></div></section>
+<section class="page-hero"
+  style="{% if section.settings.custom_bg != blank %}background:{{ section.settings.custom_bg }};{% elsif section.settings.bg_style == 'white' %}background:#fff;{% elsif section.settings.bg_style == 'dark' %}background:var(--black);color:#fff;{% endif %}{% if section.settings.bg_image %}background-image:url('{{ section.settings.bg_image | image_url: width: 1800 }}');background-size:cover;background-position:center;{% endif %}">
+  <div class="sh-container">
+    {% if section.settings.eyebrow != blank %}<div class="sh-eyebrow">{{ section.settings.eyebrow }}</div>{% endif %}
+    <h1 class="sh-h1">{{ section.settings.heading }}</h1>
+    {% if section.settings.body != blank %}<p class="sh-body">{{ section.settings.body }}</p>{% endif %}
+  </div>
+</section>
+<section class="sh-section">
+  <div class="sh-container">
+    <div class="sh-grid sh-grid-3">
+      {% for block in section.blocks %}
+        {% if block.type == 'result_card' %}
+          <div class="sh-card" {{ block.shopify_attributes }}>
+            {% if block.settings.icon != blank %}<div style="font-size:28px;margin-bottom:10px;">{{ block.settings.icon }}</div>{% endif %}
+            {% if block.settings.stat != blank %}<div style="font-size:clamp(30px,4vw,48px);font-weight:800;color:var(--red);margin-bottom:6px;letter-spacing:-.02em;">{{ block.settings.stat }}</div>{% endif %}
+            <p>{{ block.settings.text }}</p>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+<section class="sh-section">
+  <div class="sh-container">
+    {% if section.settings.policy_heading != blank %}<h2 class="sh-h2">{{ section.settings.policy_heading }}</h2>{% endif %}
+    {% if section.settings.policy_body != blank %}<p class="sh-body">{{ section.settings.policy_body }}</p>{% endif %}
+    {% if section.settings.policy_disclaimer != blank %}<p class="sh-small">{{ section.settings.policy_disclaimer }}</p>{% endif %}
+    {% if section.settings.policy_image %}
+      <div style="margin-top:24px;">{{ section.settings.policy_image | image_url: width: 1200 | image_tag: loading: 'lazy', alt: section.settings.policy_heading }}</div>
+    {% endif %}
+  </div>
+</section>
 {% schema %}
 {
   "name": "Page - Results",
   "settings": [
-    {"type": "header", "content": "Hero"},
-    {"type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Results"},
-    {"type": "textarea", "id": "heading", "label": "Heading", "default": "Results, defined carefully."},
-    {"type": "textarea", "id": "body", "label": "Body text", "default": "At Shadeless, results mean cosmetic improvements in how skin looks and feels: tone, texture, clarity, smoothness, and visible finish."},
-    {"type": "header", "content": "Result cards"},
-    {"type": "text", "id": "card1", "label": "Card 1", "default": "Smoother-looking texture"},
-    {"type": "text", "id": "card2", "label": "Card 2", "default": "More even-looking tone"},
-    {"type": "text", "id": "card3", "label": "Card 3", "default": "Less dull-looking complexion"},
-    {"type": "text", "id": "card4", "label": "Card 4", "default": "Cleaner-looking clarity"},
-    {"type": "text", "id": "card5", "label": "Card 5", "default": "More refined-looking finish"},
-    {"type": "text", "id": "card6", "label": "Card 6", "default": "More polished bare-skin appearance"},
-    {"type": "header", "content": "Policy section"},
-    {"type": "text", "id": "policy_heading", "label": "Heading", "default": "Before / after policy"},
-    {"type": "textarea", "id": "policy_body", "label": "Body text", "default": "Images will only be shown with written consent, consistent lighting, disclosed timing, disclosed usage, no filters, and no guaranteed-results implication."},
-    {"type": "text", "id": "policy_disclaimer", "label": "Disclaimer", "default": "Individual results may vary."}
+    {
+      "type": "header",
+      "content": "Hero"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Results"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Results, defined carefully."
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body text",
+      "default": "At Shadeless, results mean cosmetic improvements in how skin looks and feels: tone, texture, clarity, smoothness, and visible finish."
+    },
+    {
+      "type": "select",
+      "id": "bg_style",
+      "label": "Hero background style",
+      "options": [
+        {"value": "soft", "label": "Soft gradient (default)"},
+        {"value": "white", "label": "White"},
+        {"value": "dark", "label": "Dark"},
+        {"value": "custom", "label": "Custom color"}
+      ],
+      "default": "soft"
+    },
+    {
+      "type": "color",
+      "id": "custom_bg",
+      "label": "Custom hero background color"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Hero background image"
+    },
+    {
+      "type": "header",
+      "content": "Policy section"
+    },
+    {
+      "type": "text",
+      "id": "policy_heading",
+      "label": "Policy heading",
+      "default": "Before / after policy"
+    },
+    {
+      "type": "textarea",
+      "id": "policy_body",
+      "label": "Policy body",
+      "default": "Images will only be shown with written consent, consistent lighting, disclosed timing, disclosed usage, no filters, and no guaranteed-results implication."
+    },
+    {
+      "type": "text",
+      "id": "policy_disclaimer",
+      "label": "Disclaimer",
+      "default": "Individual results may vary."
+    },
+    {
+      "type": "image_picker",
+      "id": "policy_image",
+      "label": "Policy section image (optional)"
+    }
   ],
-  "presets": [{"name": "Page - Results"}]
+  "blocks": [
+    {
+      "type": "result_card",
+      "name": "Result card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Icon / emoji (optional)",
+          "default": "✨"
+        },
+        {
+          "type": "text",
+          "id": "stat",
+          "label": "Statistic (optional)",
+          "info": "Large number in accent color, e.g. '94%'"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Result text",
+          "default": "Smoother-looking texture"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Page - Results",
+      "blocks": [
+        {"type": "result_card", "settings": {"icon": "✨", "text": "Smoother-looking texture"}},
+        {"type": "result_card", "settings": {"icon": "🎨", "text": "More even-looking tone"}},
+        {"type": "result_card", "settings": {"icon": "💡", "text": "Less dull-looking complexion"}},
+        {"type": "result_card", "settings": {"icon": "🔍", "text": "Cleaner-looking clarity"}},
+        {"type": "result_card", "settings": {"icon": "💫", "text": "More refined-looking finish"}},
+        {"type": "result_card", "settings": {"icon": "🌟", "text": "More polished bare-skin appearance"}}
+      ]
+    }
+  ]
 }
 {% endschema %}
